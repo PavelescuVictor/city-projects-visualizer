@@ -1,0 +1,25 @@
+node_modules
+dist
+
+# Local environment
+.env
+.env.*
+
+# Hosting / deployment local state
+.vercel
+
+# Logs and diagnostics
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test and build artifacts
+coverage
+.vite
+
+# OS / editor files
+.DS_Store
+.idea
+.vscode
