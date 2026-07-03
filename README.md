@@ -2,6 +2,8 @@
 
 An interactive city development map for publishing and reviewing local projects such as buildings, parks, bridges, streets, public realm upgrades, and other urban interventions.
 
+Production app: https://city-projects-visualizer.vercel.app
+
 The app is intentionally simple for this version: production is a public read-only Vite site, while project creation and geometry editing stay available only on the local development server. Project data lives in `src/data/projects.json`, so updates can be reviewed, committed, and redeployed without adding a database or authentication layer yet.
 
 ## Business Features
