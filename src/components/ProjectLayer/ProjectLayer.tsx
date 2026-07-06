@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import Leaflet from "leaflet";
 import "./ProjectLayer.css";
 import { PROJECT_TYPES } from "../../data/projects";
+import { useDeleteConfirmModal } from "../DeleteConfirmModal";
 import { MarkerIcon } from "../MarkerIcon";
 import { polygonToLatLngs, toLatLng } from "../../utils/geo";
 import type { Project, LngLat, ProjectType } from "../../data/projects.types";
@@ -199,7 +200,7 @@ function attachPopupControls(
   layer: Leaflet.Layer,
   project: Project,
   onProjectEdit: (project: Project) => void,
-  onProjectDeleteRequest: (project: Project) => void,
+  onProjectDeleteRequest: (project: Project) => Promise<void>,
 ) {
   layer.on("popupopen", (event) => {
     const popupElement = event.popup.getElement();
@@ -220,7 +221,7 @@ function attachPopupControls(
 
     deleteButton?.addEventListener("click", (clickEvent) => {
       clickEvent.stopPropagation();
-      onProjectDeleteRequest(project);
+      void onProjectDeleteRequest(project);
       event.popup.close();
     });
 
@@ -263,6 +264,8 @@ export function ProjectLayer({
   onProjectEdit,
   onProjectDeleteRequest,
 }: ProjectLayerProps) {
+  const { confirmProjectDelete } = useDeleteConfirmModal();
+
   useEffect(() => {
     if (!map) {
       return;
@@ -287,7 +290,13 @@ export function ProjectLayer({
         polygon.bindPopup(popupContent(project, canEdit), { closeButton: false, minWidth: 273, maxWidth: 273 });
 
         if (canEdit) {
-          attachPopupControls(polygon, project, onProjectEdit, onProjectDeleteRequest);
+          attachPopupControls(polygon, project, onProjectEdit, async (projectToDelete) => {
+            const shouldDelete = await confirmProjectDelete(projectToDelete);
+
+            if (shouldDelete) {
+              onProjectDeleteRequest(projectToDelete);
+            }
+          });
         }
 
         polygon.on("click", () => onProjectSelect(project));
@@ -313,7 +322,13 @@ export function ProjectLayer({
         marker.bindPopup(popupContent(project, canEdit), { closeButton: false, minWidth: 273, maxWidth: 273 });
 
         if (canEdit) {
-          attachPopupControls(marker, project, onProjectEdit, onProjectDeleteRequest);
+          attachPopupControls(marker, project, onProjectEdit, async (projectToDelete) => {
+            const shouldDelete = await confirmProjectDelete(projectToDelete);
+
+            if (shouldDelete) {
+              onProjectDeleteRequest(projectToDelete);
+            }
+          });
         }
 
         marker.on("click", () => onProjectSelect(project));
@@ -449,6 +464,7 @@ export function ProjectLayer({
     onProjectChange,
     onProjectEdit,
     onProjectDeleteRequest,
+    confirmProjectDelete,
   ]);
 
   return null;

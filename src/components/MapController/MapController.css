@@ -1,0 +1,16 @@
+.map-stage {
+  position: relative;
+  min-height: 100vh;
+}
+
+@media (max-width: 900px) {
+  .map-stage {
+    min-height: 54vh;
+  }
+}
+
+@media (max-height: 620px) and (orientation: landscape) {
+  .map-stage {
+    min-height: 100vh;
+  }
+}

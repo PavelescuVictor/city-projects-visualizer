@@ -1,18 +1,19 @@
 import { Layers, ListFilter, MapPin, Minus } from "lucide-react";
 import { useState } from "react";
-import "./MapLayerToggles.css";
-import type { MapLayerTogglesProps } from "./MapLayerToggles.types";
+import "./MapFilterToggles.css";
+import type { MapFilterTogglesProps } from "./MapFilterToggles.types";
 
-export function MapLayerToggles({
-  showParcels,
-  showMarkers,
-  onShowParcelsChange,
-  onShowMarkersChange,
-}: MapLayerTogglesProps) {
+const MapFilterToggles = (props: MapFilterTogglesProps) => {
+  const {
+    showParcels,
+    showMarkers,
+    onShowParcelsChange,
+    onShowMarkersChange,
+  } = props;
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div
+    <section
       className={`map-layer-toggles${isExpanded ? " is-expanded" : ""}`}
       aria-label="Map layer toggles"
     >
@@ -48,6 +49,8 @@ export function MapLayerToggles({
           Markers
         </button>
       </div>
-    </div>
+    </section>
   );
-}
+};
+
+export { MapFilterToggles };

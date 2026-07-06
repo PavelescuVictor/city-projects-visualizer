@@ -1,39 +1,48 @@
 import { ExternalLink, MapPinned, Pencil, RotateCcwSquare, Save, Trash2 } from "lucide-react";
 import "./ProjectDetailsPanel.css";
 import { CreateProjectPanel } from "../CreateProjectPanel";
+import { useDeleteConfirmModal } from "../DeleteConfirmModal";
 import { ImageCarousel } from "../ImageCarousel";
-import { PROJECT_TYPES } from "../../data/projects";
-import type { ProjectType } from "../../data/projects.types";
 import type { ProjectDetailsPanelProps } from "./ProjectDetailsPanel.types";
 
-const projectTypeDotColors: Record<ProjectType, string> = {
-  [PROJECT_TYPES.BUILDING]: "#2563eb",
-  [PROJECT_TYPES.PARK]: "#047857",
-  [PROJECT_TYPES.TRANSPORT_INFRASTRUCTURE]: "#ea580c",
-  [PROJECT_TYPES.PUBLIC_SPACE]: "#7c3aed",
-};
+const ProjectDetailsPanel = (props: ProjectDetailsPanelProps) => {
+  const {
+    selectedProject,
+    focusedProjectId,
+    isCreateMode,
+    createDraft,
+    createSaveStatus,
+    canEdit,
+    onProjectFocus,
+    isEditMode,
+    hasUnsavedChanges,
+    saveStatus,
+    onCreateDraftChange,
+    onCreateSave,
+    onCreateCancel,
+    onProjectEdit,
+    onProjectDeleteRequest,
+    onSaveProjects,
+    onRevertProjects,
+  } = props;
+  const { confirmProjectDelete } = useDeleteConfirmModal();
 
-export function ProjectDetailsPanel({
-  projects,
-  selectedProject,
-  focusedProjectId,
-  isCreateMode,
-  createDraft,
-  createSaveStatus,
-  canEdit,
-  onProjectSelect,
-  onProjectFocus,
-  isEditMode,
-  hasUnsavedChanges,
-  saveStatus,
-  onCreateDraftChange,
-  onCreateSave,
-  onCreateCancel,
-  onProjectEdit,
-  onProjectDeleteRequest,
-  onSaveProjects,
-  onRevertProjects,
-}: ProjectDetailsPanelProps) {
+  if (!isCreateMode && !selectedProject) {
+    return null;
+  }
+
+  const handleProjectDeleteRequest = async () => {
+    if (!selectedProject) {
+      return;
+    }
+
+    const shouldDelete = await confirmProjectDelete(selectedProject);
+
+    if (shouldDelete) {
+      onProjectDeleteRequest(selectedProject);
+    }
+  };
+
   return (
     <section className="details-panel" aria-label="Project details">
       {isCreateMode ? (
@@ -78,7 +87,9 @@ export function ProjectDetailsPanel({
                     type="button"
                     aria-label="Delete project"
                     title="Delete project"
-                    onClick={() => onProjectDeleteRequest(selectedProject)}
+                    onClick={() => {
+                      void handleProjectDeleteRequest();
+                    }}
                   >
                     <Trash2 size={19} aria-hidden="true" />
                   </button>
@@ -137,35 +148,8 @@ export function ProjectDetailsPanel({
           ) : null}
         </div>
       ) : null}
-
-      <div className="project-list-divider">
-        <span>{projects.length} shown</span>
-      </div>
-
-      <div className="project-list" aria-label="Visible projects">
-        {projects.map((project) => {
-          const isSelected = project.id === selectedProject?.id;
-
-          return (
-            <button
-              key={project.id}
-              className={`project-row${isSelected ? " is-selected" : ""}`}
-              data-project-id={project.id}
-              type="button"
-              onClick={() => onProjectSelect(project)}
-            >
-              <span className="project-row-dot" style={{ background: projectTypeDotColors[project.type] }} />
-              <span>
-                <strong>{project.name}</strong>
-                <small>
-                  <span className="project-type-value">{project.type}</span> - {project.neighbourhood}
-                </small>
-              </span>
-              <em>{project.status}</em>
-            </button>
-          );
-        })}
-      </div>
     </section>
   );
-}
+};
+
+export { ProjectDetailsPanel };

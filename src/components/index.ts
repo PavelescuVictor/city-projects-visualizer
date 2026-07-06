@@ -1,9 +1,15 @@
 export { CreateProjectLayer } from "./CreateProjectLayer";
 export { CreateProjectPanel } from "./CreateProjectPanel";
+export { DeleteConfirmModalProvider } from "./DeleteConfirmModal";
 export { ImageCarousel } from "./ImageCarousel";
-export { MapLayerToggles } from "./MapLayerToggles";
+export { MapController } from "./MapController";
+export { MapFilterToggles } from "./MapFilterToggles";
+export { MapResetButton } from "./MapResetButton";
 export { MapView } from "./MapView";
 export { MarkerIcon } from "./MarkerIcon";
 export { ProjectDetailsPanel } from "./ProjectDetailsPanel";
 export { ProjectFilters } from "./ProjectFilters";
 export { ProjectLayer } from "./ProjectLayer";
+export { ProjectsList } from "./ProjectsList";
+export { SearchControls } from "./SearchControls";
+export { SideController } from "./SideController";

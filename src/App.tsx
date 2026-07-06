@@ -1,11 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { RotateCcw } from "lucide-react";
 import "./App.css";
 import {
-    MapLayerToggles,
-    MapView,
-    ProjectDetailsPanel,
-    ProjectFilters,
+    DeleteConfirmModalProvider,
+    MapController,
+    SideController,
 } from "./components";
 import { projects as initialProjects, PROJECT_STATUSES } from "./data/projects";
 import type {
@@ -67,8 +65,6 @@ export default function App() {
     const [activeStatuses, setActiveStatuses] =
         useState<ProjectStatus[]>(allStatuses);
     const [searchTerm, setSearchTerm] = useState("");
-    const [showParcels, setShowParcels] = useState(true);
-    const [showMarkers, setShowMarkers] = useState(true);
     const [resetSignal, setResetSignal] = useState(0);
     const [focusRequest, setFocusRequest] = useState({
         projectId: "",
@@ -86,8 +82,6 @@ export default function App() {
     const [createSaveStatus, setCreateSaveStatus] = useState<
         "idle" | "saving" | "saved" | "error"
     >("idle");
-    const [projectPendingDelete, setProjectPendingDelete] =
-        useState<Project | null>(null);
 
     useEffect(() => {
         selectedProjectIdRef.current = selectedProjectId;
@@ -288,9 +282,7 @@ export default function App() {
             closeCreateMode();
             setSelectedProjectId(project.id);
             setIsEditMode((current) =>
-                current && selectedProjectIdRef.current === project.id
-                    ? false
-                    : true
+                !(current && selectedProjectIdRef.current === project.id)
             );
         },
         [closeCreateMode]
@@ -489,16 +481,14 @@ export default function App() {
     }
 
     return (
-        <main className="app-shell">
-            <section className="map-stage" aria-label="City development map">
-                <MapView
+        <DeleteConfirmModalProvider>
+            <main className="app-shell">
+                <MapController
                     projects={filteredProjects}
                     allProjects={projects}
-                    selectedProjectId={selectedProject?.id}
+                    selectedProject={selectedProject}
                     focusProjectId={focusRequest.projectId}
                     focusSignal={focusRequest.requestId}
-                    showParcels={showParcels}
-                    showMarkers={showMarkers}
                     editMode={canEdit && isEditMode}
                     createMode={canEdit && isCreateMode}
                     canEdit={canEdit}
@@ -508,99 +498,39 @@ export default function App() {
                     onProjectChange={handleProjectChange}
                     onCreateDraftChange={setCreateDraft}
                     onProjectEdit={handleProjectEdit}
-                    onProjectDeleteRequest={setProjectPendingDelete}
+                    onProjectDeleteRequest={handleProjectDelete}
                     onCameraChangedByUser={handleCameraChangedByUser}
+                    onReset={handleMapReset}
                 />
-                <MapLayerToggles
-                    showParcels={showParcels}
-                    showMarkers={showMarkers}
-                    onShowParcelsChange={setShowParcels}
-                    onShowMarkersChange={setShowMarkers}
-                />
-                <button
-                    className="icon-button map-reset-button"
-                    type="button"
-                    aria-label="Reset map view"
-                    title="Reset map view"
-                    onClick={handleMapReset}
-                >
-                    <RotateCcw size={18} aria-hidden="true" />
-                </button>
-            </section>
 
-            <aside className="control-panel" aria-label="Project controls">
-                <ProjectFilters
+                <SideController
+                    projects={filteredProjects}
+                    selectedProject={selectedProject}
+                    focusedProjectId={focusRequest.projectId}
                     statuses={allStatuses}
                     activeStatuses={activeStatuses}
                     searchTerm={searchTerm}
                     isCreateMode={isCreateMode}
-                    canEdit={canEdit}
-                    onSearchChange={handleSearchChange}
-                    onCreateProject={handleCreateStart}
-                    onStatusToggle={handleStatusToggle}
-                />
-
-                <ProjectDetailsPanel
-                    projects={filteredProjects}
-                    selectedProject={selectedProject}
-                    focusedProjectId={focusRequest.projectId}
-                    isCreateMode={canEdit && isCreateMode}
                     createDraft={createDraft}
                     createSaveStatus={createSaveStatus}
                     canEdit={canEdit}
-                    onProjectSelect={handleProjectToggleFocus}
-                    onProjectFocus={handleProjectFocus}
                     isEditMode={isEditMode}
                     hasUnsavedChanges={hasUnsavedChanges}
                     saveStatus={saveStatus}
+                    onSearchChange={handleSearchChange}
+                    onCreateProject={handleCreateStart}
+                    onStatusToggle={handleStatusToggle}
+                    onProjectSelect={handleProjectToggleFocus}
+                    onProjectFocus={handleProjectFocus}
                     onCreateDraftChange={setCreateDraft}
                     onCreateSave={handleCreateSave}
                     onCreateCancel={handleCreateCancel}
                     onProjectEdit={handleProjectEdit}
-                    onProjectDeleteRequest={setProjectPendingDelete}
+                    onProjectDeleteRequest={handleProjectDelete}
                     onSaveProjects={handleSaveProjects}
                     onRevertProjects={handleRevertProjects}
                 />
-            </aside>
-
-            {canEdit && projectPendingDelete ? (
-                <div className="modal-backdrop" role="presentation">
-                    <div
-                        className="confirm-modal"
-                        role="dialog"
-                        aria-modal="true"
-                        aria-labelledby="delete-project-title"
-                    >
-                        <h3 id="delete-project-title">Delete project?</h3>
-                        <p>
-                            This removes{" "}
-                            <strong>{projectPendingDelete.name}</strong> from
-                            the local project list.
-                        </p>
-                        <div className="modal-actions">
-                            <button
-                                className="modal-secondary-button"
-                                type="button"
-                                onClick={() => setProjectPendingDelete(null)}
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                className="modal-danger-button"
-                                type="button"
-                                onClick={() => {
-                                    void handleProjectDelete(
-                                        projectPendingDelete
-                                    );
-                                    setProjectPendingDelete(null);
-                                }}
-                            >
-                                Delete
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            ) : null}
-        </main>
+            </main>
+        </DeleteConfirmModalProvider>
     );
 }

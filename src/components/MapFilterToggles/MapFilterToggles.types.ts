@@ -1,4 +1,4 @@
-export interface MapLayerTogglesProps {
+export interface MapFilterTogglesProps {
   showParcels: boolean;
   showMarkers: boolean;
   onShowParcelsChange: (value: boolean) => void;
