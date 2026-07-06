@@ -669,6 +669,7 @@ h2 {
   height: 0;
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   gap: 8px;
   overflow: hidden;
   border: 1px solid rgba(25, 33, 38, 0);
@@ -687,7 +688,8 @@ h2 {
 }
 
 .map-layer-toggles.is-expanded .map-layer-menu {
-  width: var(--map-layer-expanded-width, 120px);
+  width: max-content;
+  min-width: 112px;
   height: 92px;
   padding: 8px;
   opacity: 1;
@@ -699,6 +701,8 @@ h2 {
   align-items: center;
   justify-content: flex-start;
   gap: 8px;
+  width: 100%;
+  min-width: max-content;
   min-height: 34px;
   border: 1px solid transparent;
   border-radius: 8px;
