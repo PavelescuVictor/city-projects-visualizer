@@ -1,9 +1,6 @@
 import { Building2, Landmark, Route, TreePine } from "lucide-react";
-import type { ProjectType } from "../../types/project";
-
-interface MarkerIconProps {
-  type: ProjectType;
-}
+import type { ProjectType } from "../../data/projects.types";
+import type { MarkerIconProps } from "./MarkerIcon.types";
 
 type MarkerIconComponent = typeof Building2;
 

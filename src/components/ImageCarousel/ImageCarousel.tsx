@@ -1,12 +1,7 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import "./ImageCarousel.css";
-import type { ProjectImage } from "../../types/project";
-
-interface ImageCarouselProps {
-  images: ProjectImage[];
-  compact?: boolean;
-}
+import type { ImageCarouselProps } from "./ImageCarousel.types";
 
 export function ImageCarousel({ images, compact = false }: ImageCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);

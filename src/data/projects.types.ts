@@ -1,6 +1,11 @@
 export type ProjectStatus = "planning" | "permitting" | "construction" | "delivered";
 export type ProjectType = "building" | "park" | "transport-infrastructure" | "public-space";
 
+export interface ProjectImage {
+    src: string;
+    alt: string;
+}
+
 export type LngLat = [number, number];
 
 export interface ParcelPolygon {
@@ -8,12 +13,7 @@ export interface ParcelPolygon {
   coordinates: LngLat[][];
 }
 
-export interface ProjectImage {
-  src: string;
-  alt: string;
-}
-
-export interface DevelopmentProject {
+export interface Project {
   id: string;
   name: string;
   type: ProjectType;
@@ -33,14 +33,4 @@ export interface CreateProjectDraft {
   websiteUrl: string;
   coordinates: LngLat;
   parcelPolygon: ParcelPolygon;
-}
-
-export interface StatusMeta {
-  label: string;
-}
-
-export interface ProjectTypeMeta {
-  label: string;
-  color: string;
-  fill: string;
 }

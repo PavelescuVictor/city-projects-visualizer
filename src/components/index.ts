@@ -1,9 +1,18 @@
 export { default as CreateProjectLayer, createProjectDraftFromCenter } from "./CreateProjectLayer";
+export type { CreateProjectLayerProps } from "./CreateProjectLayer";
 export { default as CreateProjectPanel } from "./CreateProjectPanel";
+export type { CreateProjectPanelProps } from "./CreateProjectPanel";
 export { default as ImageCarousel } from "./ImageCarousel";
+export type { ImageCarouselProps } from "./ImageCarousel";
 export { default as MapLayerToggles } from "./MapLayerToggles";
+export type { MapLayerTogglesProps } from "./MapLayerToggles";
 export { default as MapView } from "./MapView";
+export type { MapViewProps } from "./MapView";
 export { default as MarkerIcon } from "./MarkerIcon";
+export type { MarkerIconProps } from "./MarkerIcon";
 export { default as ProjectDetailsPanel } from "./ProjectDetailsPanel";
+export type { ProjectDetailsPanelProps } from "./ProjectDetailsPanel";
 export { default as ProjectFilters } from "./ProjectFilters";
+export type { ProjectFiltersProps } from "./ProjectFilters";
 export { default as ProjectLayer } from "./ProjectLayer";
+export type { ProjectLayerProps } from "./ProjectLayer";
