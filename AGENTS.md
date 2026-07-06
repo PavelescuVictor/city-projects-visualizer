@@ -16,6 +16,13 @@ These rules apply to the whole repository.
 - Component folder `index.ts` files should export the default component as both the named component and default export, plus component-local helpers and colocated prop types.
 - The root `src/components/index.ts` barrel should export components only.
 
+## Component Placement
+
+- Before adding a new generic-looking component, ask whether it should live in `src/components/basic/`.
+- Put confirmed generic/basic components in `src/components/basic/ComponentName/`.
+- Keep feature-specific components close to where they live or are first used.
+- Elevate a feature-specific component only when it becomes shared, and ask before moving it.
+
 ## Development Servers
 
 - Before starting a dev server, check whether this project already has a running dev server.
