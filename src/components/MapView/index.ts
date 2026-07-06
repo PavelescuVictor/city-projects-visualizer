@@ -1,5 +1,2 @@
-import { MapView } from "./MapView";
-
-export { MapView } from "./MapView";
+export { MapView, MapView as default } from "./MapView";
 export type { MapViewProps } from "./MapView.types";
-export default MapView;

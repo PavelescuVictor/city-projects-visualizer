@@ -1,5 +1,2 @@
-import { ProjectDetailsPanel } from "./ProjectDetailsPanel";
-
-export { ProjectDetailsPanel } from "./ProjectDetailsPanel";
+export { ProjectDetailsPanel, ProjectDetailsPanel as default } from "./ProjectDetailsPanel";
 export type { ProjectDetailsPanelProps } from "./ProjectDetailsPanel.types";
-export default ProjectDetailsPanel;

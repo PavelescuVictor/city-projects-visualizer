@@ -1,5 +1,2 @@
-import { ProjectLayer } from "./ProjectLayer";
-
-export { ProjectLayer } from "./ProjectLayer";
+export { ProjectLayer, ProjectLayer as default } from "./ProjectLayer";
 export type { ProjectLayerProps } from "./ProjectLayer.types";
-export default ProjectLayer;
