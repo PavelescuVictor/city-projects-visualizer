@@ -1,724 +1,310 @@
 [
-  {
-    "id": "era-hexagon",
-    "name": "Era Hexagon",
-    "type": "building",
-    "status": "planning",
-    "address": "Strada Fabricii de Chibrituri 9, 400394 Cluj-Napoca",
-    "neighbourhood": "Gara",
-    "websiteUrl": "https://era.hexagon.ro/",
-    "images": [],
-    "coordinates": [
-      23.586756,
-      46.786416
-    ],
-    "parcelPolygon": {
-      "type": "Polygon",
-      "coordinates": [
-        [
-          [
-            23.588054,
-            46.786144
-          ],
-          [
-            23.588108,
-            46.786507
-          ],
-          [
-            23.5877,
-            46.786518
-          ],
-          [
-            23.5877,
-            46.786996
-          ],
-          [
-            23.587408,
-            46.787012
-          ],
-          [
-            23.586965,
-            46.787591
-          ],
-          [
-            23.585554,
-            46.787213
-          ],
-          [
-            23.584299,
-            46.789776
-          ],
-          [
-            23.583419,
-            46.78949
-          ],
-          [
-            23.58387,
-            46.78841
-          ],
-          [
-            23.583237,
-            46.7883
-          ],
-          [
-            23.583409,
-            46.787874
-          ],
-          [
-            23.582851,
-            46.787756
-          ],
-          [
-            23.583419,
-            46.786537
-          ],
-          [
-            23.584911,
-            46.787191
-          ],
-          [
-            23.585265,
-            46.786816
-          ],
-          [
-            23.585914,
-            46.78531
-          ],
-          [
-            23.587132,
-            46.785545
-          ],
-          [
-            23.587711,
-            46.785725
-          ],
-          [
-            23.588054,
-            46.786144
-          ]
-        ]
-      ]
-    }
-  },
-  {
-    "id": "urban-spaces-armatura",
-    "name": "Urban Spaces - Armatura",
-    "type": "building",
-    "status": "planning",
-    "address": "Strada Gării 19, 400604 Cluj-Napoca",
-    "neighbourhood": "Gara",
-    "websiteUrl": "https://urban-spaces.ro/en/armatura-cluj/",
-    "images": [],
-    "coordinates": [
-      23.591246,
-      46.78805
-    ],
-    "parcelPolygon": {
-      "type": "Polygon",
-      "coordinates": [
-        [
-          [
-            23.590522,
-            46.786941
-          ],
-          [
-            23.59241,
-            46.787282
-          ],
-          [
-            23.592507,
-            46.787951
-          ],
-          [
-            23.592399,
-            46.788274
-          ],
-          [
-            23.591965,
-            46.789387
-          ],
-          [
-            23.591128,
-            46.789306
-          ],
-          [
-            23.590731,
-            46.78917
-          ],
-          [
-            23.590533,
-            46.788976
-          ],
-          [
-            23.590173,
-            46.788641
-          ],
-          [
-            23.589717,
-            46.788421
-          ],
-          [
-            23.590141,
-            46.787551
-          ],
-          [
-            23.590275,
-            46.787532
-          ],
-          [
-            23.590522,
-            46.786941
-          ]
-        ]
-      ]
-    }
-  },
-  {
-    "id": "hexagon-district",
-    "name": "Hexagon - District",
-    "type": "building",
-    "status": "planning",
-    "address": "Strada Gării 27, 400394 Cluj-Napoca",
-    "neighbourhood": "Gara",
-    "websiteUrl": "https://district.hexagon.ro/",
-    "images": [],
-    "coordinates": [
-      23.595886,
-      46.78845
-    ],
-    "parcelPolygon": {
-      "type": "Polygon",
-      "coordinates": [
-        [
-          [
-            23.595382,
-            46.787848
-          ],
-          [
-            23.596294,
-            46.787999
-          ],
-          [
-            23.596535,
-            46.78812
-          ],
-          [
-            23.596664,
-            46.788682
-          ],
-          [
-            23.59543,
-            46.789258
-          ],
-          [
-            23.595028,
-            46.789387
-          ],
-          [
-            23.594813,
-            46.789398
-          ],
-          [
-            23.595382,
-            46.787848
-          ]
-        ]
-      ]
-    }
-  },
-  {
-    "id": "rivus",
-    "name": "Rivus",
-    "type": "public-space",
-    "status": "planning",
-    "address": "Piața 1 Mai 3, 400394 Cluj-Napoca",
-    "neighbourhood": "Marasti",
-    "websiteUrl": "https://www.rivus.ro/en/home/",
-    "images": [],
-    "coordinates": [
-      23.601615,
-      46.788146
-    ],
-    "parcelPolygon": {
-      "type": "Polygon",
-      "coordinates": [
-        [
-          [
-            23.599877,
-            46.786045
-          ],
-          [
-            23.600092,
-            46.787514
-          ],
-          [
-            23.604909,
-            46.787293
-          ],
-          [
-            23.605134,
-            46.789468
-          ],
-          [
-            23.604115,
-            46.789534
-          ],
-          [
-            23.604201,
-            46.790004
-          ],
-          [
-            23.603643,
-            46.789776
-          ],
-          [
-            23.602259,
-            46.789431
-          ],
-          [
-            23.600661,
-            46.789284
-          ],
-          [
-            23.599952,
-            46.789064
-          ],
-          [
-            23.598933,
-            46.788616
-          ],
-          [
-            23.598193,
-            46.788021
-          ],
-          [
-            23.597742,
-            46.78744
-          ],
-          [
-            23.597431,
-            46.786735
-          ],
-          [
-            23.597356,
-            46.786236
-          ],
-          [
-            23.599877,
-            46.786045
-          ]
-        ]
-      ]
-    }
-  },
-  {
-    "id": "parc-armatura",
-    "name": "Parc Armatura",
-    "type": "park",
-    "status": "planning",
-    "address": "Strada Oașului 51, 400394 Cluj-Napoca",
-    "neighbourhood": "Marasti",
-    "websiteUrl": "https://-",
-    "images": [],
-    "coordinates": [
-      23.597764,
-      46.788917
-    ],
-    "parcelPolygon": {
-      "type": "Polygon",
-      "coordinates": [
-        [
-          [
-            23.596723,
-            46.786338
-          ],
-          [
-            23.597227,
-            46.787323
-          ],
-          [
-            23.597624,
-            46.788094
-          ],
-          [
-            23.598955,
-            46.789101
-          ],
-          [
-            23.600017,
-            46.789505
-          ],
-          [
-            23.599942,
-            46.789696
-          ],
-          [
-            23.598343,
-            46.789813
-          ],
-          [
-            23.597817,
-            46.789784
-          ],
-          [
-            23.597013,
-            46.78902
-          ],
-          [
-            23.596755,
-            46.788403
-          ],
-          [
-            23.596766,
-            46.787506
-          ],
-          [
-            23.596723,
-            46.786338
-          ]
-        ]
-      ]
-    }
-  },
-  {
-    "id": "parcul-feroviarilor",
-    "name": "Parcul Feroviarilor",
-    "type": "park",
-    "status": "planning",
-    "address": "Str. Parcul Feroviarilor 4, 400394 Cluj-Napoca",
-    "neighbourhood": "Centru",
-    "websiteUrl": "https://www.google.com/search?sca_esv=f19cff34f6f3cfdc&sxsrf=APpeQntjW97lzs-8l2Bs3jqptnIpqyxO4A:1783275030435&q=storage+primaria+cluj+parcul+feroviarilor+proiect&source=lnms&fbs=ABfTbFVyMZGZf1hfvX9uKjN_-G8c4u0nXx4bEIpwm1lnNH832QGGMdFXpDyzkQgEdtB8w9y513h_dJNevWM0LJgfK9j1bjU10DOuMrBkYSSj9wWjPSP3hJN2cBieY_IGt7p-pHWyco0zyHTB6Oz_O5xqcuBq-Sl38MrqdZ_Idn0UuRlQqMJrfJ3IFWgN1wkc-CzhwFhnauXO&sa=X&ved=2ahUKEwjD9eaVkbyVAxUqgv0HHTBXLPQQ0pQJegQIDhAB&biw=1330&bih=739&dpr=2",
-    "images": [],
-    "coordinates": [
-      23.595425,
-      46.78326
-    ],
-    "parcelPolygon": {
-      "type": "Polygon",
-      "coordinates": [
-        [
-          [
-            23.594899,
-            46.782364
-          ],
-          [
-            23.595049,
-            46.781908
-          ],
-          [
-            23.595629,
-            46.781886
-          ],
-          [
-            23.596616,
-            46.782114
-          ],
-          [
-            23.597088,
-            46.783752
-          ],
-          [
-            23.596841,
-            46.784788
-          ],
-          [
-            23.596616,
-            46.784898
-          ],
-          [
-            23.595618,
-            46.784465
-          ],
-          [
-            23.594599,
-            46.784032
-          ],
-          [
-            23.593848,
-            46.783473
-          ],
-          [
-            23.593429,
-            46.782974
-          ],
-          [
-            23.593279,
-            46.782401
-          ],
-          [
-            23.593558,
-            46.782202
-          ],
-          [
-            23.594899,
-            46.782364
-          ]
-        ]
-      ]
-    }
-  },
-  {
-    "id": "oxygen-residence",
-    "name": "Oxygen Residence",
-    "type": "building",
-    "status": "planning",
-    "address": "Piața Abator 1, 400394 Cluj-Napoca",
-    "neighbourhood": "Centru",
-    "websiteUrl": "https://google.com/url?url=https%3A%2F%2Foxygencluj.ro%2F&sa=t&rct=j&source=maps&usg=AOvVaw0BYbSmC5iZgW-vRMbsPEn-&ved=1i%3A16%2Ct%3A3443%2Ce%3A13%2Cp%3A6pxKavuDKvSR9u8P97DMwQU%3A144",
-    "images": [],
-    "coordinates": [
-      23.594416,
-      46.781152
-    ],
-    "parcelPolygon": {
-      "type": "Polygon",
-      "coordinates": [
-        [
-          [
-            23.593751,
-            46.779881
-          ],
-          [
-            23.595543,
-            46.780108
-          ],
-          [
-            23.594931,
-            46.782364
-          ],
-          [
-            23.593483,
-            46.78218
-          ],
-          [
-            23.593504,
-            46.78121
-          ],
-          [
-            23.593751,
-            46.779881
-          ]
-        ]
-      ]
-    }
-  },
-  {
-    "id": "somesului-15",
-    "name": "Somesului 15",
-    "type": "building",
-    "status": "planning",
-    "address": "Strada Someșului 15, 400394 Cluj-Napoca",
-    "neighbourhood": "Centru",
-    "websiteUrl": "https://somesului15.hexagon.ro/?utm_source=google&utm_medium=cpc&utm_campaign=&utm_content=&utm_term=&matchtype=&device=c&gad_source=1&gad_campaignid=23498624614&gbraid=0AAAAA-TPjp4lmb2iyxn3mUSEIuvlhdqKu&gclid=CjwKCAjwgajSBhBEEiwASicJU79l5EogdiKiSccm7YvWAheBZDsTWgtsmwzZT25CD7Ep_JrJZdueWhoCu90QAvD_BwE",
-    "images": [],
-    "coordinates": [
-      23.59418,
-      46.778433
-    ],
-    "parcelPolygon": {
-      "type": "Polygon",
-      "coordinates": [
-        [
-          [
-            23.593869,
-            46.778103
-          ],
-          [
-            23.594695,
-            46.778264
-          ],
-          [
-            23.594588,
-            46.778661
-          ],
-          [
-            23.594277,
-            46.77861
-          ],
-          [
-            23.594202,
-            46.778764
-          ],
-          [
-            23.59358,
-            46.778632
-          ],
-          [
-            23.593869,
-            46.778103
-          ]
-        ]
-      ]
-    }
-  },
-  {
-    "id": "scala",
-    "name": "Scala",
-    "type": "building",
-    "status": "planning",
-    "address": "Strada Soporului 21, 400482 Cluj-Napoca",
-    "neighbourhood": "Sopor",
-    "websiteUrl": "https://www.scalasopor.ro/?utm_source=google&utm_medium=cpc&utm_campaign=brand-protect&utm_content=737223898983&utm_term=scala%20sopor&matchtype=b&device=c&gad_source=1&gad_campaignid=22309513620&gbraid=0AAAAA9TfVKziYkr0tyksKNyI-AW6OPw4I&gclid=CjwKCAjwgajSBhBEEiwASicJUwUsouZmPpJVixy_4-MRRkcEaMesyMIuSVM9i1WBrcLxwUYSOzjf-RoCQMwQAvD_BwE",
-    "images": [],
-    "coordinates": [
-      23.63893,
-      46.76891
-    ],
-    "parcelPolygon": {
-      "type": "Polygon",
-      "coordinates": [
-        [
-          [
-            23.638844,
-            46.768366
-          ],
-          [
-            23.63951,
-            46.768175
-          ],
-          [
-            23.640261,
-            46.76844
-          ],
-          [
-            23.639123,
-            46.769322
-          ],
-          [
-            23.638684,
-            46.770505
-          ],
-          [
-            23.637986,
-            46.769862
-          ],
-          [
-            23.638844,
-            46.768366
-          ]
-        ]
-      ]
-    }
-  },
-  {
-    "id": "parc-est",
-    "name": "Parc Est",
-    "type": "park",
-    "status": "planning",
-    "address": "Strada Tulcea, Cluj-Napoca",
-    "neighbourhood": "Intre Lacuri",
-    "websiteUrl": "https://primariaclujnapoca.ro/urbanism/proiecte-de-urbanism/p-u-z-amenajare-parc-est-faza-1/",
-    "images": [],
-    "coordinates": [
-      23.641312,
-      46.775421
-    ],
-    "parcelPolygon": {
-      "type": "Polygon",
-      "coordinates": [
-        [
-          [
-            23.639123,
-            46.771276
-          ],
-          [
-            23.646011,
-            46.776626
-          ],
-          [
-            23.647084,
-            46.778389
-          ],
-          [
-            23.64687,
-            46.778683
-          ],
-          [
-            23.64584,
-            46.778521
-          ],
-          [
-            23.644359,
-            46.778874
-          ],
-          [
-            23.64378,
-            46.778419
-          ],
-          [
-            23.643286,
-            46.778448
-          ],
-          [
-            23.640819,
-            46.777537
-          ],
-          [
-            23.639896,
-            46.777816
-          ],
-          [
-            23.639359,
-            46.777669
-          ],
-          [
-            23.639488,
-            46.777272
-          ],
-          [
-            23.639145,
-            46.777081
-          ],
-          [
-            23.639081,
-            46.776435
-          ],
-          [
-            23.638287,
-            46.775773
-          ],
-          [
-            23.636291,
-            46.775274
-          ],
-          [
-            23.636119,
-            46.774995
-          ],
-          [
-            23.63481,
-            46.774774
-          ],
-          [
-            23.636291,
-            46.773584
-          ],
-          [
-            23.636806,
-            46.773628
-          ],
-          [
-            23.637664,
-            46.772746
-          ],
-          [
-            23.63775,
-            46.772496
-          ],
-          [
-            23.638587,
-            46.771894
-          ],
-          [
-            23.638501,
-            46.771659
-          ],
-          [
-            23.639123,
-            46.771276
-          ]
-        ]
-      ]
-    }
-  }
+	{
+		"id": "era-hexagon",
+		"name": "Era Hexagon",
+		"type": "building",
+		"status": "planning",
+		"address": "Strada Fabricii de Chibrituri 9, 400394 Cluj-Napoca",
+		"neighbourhood": "Gara",
+		"websiteUrl": "https://era.hexagon.ro/",
+		"images": [],
+		"coordinates": [23.586756, 46.786416],
+		"parcelPolygon": {
+			"type": "Polygon",
+			"coordinates": [
+				[
+					[23.588054, 46.786144],
+					[23.588108, 46.786507],
+					[23.5877, 46.786518],
+					[23.5877, 46.786996],
+					[23.587408, 46.787012],
+					[23.586965, 46.787591],
+					[23.585554, 46.787213],
+					[23.584299, 46.789776],
+					[23.583419, 46.78949],
+					[23.58387, 46.78841],
+					[23.583237, 46.7883],
+					[23.583409, 46.787874],
+					[23.582851, 46.787756],
+					[23.583419, 46.786537],
+					[23.584911, 46.787191],
+					[23.585265, 46.786816],
+					[23.585914, 46.78531],
+					[23.587132, 46.785545],
+					[23.587711, 46.785725],
+					[23.588054, 46.786144]
+				]
+			]
+		}
+	},
+	{
+		"id": "urban-spaces-armatura",
+		"name": "Urban Spaces - Armatura",
+		"type": "building",
+		"status": "planning",
+		"address": "Strada Gării 19, 400604 Cluj-Napoca",
+		"neighbourhood": "Gara",
+		"websiteUrl": "https://urban-spaces.ro/en/armatura-cluj/",
+		"images": [],
+		"coordinates": [23.591246, 46.78805],
+		"parcelPolygon": {
+			"type": "Polygon",
+			"coordinates": [
+				[
+					[23.590522, 46.786941],
+					[23.59241, 46.787282],
+					[23.592507, 46.787951],
+					[23.592399, 46.788274],
+					[23.591965, 46.789387],
+					[23.591128, 46.789306],
+					[23.590731, 46.78917],
+					[23.590533, 46.788976],
+					[23.590173, 46.788641],
+					[23.589717, 46.788421],
+					[23.590141, 46.787551],
+					[23.590275, 46.787532],
+					[23.590522, 46.786941]
+				]
+			]
+		}
+	},
+	{
+		"id": "hexagon-district",
+		"name": "Hexagon - District",
+		"type": "building",
+		"status": "planning",
+		"address": "Strada Gării 27, 400394 Cluj-Napoca",
+		"neighbourhood": "Gara",
+		"websiteUrl": "https://district.hexagon.ro/",
+		"images": [],
+		"coordinates": [23.595886, 46.78845],
+		"parcelPolygon": {
+			"type": "Polygon",
+			"coordinates": [
+				[
+					[23.595382, 46.787848],
+					[23.596294, 46.787999],
+					[23.596535, 46.78812],
+					[23.596664, 46.788682],
+					[23.59543, 46.789258],
+					[23.595028, 46.789387],
+					[23.594813, 46.789398],
+					[23.595382, 46.787848]
+				]
+			]
+		}
+	},
+	{
+		"id": "rivus",
+		"name": "Rivus",
+		"type": "public-space",
+		"status": "planning",
+		"address": "Piața 1 Mai 3, 400394 Cluj-Napoca",
+		"neighbourhood": "Marasti",
+		"websiteUrl": "https://www.rivus.ro/en/home/",
+		"images": [],
+		"coordinates": [23.601615, 46.788146],
+		"parcelPolygon": {
+			"type": "Polygon",
+			"coordinates": [
+				[
+					[23.599877, 46.786045],
+					[23.600092, 46.787514],
+					[23.604909, 46.787293],
+					[23.605134, 46.789468],
+					[23.604115, 46.789534],
+					[23.604201, 46.790004],
+					[23.603643, 46.789776],
+					[23.602259, 46.789431],
+					[23.600661, 46.789284],
+					[23.599952, 46.789064],
+					[23.598933, 46.788616],
+					[23.598193, 46.788021],
+					[23.597742, 46.78744],
+					[23.597431, 46.786735],
+					[23.597356, 46.786236],
+					[23.599877, 46.786045]
+				]
+			]
+		}
+	},
+	{
+		"id": "parc-armatura",
+		"name": "Parc Armatura",
+		"type": "park",
+		"status": "planning",
+		"address": "Strada Oașului 51, 400394 Cluj-Napoca",
+		"neighbourhood": "Marasti",
+		"websiteUrl": "https://-",
+		"images": [],
+		"coordinates": [23.597764, 46.788917],
+		"parcelPolygon": {
+			"type": "Polygon",
+			"coordinates": [
+				[
+					[23.596723, 46.786338],
+					[23.597227, 46.787323],
+					[23.597624, 46.788094],
+					[23.598955, 46.789101],
+					[23.600017, 46.789505],
+					[23.599942, 46.789696],
+					[23.598343, 46.789813],
+					[23.597817, 46.789784],
+					[23.597013, 46.78902],
+					[23.596755, 46.788403],
+					[23.596766, 46.787506],
+					[23.596723, 46.786338]
+				]
+			]
+		}
+	},
+	{
+		"id": "parcul-feroviarilor",
+		"name": "Parcul Feroviarilor",
+		"type": "park",
+		"status": "planning",
+		"address": "Str. Parcul Feroviarilor 4, 400394 Cluj-Napoca",
+		"neighbourhood": "Centru",
+		"websiteUrl": "https://www.google.com/search?sca_esv=f19cff34f6f3cfdc&sxsrf=APpeQntjW97lzs-8l2Bs3jqptnIpqyxO4A:1783275030435&q=storage+primaria+cluj+parcul+feroviarilor+proiect&source=lnms&fbs=ABfTbFVyMZGZf1hfvX9uKjN_-G8c4u0nXx4bEIpwm1lnNH832QGGMdFXpDyzkQgEdtB8w9y513h_dJNevWM0LJgfK9j1bjU10DOuMrBkYSSj9wWjPSP3hJN2cBieY_IGt7p-pHWyco0zyHTB6Oz_O5xqcuBq-Sl38MrqdZ_Idn0UuRlQqMJrfJ3IFWgN1wkc-CzhwFhnauXO&sa=X&ved=2ahUKEwjD9eaVkbyVAxUqgv0HHTBXLPQQ0pQJegQIDhAB&biw=1330&bih=739&dpr=2",
+		"images": [],
+		"coordinates": [23.595425, 46.78326],
+		"parcelPolygon": {
+			"type": "Polygon",
+			"coordinates": [
+				[
+					[23.594899, 46.782364],
+					[23.595049, 46.781908],
+					[23.595629, 46.781886],
+					[23.596616, 46.782114],
+					[23.597088, 46.783752],
+					[23.596841, 46.784788],
+					[23.596616, 46.784898],
+					[23.595618, 46.784465],
+					[23.594599, 46.784032],
+					[23.593848, 46.783473],
+					[23.593429, 46.782974],
+					[23.593279, 46.782401],
+					[23.593558, 46.782202],
+					[23.594899, 46.782364]
+				]
+			]
+		}
+	},
+	{
+		"id": "oxygen-residence",
+		"name": "Oxygen Residence",
+		"type": "building",
+		"status": "planning",
+		"address": "Piața Abator 1, 400394 Cluj-Napoca",
+		"neighbourhood": "Centru",
+		"websiteUrl": "https://google.com/url?url=https%3A%2F%2Foxygencluj.ro%2F&sa=t&rct=j&source=maps&usg=AOvVaw0BYbSmC5iZgW-vRMbsPEn-&ved=1i%3A16%2Ct%3A3443%2Ce%3A13%2Cp%3A6pxKavuDKvSR9u8P97DMwQU%3A144",
+		"images": [],
+		"coordinates": [23.594416, 46.781152],
+		"parcelPolygon": {
+			"type": "Polygon",
+			"coordinates": [
+				[
+					[23.593751, 46.779881],
+					[23.595543, 46.780108],
+					[23.594931, 46.782364],
+					[23.593483, 46.78218],
+					[23.593504, 46.78121],
+					[23.593751, 46.779881]
+				]
+			]
+		}
+	},
+	{
+		"id": "somesului-15",
+		"name": "Somesului 15",
+		"type": "building",
+		"status": "planning",
+		"address": "Strada Someșului 15, 400394 Cluj-Napoca",
+		"neighbourhood": "Centru",
+		"websiteUrl": "https://somesului15.hexagon.ro/?utm_source=google&utm_medium=cpc&utm_campaign=&utm_content=&utm_term=&matchtype=&device=c&gad_source=1&gad_campaignid=23498624614&gbraid=0AAAAA-TPjp4lmb2iyxn3mUSEIuvlhdqKu&gclid=CjwKCAjwgajSBhBEEiwASicJU79l5EogdiKiSccm7YvWAheBZDsTWgtsmwzZT25CD7Ep_JrJZdueWhoCu90QAvD_BwE",
+		"images": [],
+		"coordinates": [23.59418, 46.778433],
+		"parcelPolygon": {
+			"type": "Polygon",
+			"coordinates": [
+				[
+					[23.593869, 46.778103],
+					[23.594695, 46.778264],
+					[23.594588, 46.778661],
+					[23.594277, 46.77861],
+					[23.594202, 46.778764],
+					[23.59358, 46.778632],
+					[23.593869, 46.778103]
+				]
+			]
+		}
+	},
+	{
+		"id": "scala",
+		"name": "Scala",
+		"type": "building",
+		"status": "planning",
+		"address": "Strada Soporului 21, 400482 Cluj-Napoca",
+		"neighbourhood": "Sopor",
+		"websiteUrl": "https://www.scalasopor.ro/?utm_source=google&utm_medium=cpc&utm_campaign=brand-protect&utm_content=737223898983&utm_term=scala%20sopor&matchtype=b&device=c&gad_source=1&gad_campaignid=22309513620&gbraid=0AAAAA9TfVKziYkr0tyksKNyI-AW6OPw4I&gclid=CjwKCAjwgajSBhBEEiwASicJUwUsouZmPpJVixy_4-MRRkcEaMesyMIuSVM9i1WBrcLxwUYSOzjf-RoCQMwQAvD_BwE",
+		"images": [],
+		"coordinates": [23.63893, 46.76891],
+		"parcelPolygon": {
+			"type": "Polygon",
+			"coordinates": [
+				[
+					[23.638844, 46.768366],
+					[23.63951, 46.768175],
+					[23.640261, 46.76844],
+					[23.639123, 46.769322],
+					[23.638684, 46.770505],
+					[23.637986, 46.769862],
+					[23.638844, 46.768366]
+				]
+			]
+		}
+	},
+	{
+		"id": "parc-est",
+		"name": "Parc Est",
+		"type": "park",
+		"status": "planning",
+		"address": "Strada Tulcea, Cluj-Napoca",
+		"neighbourhood": "Intre Lacuri",
+		"websiteUrl": "https://primariaclujnapoca.ro/urbanism/proiecte-de-urbanism/p-u-z-amenajare-parc-est-faza-1/",
+		"images": [],
+		"coordinates": [23.641312, 46.775421],
+		"parcelPolygon": {
+			"type": "Polygon",
+			"coordinates": [
+				[
+					[23.639123, 46.771276],
+					[23.646011, 46.776626],
+					[23.647084, 46.778389],
+					[23.64687, 46.778683],
+					[23.64584, 46.778521],
+					[23.644359, 46.778874],
+					[23.64378, 46.778419],
+					[23.643286, 46.778448],
+					[23.640819, 46.777537],
+					[23.639896, 46.777816],
+					[23.639359, 46.777669],
+					[23.639488, 46.777272],
+					[23.639145, 46.777081],
+					[23.639081, 46.776435],
+					[23.638287, 46.775773],
+					[23.636291, 46.775274],
+					[23.636119, 46.774995],
+					[23.63481, 46.774774],
+					[23.636291, 46.773584],
+					[23.636806, 46.773628],
+					[23.637664, 46.772746],
+					[23.63775, 46.772496],
+					[23.638587, 46.771894],
+					[23.638501, 46.771659],
+					[23.639123, 46.771276]
+				]
+			]
+		}
+	}
 ]

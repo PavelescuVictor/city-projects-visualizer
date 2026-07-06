@@ -1,90 +1,90 @@
 .project-list {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 8px;
-  min-height: 0;
-  overflow: auto;
-  padding-right: 2px;
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 8px;
+	min-height: 0;
+	overflow: auto;
+	padding-right: 2px;
 }
 
 .project-list-divider {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #59666d;
-  font-size: 0.82rem;
-  font-weight: 800;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	color: #59666d;
+	font-size: 0.82rem;
+	font-weight: 800;
 }
 
 .project-list-divider::before,
 .project-list-divider::after {
-  content: "";
-  height: 1px;
-  flex: 1;
-  background: #d9e0e2;
+	content: "";
+	height: 1px;
+	flex: 1;
+	background: #d9e0e2;
 }
 
 .project-row {
-  display: grid;
-  grid-template-columns: 12px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  border: 1px solid #d9e0e2;
-  border-radius: 8px;
-  background: #ffffff;
-  color: #172027;
-  padding: 12px;
-  text-align: left;
+	display: grid;
+	grid-template-columns: 12px minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+	border: 1px solid #d9e0e2;
+	border-radius: 8px;
+	background: #ffffff;
+	color: #172027;
+	padding: 12px;
+	text-align: left;
 }
 
 .project-row:hover,
 .project-row.is-selected {
-  border-color: #59666d;
-  background: #edf6f1;
+	border-color: #59666d;
+	background: #edf6f1;
 }
 
 .project-row-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
 }
 
 .project-row strong,
 .project-row small {
-  display: block;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+	display: block;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .project-row small {
-  margin-top: 3px;
-  color: #66747b;
+	margin-top: 3px;
+	color: #66747b;
 }
 
 .project-row em {
-  color: #59666d;
-  font-size: 0.75rem;
-  font-style: normal;
-  font-weight: 800;
-  text-transform: capitalize;
+	color: #59666d;
+	font-size: 0.75rem;
+	font-style: normal;
+	font-weight: 800;
+	text-transform: capitalize;
 }
 
 .project-type-value {
-  text-transform: capitalize;
+	text-transform: capitalize;
 }
 
 @media (max-width: 900px) {
-  .project-list {
-    overflow: visible;
-  }
+	.project-list {
+		overflow: visible;
+	}
 }
 
 @media (max-height: 620px) and (orientation: landscape) {
-  .project-list {
-    overflow: visible;
-  }
+	.project-list {
+		overflow: visible;
+	}
 }

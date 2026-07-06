@@ -1,48 +1,48 @@
 .app-shell {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--panel-width);
-  min-height: 100vh;
-  overflow: hidden;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) var(--panel-width);
+	min-height: 100vh;
+	overflow: hidden;
 }
 
 @media (max-width: 900px) {
-  html,
-  body,
-  #root {
-    height: auto;
-    min-height: 100%;
-  }
+	html,
+	body,
+	#root {
+		height: auto;
+		min-height: 100%;
+	}
 
-  body {
-    overflow-y: auto;
-  }
+	body {
+		overflow-y: auto;
+	}
 
-  .app-shell {
-    grid-template-columns: 1fr;
-    grid-template-rows: minmax(54vh, 1fr) auto;
-    height: 100vh;
-    min-height: 0;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
+	.app-shell {
+		grid-template-columns: 1fr;
+		grid-template-rows: minmax(54vh, 1fr) auto;
+		height: 100vh;
+		min-height: 0;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+	}
 }
 
 @media (max-height: 620px) and (orientation: landscape) {
-  html,
-  body,
-  #root {
-    height: auto;
-    min-height: 100%;
-  }
+	html,
+	body,
+	#root {
+		height: auto;
+		min-height: 100%;
+	}
 
-  body {
-    overflow-y: auto;
-  }
+	body {
+		overflow-y: auto;
+	}
 
-  .app-shell {
-    height: 100vh;
-    min-height: 0;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
+	.app-shell {
+		height: 100vh;
+		min-height: 0;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+	}
 }

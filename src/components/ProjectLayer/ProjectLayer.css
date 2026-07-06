@@ -1,202 +1,202 @@
 .project-marker-wrapper {
-  background: transparent;
+	background: transparent;
 }
 
 .project-marker {
-  display: grid;
-  width: 30px;
-  height: 30px;
-  margin: 2px;
-  place-items: center;
-  border-radius: 50%;
-  outline: 0;
-  background: transparent;
-  color: var(--marker-color);
-  transition:
-    background-color 120ms ease,
-    color 120ms ease,
-    height 120ms ease,
-    margin 120ms ease,
-    width 120ms ease;
+	display: grid;
+	width: 30px;
+	height: 30px;
+	margin: 2px;
+	place-items: center;
+	border-radius: 50%;
+	outline: 0;
+	background: transparent;
+	color: var(--marker-color);
+	transition:
+		background-color 120ms ease,
+		color 120ms ease,
+		height 120ms ease,
+		margin 120ms ease,
+		width 120ms ease;
 }
 
 .project-marker-icon {
-  width: 17px;
-  height: 17px;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 2;
+	width: 17px;
+	height: 17px;
+	fill: none;
+	stroke: currentColor;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 2;
 }
 
 .project-marker.is-selected {
-  width: 34px;
-  height: 34px;
-  margin: 0;
-  background: var(--marker-color);
-  color: #ffffff;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.32);
+	width: 34px;
+	height: 34px;
+	margin: 0;
+	background: var(--marker-color);
+	color: #ffffff;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.32);
 }
 
 .edit-handle-wrapper {
-  background: transparent;
+	background: transparent;
 }
 
 .parcel-vertex-handle,
 .parcel-midpoint-handle,
 .parcel-add-handle {
-  display: block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid #ffffff;
-  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.35);
+	display: block;
+	width: 16px;
+	height: 16px;
+	border: 2px solid #ffffff;
+	box-shadow: 0 3px 9px rgba(0, 0, 0, 0.35);
 }
 
 .parcel-vertex-handle {
-  border-radius: 4px;
-  background: #11181c;
+	border-radius: 4px;
+	background: #11181c;
 }
 
 .parcel-midpoint-handle,
 .parcel-add-handle {
-  width: 12px;
-  height: 12px;
-  margin: 2px;
-  border-radius: 50%;
-  background: #047857;
+	width: 12px;
+	height: 12px;
+	margin: 2px;
+	border-radius: 50%;
+	background: #047857;
 }
 
 .parcel-add-handle {
-  outline: 3px solid rgba(4, 120, 87, 0.22);
+	outline: 3px solid rgba(4, 120, 87, 0.22);
 }
 
 .map-popup strong,
 .map-popup span,
 .map-popup small {
-  display: block;
+	display: block;
 }
 
 .map-popup {
-  width: 273px;
+	width: 273px;
 }
 
 .map-popup-carousel {
-  position: relative;
-  width: 100%;
-  height: 146px;
-  margin-bottom: 8px;
-  overflow: hidden;
-  border-radius: 7px;
-  background: #d8dedf;
+	position: relative;
+	width: 100%;
+	height: 146px;
+	margin-bottom: 8px;
+	overflow: hidden;
+	border-radius: 7px;
+	background: #d8dedf;
 }
 
 .map-popup-track {
-  display: flex;
-  height: 100%;
-  transition: transform 180ms ease;
+	display: flex;
+	height: 100%;
+	transition: transform 180ms ease;
 }
 
 .map-popup-slide {
-  flex: 0 0 100%;
-  height: 100%;
+	flex: 0 0 100%;
+	height: 100%;
 }
 
 .map-popup-carousel img {
-  display: block;
-  width: 273px;
-  height: 146px;
-  object-fit: cover;
+	display: block;
+	width: 273px;
+	height: 146px;
+	object-fit: cover;
 }
 
 .map-popup-carousel-button {
-  position: absolute;
-  top: 50%;
-  display: inline-grid;
-  width: 30px;
-  height: 30px;
-  place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.72);
-  border-radius: 50%;
-  background: rgba(17, 24, 28, 0.76);
-  color: #ffffff;
-  font-size: 1.2rem;
-  line-height: 1;
-  transform: translateY(-50%);
+	position: absolute;
+	top: 50%;
+	display: inline-grid;
+	width: 30px;
+	height: 30px;
+	place-items: center;
+	border: 1px solid rgba(255, 255, 255, 0.72);
+	border-radius: 50%;
+	background: rgba(17, 24, 28, 0.76);
+	color: #ffffff;
+	font-size: 1.2rem;
+	line-height: 1;
+	transform: translateY(-50%);
 }
 
 .map-popup-carousel-prev {
-  left: 8px;
+	left: 8px;
 }
 
 .map-popup-carousel-next {
-  right: 8px;
+	right: 8px;
 }
 
 .map-popup-carousel-count {
-  position: absolute;
-  right: 8px;
-  bottom: 8px;
-  border-radius: 999px;
-  background: rgba(17, 24, 28, 0.76);
-  color: #ffffff;
-  padding: 3px 7px;
-  font-size: 0.72rem;
-  font-weight: 800;
+	position: absolute;
+	right: 8px;
+	bottom: 8px;
+	border-radius: 999px;
+	background: rgba(17, 24, 28, 0.76);
+	color: #ffffff;
+	padding: 3px 7px;
+	font-size: 0.72rem;
+	font-weight: 800;
 }
 
 .map-popup strong {
-  margin-bottom: 4px;
+	margin-bottom: 4px;
 }
 
 .map-popup span {
-  color: #4d5b63;
+	color: #4d5b63;
 }
 
 .map-popup small {
-  margin-top: 5px;
-  font-weight: 800;
+	margin-top: 5px;
+	font-weight: 800;
 }
 
 .map-popup-footer {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 6px;
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 10px;
+	margin-top: 6px;
 }
 
 .map-popup-footer small {
-  margin-top: 0;
+	margin-top: 0;
 }
 
 .map-popup .project-status-value {
-  text-transform: capitalize;
+	text-transform: capitalize;
 }
 
 .map-popup-actions {
-  display: flex;
-  gap: 6px;
+	display: flex;
+	gap: 6px;
 }
 
 .map-popup-action {
-  display: inline-grid;
-  width: 28px;
-  height: 28px;
-  place-items: center;
-  border-radius: 8px;
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: 900;
-  line-height: 1;
+	display: inline-grid;
+	width: 28px;
+	height: 28px;
+	place-items: center;
+	border-radius: 8px;
+	color: #ffffff;
+	font-size: 1rem;
+	font-weight: 900;
+	line-height: 1;
 }
 
 .map-popup-edit {
-  border: 1px solid #047857;
-  background: #047857;
+	border: 1px solid #047857;
+	background: #047857;
 }
 
 .map-popup-delete {
-  border: 1px solid #dc2626;
-  background: #dc2626;
+	border: 1px solid #dc2626;
+	background: #dc2626;
 }

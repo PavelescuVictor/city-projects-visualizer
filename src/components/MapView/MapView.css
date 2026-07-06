@@ -1,113 +1,113 @@
 .map-canvas {
-  position: absolute;
-  inset: 0;
-  min-height: 100%;
-  background: #d8dedf;
+	position: absolute;
+	inset: 0;
+	min-height: 100%;
+	background: #d8dedf;
 }
 
 .map-zoom-controls {
-  position: absolute;
-  right: 16px;
-  bottom: 16px;
-  z-index: 450;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+	position: absolute;
+	right: 16px;
+	bottom: 16px;
+	z-index: 450;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
 }
 
 .map-zoom-button {
-  border-color: transparent;
-  box-shadow: 0 10px 28px rgba(34, 47, 53, 0.18);
-  transition:
-    background-color 110ms ease,
-    color 110ms ease;
+	border-color: transparent;
+	box-shadow: 0 10px 28px rgba(34, 47, 53, 0.18);
+	transition:
+		background-color 110ms ease,
+		color 110ms ease;
 }
 
 .map-zoom-button:hover:not(:disabled) {
-  border-color: transparent;
-  background: #f3f6f5;
+	border-color: transparent;
+	background: #f3f6f5;
 }
 
 .map-zoom-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.55;
+	cursor: not-allowed;
+	opacity: 0.55;
 }
 
 .map-attribution-control {
-  position: absolute;
-  left: 16px;
-  bottom: 16px;
-  z-index: 450;
+	position: absolute;
+	left: 16px;
+	bottom: 16px;
+	z-index: 450;
 }
 
 .map-attribution-button {
-  border-color: transparent;
-  color: #27343b;
-  box-shadow: 0 10px 28px rgba(34, 47, 53, 0.18);
-  transition:
-    background-color 110ms ease,
-    color 110ms ease;
+	border-color: transparent;
+	color: #27343b;
+	box-shadow: 0 10px 28px rgba(34, 47, 53, 0.18);
+	transition:
+		background-color 110ms ease,
+		color 110ms ease;
 }
 
 .map-attribution-button:hover {
-  border-color: transparent;
-  background: #f3f6f5;
+	border-color: transparent;
+	background: #f3f6f5;
 }
 
 .map-attribution-button.is-open {
-  background: #047857;
-  color: #ffffff;
+	background: #047857;
+	color: #ffffff;
 }
 
 .map-attribution-popover {
-  position: absolute;
-  left: 0;
-  bottom: 46px;
-  width: max-content;
-  max-width: 240px;
-  border-radius: 8px;
-  background: rgba(248, 250, 249, 0.96);
-  color: #27343b;
-  padding: 8px 10px;
-  font-size: 0.75rem;
-  font-weight: 800;
-  line-height: 1.25;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(4px);
-  transition:
-    opacity 110ms ease,
-    transform 110ms ease;
+	position: absolute;
+	left: 0;
+	bottom: 46px;
+	width: max-content;
+	max-width: 240px;
+	border-radius: 8px;
+	background: rgba(248, 250, 249, 0.96);
+	color: #27343b;
+	padding: 8px 10px;
+	font-size: 0.75rem;
+	font-weight: 800;
+	line-height: 1.25;
+	opacity: 0;
+	pointer-events: none;
+	transform: translateY(4px);
+	transition:
+		opacity 110ms ease,
+		transform 110ms ease;
 }
 
 .map-attribution-popover a {
-  color: #047857;
-  text-decoration: none;
+	color: #047857;
+	text-decoration: none;
 }
 
 .map-attribution-popover a:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
 
 .map-attribution-control.is-open .map-attribution-popover {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
+	opacity: 1;
+	pointer-events: auto;
+	transform: translateY(0);
 }
 
 .leaflet-container {
-  color: #172027;
-  font-family: inherit;
+	color: #172027;
+	font-family: inherit;
 }
 
 @media (max-width: 520px) {
-  .map-zoom-controls {
-    right: 10px;
-    bottom: 10px;
-  }
+	.map-zoom-controls {
+		right: 10px;
+		bottom: 10px;
+	}
 
-  .map-attribution-control {
-    left: 10px;
-    bottom: 10px;
-  }
+	.map-attribution-control {
+		left: 10px;
+		bottom: 10px;
+	}
 }

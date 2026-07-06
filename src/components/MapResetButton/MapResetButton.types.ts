@@ -1,3 +1,3 @@
 export interface MapResetButtonProps {
-  onReset: () => void;
+	onReset: () => void;
 }

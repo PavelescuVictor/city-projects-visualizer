@@ -1,39 +1,39 @@
 .status-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
 }
 
 .status-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 34px;
-  border: 1px solid #d3dcdf;
-  border-radius: 8px;
-  background: #ffffff;
-  color: #304048;
-  padding: 0 10px;
-  font-size: 0.86rem;
-  font-weight: 700;
-  text-transform: capitalize;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	min-height: 34px;
+	border: 1px solid #d3dcdf;
+	border-radius: 8px;
+	background: #ffffff;
+	color: #304048;
+	padding: 0 10px;
+	font-size: 0.86rem;
+	font-weight: 700;
+	text-transform: capitalize;
 }
 
 .status-chip span {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: 2px solid currentColor;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	border: 2px solid currentColor;
 }
 
 .status-chip.is-active {
-  border-color: #047857;
-  background: #dff6eb;
-  color: #11181c;
+	border-color: #047857;
+	background: #dff6eb;
+	color: #11181c;
 }
 
 .status-chip.is-active span {
-  background: #047857;
-  border-color: #047857;
+	background: #047857;
+	border-color: #047857;
 }

@@ -1,11 +1,11 @@
 export {
-  DeleteConfirmModal,
-  DeleteConfirmModalProvider,
-  DeleteConfirmModalProvider as default,
-  useDeleteConfirmModal,
+	DeleteConfirmModal,
+	DeleteConfirmModalProvider,
+	DeleteConfirmModalProvider as default,
+	useDeleteConfirmModal,
 } from "./DeleteConfirmModal";
 export type {
-  DeleteConfirmModalContextValue,
-  DeleteConfirmModalProps,
-  DeleteConfirmModalProviderProps,
+	DeleteConfirmModalContextValue,
+	DeleteConfirmModalProps,
+	DeleteConfirmModalProviderProps,
 } from "./DeleteConfirmModal.types";

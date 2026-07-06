@@ -1,18 +1,18 @@
-import type { Project, ProjectStatus, ProjectType } from "./projects.types";
 import projectsData from "./projects.json";
+import type { Project, ProjectStatus, ProjectType } from "./projects.types";
 
 export const PROJECT_STATUSES = {
-  PLANNING: "planning",
-  PERMITTING: "permitting",
-  CONSTRUCTION: "construction",
-  DELIVERED: "delivered",
+	PLANNING: "planning",
+	PERMITTING: "permitting",
+	CONSTRUCTION: "construction",
+	DELIVERED: "delivered",
 } as const satisfies Record<string, ProjectStatus>;
 
 export const PROJECT_TYPES = {
-  BUILDING: "building",
-  PARK: "park",
-  TRANSPORT_INFRASTRUCTURE: "transport-infrastructure",
-  PUBLIC_SPACE: "public-space",
+	BUILDING: "building",
+	PARK: "park",
+	TRANSPORT_INFRASTRUCTURE: "transport-infrastructure",
+	PUBLIC_SPACE: "public-space",
 } as const satisfies Record<string, ProjectType>;
 
 export const projects = projectsData as unknown as Project[];

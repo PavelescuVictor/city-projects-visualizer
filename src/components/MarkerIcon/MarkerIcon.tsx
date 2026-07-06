@@ -5,14 +5,14 @@ import type { MarkerIconProps } from "./MarkerIcon.types";
 type MarkerIconComponent = typeof Building2;
 
 const projectTypeIcons: Record<ProjectType, MarkerIconComponent> = {
-  building: Building2,
-  park: TreePine,
-  "transport-infrastructure": Route,
-  "public-space": Landmark,
+	building: Building2,
+	park: TreePine,
+	"transport-infrastructure": Route,
+	"public-space": Landmark,
 };
 
 export function MarkerIcon({ type }: MarkerIconProps) {
-  const Icon = projectTypeIcons[type];
+	const Icon = projectTypeIcons[type];
 
-  return <Icon className="project-marker-icon" aria-hidden />;
+	return <Icon className="project-marker-icon" aria-hidden />;
 }

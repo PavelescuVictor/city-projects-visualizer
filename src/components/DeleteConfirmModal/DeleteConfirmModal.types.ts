@@ -2,15 +2,15 @@ import type { ReactNode } from "react";
 import type { Project } from "../../data/projects.types";
 
 export interface DeleteConfirmModalProviderProps {
-  children: ReactNode;
+	children: ReactNode;
 }
 
 export interface DeleteConfirmModalProps {
-  project: Project;
-  onCancel: () => void;
-  onConfirm: () => void;
+	project: Project;
+	onCancel: () => void;
+	onConfirm: () => void;
 }
 
 export interface DeleteConfirmModalContextValue {
-  confirmProjectDelete: (project: Project) => Promise<boolean>;
+	confirmProjectDelete: (project: Project) => Promise<boolean>;
 }

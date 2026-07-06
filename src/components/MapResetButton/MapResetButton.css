@@ -1,22 +1,22 @@
 .map-reset-button {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  z-index: 450;
-  border-color: transparent;
-  box-shadow: 0 10px 28px rgba(34, 47, 53, 0.18);
-  transition:
-    background-color 110ms ease,
-    color 110ms ease;
+	position: absolute;
+	top: 16px;
+	left: 16px;
+	z-index: 450;
+	border-color: transparent;
+	box-shadow: 0 10px 28px rgba(34, 47, 53, 0.18);
+	transition:
+		background-color 110ms ease,
+		color 110ms ease;
 }
 
 .map-reset-button:hover {
-  border-color: transparent;
+	border-color: transparent;
 }
 
 @media (max-width: 520px) {
-  .map-reset-button {
-    top: 10px;
-    left: 10px;
-  }
+	.map-reset-button {
+		top: 10px;
+		left: 10px;
+	}
 }
