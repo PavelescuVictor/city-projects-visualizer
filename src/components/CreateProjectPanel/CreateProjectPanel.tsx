@@ -1,15 +1,9 @@
 import type { ChangeEvent } from "react";
 import { RotateCcwSquare, Save } from "lucide-react";
 import "./CreateProjectPanel.css";
-import type { CreateProjectDraft } from "../../types/project";
-
-interface CreateProjectPanelProps {
-  draft: CreateProjectDraft | null;
-  saveStatus: "idle" | "saving" | "saved" | "error";
-  onDraftChange: (draft: CreateProjectDraft) => void;
-  onSave: () => void;
-  onRevert: () => void;
-}
+import { PROJECT_STATUSES } from "../../data/projects";
+import type { CreateProjectDraft } from "../../data/projects.types";
+import type { CreateProjectPanelProps } from "./CreateProjectPanel.types";
 
 export function CreateProjectPanel({
   draft,
@@ -38,7 +32,7 @@ export function CreateProjectPanel({
   return (
     <div className="selected-project create-project-panel">
       <div className="create-project-heading">
-        <span className="status-label">Planning</span>
+        <span className="status-label">{PROJECT_STATUSES.PLANNING}</span>
         <h2>New project</h2>
       </div>
 

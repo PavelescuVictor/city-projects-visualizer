@@ -1,19 +1,7 @@
 import { useState } from "react";
 import { ListFilter, Plus, Search } from "lucide-react";
 import "./ProjectFilters.css";
-import { statusMeta } from "../../data/projects";
-import type { ProjectStatus } from "../../types/project";
-
-interface ProjectFiltersProps {
-  statuses: ProjectStatus[];
-  activeStatuses: ProjectStatus[];
-  searchTerm: string;
-  isCreateMode: boolean;
-  canEdit: boolean;
-  onSearchChange: (value: string) => void;
-  onCreateProject: () => void;
-  onStatusToggle: (status: ProjectStatus) => void;
-}
+import type { ProjectFiltersProps } from "./ProjectFilters.types";
 
 export function ProjectFilters({
   statuses,
@@ -65,7 +53,6 @@ export function ProjectFilters({
       {showStatusFilters ? (
         <div className="status-row" aria-label="Status filters">
           {statuses.map((status) => {
-            const meta = statusMeta[status];
             const isActive = activeStatuses.includes(status);
 
             return (
@@ -77,7 +64,7 @@ export function ProjectFilters({
                 onClick={() => onStatusToggle(status)}
               >
                 <span />
-                {meta.label}
+                {status}
               </button>
             );
           })}

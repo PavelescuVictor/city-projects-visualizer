@@ -2,30 +2,16 @@ import { ExternalLink, MapPinned, Pencil, RotateCcwSquare, Save, Trash2 } from "
 import "./ProjectDetailsPanel.css";
 import { CreateProjectPanel } from "../CreateProjectPanel";
 import { ImageCarousel } from "../ImageCarousel";
-import { projectTypeMeta, statusMeta } from "../../data/projects";
-import type { CreateProjectDraft, DevelopmentProject } from "../../types/project";
+import { PROJECT_TYPES } from "../../data/projects";
+import type { ProjectType } from "../../data/projects.types";
+import type { ProjectDetailsPanelProps } from "./ProjectDetailsPanel.types";
 
-interface ProjectDetailsPanelProps {
-  projects: DevelopmentProject[];
-  selectedProject?: DevelopmentProject;
-  focusedProjectId: string;
-  isCreateMode: boolean;
-  createDraft: CreateProjectDraft | null;
-  createSaveStatus: "idle" | "saving" | "saved" | "error";
-  canEdit: boolean;
-  onProjectSelect: (project: DevelopmentProject) => void;
-  onProjectFocus: (project: DevelopmentProject) => void;
-  isEditMode: boolean;
-  hasUnsavedChanges: boolean;
-  saveStatus: "idle" | "saving" | "saved" | "error";
-  onCreateDraftChange: (draft: CreateProjectDraft) => void;
-  onCreateSave: () => void;
-  onCreateCancel: () => void;
-  onProjectEdit: (project: DevelopmentProject) => void;
-  onProjectDeleteRequest: (project: DevelopmentProject) => void;
-  onSaveProjects: () => void;
-  onRevertProjects: () => void;
-}
+const projectTypeDotColors: Record<ProjectType, string> = {
+  [PROJECT_TYPES.BUILDING]: "#2563eb",
+  [PROJECT_TYPES.PARK]: "#047857",
+  [PROJECT_TYPES.TRANSPORT_INFRASTRUCTURE]: "#ea580c",
+  [PROJECT_TYPES.PUBLIC_SPACE]: "#7c3aed",
+};
 
 export function ProjectDetailsPanel({
   projects,
@@ -62,7 +48,7 @@ export function ProjectDetailsPanel({
         <div className="selected-project">
           <div className="project-title-row">
             <div>
-              <span className="status-label">{statusMeta[selectedProject.status].label}</span>
+              <span className="status-label">{selectedProject.status}</span>
               <h2>{selectedProject.name}</h2>
             </div>
             <div className="project-title-actions">
@@ -105,7 +91,7 @@ export function ProjectDetailsPanel({
             <div className="project-meta-combined">
               <div>
                 <dt>Type</dt>
-                <dd>{projectTypeMeta[selectedProject.type].label}</dd>
+                <dd className="project-type-value">{selectedProject.type}</dd>
               </div>
               <div>
                 <dt>Neighbourhood</dt>
@@ -168,12 +154,14 @@ export function ProjectDetailsPanel({
               type="button"
               onClick={() => onProjectSelect(project)}
             >
-              <span className="project-row-dot" style={{ background: projectTypeMeta[project.type].color }} />
+              <span className="project-row-dot" style={{ background: projectTypeDotColors[project.type] }} />
               <span>
                 <strong>{project.name}</strong>
-                <small>{projectTypeMeta[project.type].label} - {project.neighbourhood}</small>
+                <small>
+                  <span className="project-type-value">{project.type}</span> - {project.neighbourhood}
+                </small>
               </span>
-              <em>{statusMeta[project.status].label}</em>
+              <em>{project.status}</em>
             </button>
           );
         })}
