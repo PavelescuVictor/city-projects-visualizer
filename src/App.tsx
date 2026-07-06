@@ -13,6 +13,7 @@ import type {
     Project,
     ProjectStatus,
 } from "./data/projects.types";
+import { loadProjects, saveProjects } from "./services/projectService";
 
 const allStatuses = Object.values(PROJECT_STATUSES);
 const canEdit = import.meta.env.DEV;
@@ -93,33 +94,16 @@ export default function App() {
     }, [selectedProjectId]);
 
     useEffect(() => {
-        if (!canEdit) {
-            savedProjectsRef.current = initialProjects;
-            projectsRef.current = initialProjects;
-            setProjects(initialProjects);
-            setSelectedProjectId((current) =>
-                initialProjects.some((project) => project.id === current)
-                    ? current
-                    : ""
-            );
-            return;
-        }
-
-        fetch("/api/projects", { cache: "no-store" })
-            .then((response) =>
-                response.ok ? response.json() : Promise.reject()
-            )
-            .then((projectData: Project[]) => {
-                if (Array.isArray(projectData)) {
-                    savedProjectsRef.current = projectData;
-                    projectsRef.current = projectData;
-                    setProjects(projectData);
-                    setSelectedProjectId((current) =>
-                        projectData.some((project) => project.id === current)
-                            ? current
-                            : ""
-                    );
-                }
+        loadProjects()
+            .then((projectData) => {
+                savedProjectsRef.current = projectData;
+                projectsRef.current = projectData;
+                setProjects(projectData);
+                setSelectedProjectId((current) =>
+                    projectData.some((project) => project.id === current)
+                        ? current
+                        : ""
+                );
             })
             .catch(() => {
                 savedProjectsRef.current = initialProjects;
@@ -375,25 +359,7 @@ export default function App() {
             setSaveStatus("saving");
 
             try {
-                const response = await fetch("/api/projects", {
-                    method: "POST",
-                    cache: "no-store",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(nextProjects),
-                });
-
-                if (!response.ok) {
-                    throw new Error("Delete failed");
-                }
-
-                const savedProjects =
-                    (await response.json()) as Project[];
-
-                if (!Array.isArray(savedProjects)) {
-                    throw new Error("Invalid saved project data");
-                }
+                const savedProjects = await saveProjects(nextProjects);
 
                 projectsRef.current = savedProjects;
                 savedProjectsRef.current = savedProjects;
@@ -427,25 +393,7 @@ export default function App() {
 
         try {
             const projectsToSave = projectsRef.current;
-            const response = await fetch("/api/projects", {
-                method: "POST",
-                cache: "no-store",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(projectsToSave),
-            });
-
-            if (!response.ok) {
-                throw new Error("Save failed");
-            }
-
-            const savedProjects =
-                (await response.json()) as Project[];
-
-            if (!Array.isArray(savedProjects)) {
-                throw new Error("Invalid saved project data");
-            }
+            const savedProjects = await saveProjects(projectsToSave);
 
             projectsRef.current = savedProjects;
             savedProjectsRef.current = savedProjects;
@@ -463,20 +411,7 @@ export default function App() {
         }
 
         try {
-            const response = await fetch("/api/projects", {
-                cache: "no-store",
-            });
-
-            if (!response.ok) {
-                throw new Error("Revert failed");
-            }
-
-            const savedProjects =
-                (await response.json()) as Project[];
-
-            if (!Array.isArray(savedProjects)) {
-                throw new Error("Invalid project data");
-            }
+            const savedProjects = await loadProjects();
 
             projectsRef.current = savedProjects;
             savedProjectsRef.current = savedProjects;
@@ -533,25 +468,7 @@ export default function App() {
 
         try {
             const nextProjects = [...projectsRef.current, newProject];
-            const response = await fetch("/api/projects", {
-                method: "POST",
-                cache: "no-store",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(nextProjects),
-            });
-
-            if (!response.ok) {
-                throw new Error("Create failed");
-            }
-
-            const savedProjects =
-                (await response.json()) as Project[];
-
-            if (!Array.isArray(savedProjects)) {
-                throw new Error("Invalid saved project data");
-            }
+            const savedProjects = await saveProjects(nextProjects);
 
             projectsRef.current = savedProjects;
             savedProjectsRef.current = savedProjects;
