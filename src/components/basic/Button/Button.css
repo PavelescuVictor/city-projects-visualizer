@@ -1,0 +1,22 @@
+.basic-button {
+	display: inline-grid;
+	width: 42px;
+	height: 42px;
+	place-items: center;
+	border: 1px solid #cbd4d7;
+	border-radius: 8px;
+	background: #ffffff;
+	color: #27343b;
+}
+
+.basic-button:hover,
+.basic-button.is-active {
+	border-color: #047857;
+	color: #03543f;
+}
+
+.basic-button.create-project-button.is-active {
+	border-color: #047857;
+	background: #047857;
+	color: #ffffff;
+}

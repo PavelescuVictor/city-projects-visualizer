@@ -1,0 +1,20 @@
+.search-field {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-height: 42px;
+	border: 1px solid #cbd4d7;
+	border-radius: 8px;
+	background: #ffffff;
+	color: #59666d;
+	padding: 0 12px;
+}
+
+.search-field input {
+	width: 100%;
+	min-width: 0;
+	border: 0;
+	outline: 0;
+	color: #162027;
+	background: transparent;
+}

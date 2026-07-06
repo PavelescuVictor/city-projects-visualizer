@@ -1,3 +1,4 @@
+export { Button } from "./basic";
 export { CreateProjectLayer } from "./CreateProjectLayer";
 export { CreateProjectPanel } from "./CreateProjectPanel";
 export { DeleteConfirmModalProvider } from "./DeleteConfirmModal";
@@ -12,4 +13,5 @@ export { ProjectFilters } from "./ProjectFilters";
 export { ProjectLayer } from "./ProjectLayer";
 export { ProjectsList } from "./ProjectsList";
 export { SearchControls } from "./SearchControls";
+export { SearchField } from "./SearchField";
 export { SideController } from "./SideController";
