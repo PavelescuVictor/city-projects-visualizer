@@ -41,7 +41,7 @@ export default defineConfig({
                 response.setHeader("Content-Type", "application/json");
                 response.setHeader("Cache-Control", "no-store");
                 response.end(serializedProjects);
-              } catch (error) {
+              } catch {
                 response.statusCode = 400;
                 response.setHeader("Content-Type", "application/json");
                 response.setHeader("Cache-Control", "no-store");

@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "tsc && vite build",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
     "preview": "vite preview --host 127.0.0.1"
   },
   "engines": {
@@ -18,6 +20,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.5.2",
     "@types/leaflet": "^1.9.12",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",

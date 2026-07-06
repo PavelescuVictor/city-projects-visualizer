@@ -18,7 +18,9 @@ export function getProjectBounds(projects: Project[]): Leaflet.LatLngBounds | nu
 
   projects.forEach((project) => {
     bounds.extend(toLatLng(project.coordinates));
-    project.parcelPolygon.coordinates[0].forEach((point) => bounds.extend(toLatLng(point)));
+    project.parcelPolygon.coordinates[0].forEach((point) => {
+      bounds.extend(toLatLng(point));
+    });
   });
 
   return bounds.isValid() ? bounds : null;

@@ -161,7 +161,7 @@ export function MapView({
   return (
     <>
       <div className="map-canvas" data-testid="project-map" ref={containerRef} />
-      <div className="map-zoom-controls" aria-label="Map zoom controls">
+      <section className="map-zoom-controls" aria-label="Map zoom controls">
         <button
           className="icon-button map-zoom-button"
           type="button"
@@ -182,7 +182,7 @@ export function MapView({
         >
           <Minus size={18} aria-hidden="true" />
         </button>
-      </div>
+      </section>
       <div className={`map-attribution-control${isAttributionOpen ? " is-open" : ""}`}>
         <button
           className={`icon-button map-attribution-button${isAttributionOpen ? " is-open" : ""}`}
