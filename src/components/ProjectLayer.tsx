@@ -1,6 +1,8 @@
 import { useEffect } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import L from "leaflet";
-import { statusMeta } from "../data/projects";
+import { projectTypeMeta, statusMeta } from "../data/projects";
+import { MarkerIcon } from "./MarkerIcon";
 import { polygonToLatLngs, toLatLng } from "../utils/geo";
 import type { DevelopmentProject, LngLat } from "../types/project";
 
@@ -19,18 +21,22 @@ interface ProjectLayerProps {
 }
 
 function markerIcon(project: DevelopmentProject, isSelected: boolean) {
-  const meta = statusMeta[project.status];
+  const typeMeta = projectTypeMeta[project.type];
 
   return L.divIcon({
     className: "project-marker-wrapper",
-    html: `<span class="project-marker${isSelected ? " is-selected" : ""}" style="--marker-color: ${meta.color}"></span>`,
-    iconSize: [26, 26],
-    iconAnchor: [13, 13],
+    html: `
+      <span class="project-marker${isSelected ? " is-selected" : ""}" style="--marker-color: ${typeMeta.color}">
+        ${renderToStaticMarkup(<MarkerIcon type={project.type} />)}
+      </span>
+    `,
+    iconSize: [34, 34],
+    iconAnchor: [17, 17],
   });
 }
 
 function popupContent(project: DevelopmentProject, canEdit: boolean) {
-  const meta = statusMeta[project.status];
+  const status = statusMeta[project.status];
   const hasMultipleImages = (project.images ?? []).length > 1;
   const images = (project.images ?? [])
     .map(
@@ -69,7 +75,7 @@ function popupContent(project: DevelopmentProject, canEdit: boolean) {
       <strong>${escapeHtml(project.name)}</strong>
       <span>${escapeHtml(project.neighbourhood)}</span>
       <div class="map-popup-footer">
-        <small style="color: ${meta.color}">${meta.label}</small>
+        <small>${status.label}</small>
         ${
           canEdit
             ? `
@@ -259,14 +265,14 @@ export function ProjectLayer({
     const layerGroup = L.layerGroup().addTo(map);
 
     projects.forEach((project) => {
-      const meta = statusMeta[project.status];
+      const typeMeta = projectTypeMeta[project.type];
       const isSelected = project.id === selectedProjectId;
       let projectPolygon: L.Polygon | null = null;
 
       if (showParcels || (editMode && isSelected)) {
         const polygon = L.polygon(polygonToLatLngs(project.parcelPolygon), {
-          color: meta.color,
-          fillColor: meta.fill,
+          color: typeMeta.color,
+          fillColor: typeMeta.fill,
           fillOpacity: isSelected ? 0.48 : 0.28,
           opacity: 0.95,
           weight: isSelected ? 4 : 2,

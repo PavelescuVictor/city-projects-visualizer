@@ -1,5 +1,8 @@
 import { useEffect } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import L from "leaflet";
+import { MarkerIcon } from "./MarkerIcon";
+import { projectTypeMeta } from "../data/projects";
 import { polygonToLatLngs, toLatLng } from "../utils/geo";
 import type { CreateProjectDraft, LngLat } from "../types/project";
 
@@ -9,15 +12,19 @@ interface CreateProjectLayerProps {
   onDraftChange: (draft: CreateProjectDraft) => void;
 }
 
-const createColor = "#047857";
+const createTypeMeta = projectTypeMeta.building;
 const triangleRadiusMeters = 85;
 
 function createMarkerIcon() {
   return L.divIcon({
     className: "project-marker-wrapper",
-    html: `<span class="project-marker is-selected create-project-marker" style="--marker-color: ${createColor}"></span>`,
-    iconSize: [28, 28],
-    iconAnchor: [14, 14],
+    html: `
+      <span class="project-marker is-selected create-project-marker" style="--marker-color: ${createTypeMeta.color}">
+        ${renderToStaticMarkup(<MarkerIcon type="building" />)}
+      </span>
+    `,
+    iconSize: [34, 34],
+    iconAnchor: [17, 17],
   });
 }
 
@@ -107,8 +114,8 @@ export function CreateProjectLayer({ map, draft, onDraftChange }: CreateProjectL
     const liveRing = cloneRing(ring);
 
     const polygon = L.polygon(polygonToLatLngs(draft.parcelPolygon), {
-      color: createColor,
-      fillColor: "#dff6eb",
+      color: createTypeMeta.color,
+      fillColor: createTypeMeta.fill,
       fillOpacity: 0.42,
       opacity: 0.98,
       weight: 4,

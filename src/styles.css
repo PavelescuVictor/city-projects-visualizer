@@ -378,13 +378,18 @@ h2 {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: var(--chip-color);
+  border: 2px solid currentColor;
 }
 
 .status-chip.is-active {
-  border-color: var(--chip-color);
-  background: var(--chip-fill);
+  border-color: #047857;
+  background: #dff6eb;
   color: #11181c;
+}
+
+.status-chip.is-active span {
+  background: #047857;
+  border-color: #047857;
 }
 
 .details-panel {
@@ -834,19 +839,40 @@ h2 {
 }
 
 .project-marker {
-  display: block;
-  width: 22px;
-  height: 22px;
-  border: 3px solid #ffffff;
+  display: grid;
+  width: 30px;
+  height: 30px;
+  margin: 2px;
+  place-items: center;
   border-radius: 50%;
-  background: var(--marker-color);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.32);
+  outline: 0;
+  background: transparent;
+  color: var(--marker-color);
+  transition:
+    background-color 120ms ease,
+    color 120ms ease,
+    height 120ms ease,
+    margin 120ms ease,
+    width 120ms ease;
+}
+
+.project-marker-icon {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
 }
 
 .project-marker.is-selected {
-  width: 26px;
-  height: 26px;
-  outline: 3px solid rgba(255, 255, 255, 0.72);
+  width: 34px;
+  height: 34px;
+  margin: 0;
+  background: var(--marker-color);
+  color: #ffffff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.32);
 }
 
 .edit-handle-wrapper {

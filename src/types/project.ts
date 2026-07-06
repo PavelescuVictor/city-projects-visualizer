@@ -1,5 +1,5 @@
 export type ProjectStatus = "planning" | "permitting" | "construction" | "delivered";
-export type ProjectType = "building" | "park" | "bridge" | "street" | "public-space";
+export type ProjectType = "building" | "park" | "transport-infrastructure" | "public-space";
 
 export type LngLat = [number, number];
 
@@ -36,6 +36,10 @@ export interface CreateProjectDraft {
 }
 
 export interface StatusMeta {
+  label: string;
+}
+
+export interface ProjectTypeMeta {
   label: string;
   color: string;
   fill: string;

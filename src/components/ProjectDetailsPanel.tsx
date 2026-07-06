@@ -1,7 +1,7 @@
 import { ExternalLink, MapPinned, Pencil, RotateCcwSquare, Save, Trash2 } from "lucide-react";
 import { CreateProjectPanel } from "./CreateProjectPanel";
 import { ImageCarousel } from "./ImageCarousel";
-import { statusMeta } from "../data/projects";
+import { projectTypeMeta, statusMeta } from "../data/projects";
 import type { CreateProjectDraft, DevelopmentProject } from "../types/project";
 
 interface ProjectDetailsPanelProps {
@@ -25,14 +25,6 @@ interface ProjectDetailsPanelProps {
   onSaveProjects: () => void;
   onRevertProjects: () => void;
 }
-
-const projectTypeLabels: Record<DevelopmentProject["type"], string> = {
-  building: "Building",
-  park: "Park",
-  bridge: "Bridge",
-  street: "Street",
-  "public-space": "Public space",
-};
 
 export function ProjectDetailsPanel({
   projects,
@@ -69,9 +61,7 @@ export function ProjectDetailsPanel({
         <div className="selected-project">
           <div className="project-title-row">
             <div>
-              <span className="status-label" style={{ color: statusMeta[selectedProject.status].color }}>
-                {statusMeta[selectedProject.status].label}
-              </span>
+              <span className="status-label">{statusMeta[selectedProject.status].label}</span>
               <h2>{selectedProject.name}</h2>
             </div>
             <div className="project-title-actions">
@@ -114,7 +104,7 @@ export function ProjectDetailsPanel({
             <div className="project-meta-combined">
               <div>
                 <dt>Type</dt>
-                <dd>{projectTypeLabels[selectedProject.type]}</dd>
+                <dd>{projectTypeMeta[selectedProject.type].label}</dd>
               </div>
               <div>
                 <dt>Neighbourhood</dt>
@@ -177,10 +167,10 @@ export function ProjectDetailsPanel({
               type="button"
               onClick={() => onProjectSelect(project)}
             >
-              <span className="project-row-dot" style={{ background: statusMeta[project.status].color }} />
+              <span className="project-row-dot" style={{ background: projectTypeMeta[project.type].color }} />
               <span>
                 <strong>{project.name}</strong>
-                <small>{projectTypeLabels[project.type]} - {project.neighbourhood}</small>
+                <small>{projectTypeMeta[project.type].label} - {project.neighbourhood}</small>
               </span>
               <em>{statusMeta[project.status].label}</em>
             </button>

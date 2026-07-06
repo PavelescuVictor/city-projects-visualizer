@@ -71,7 +71,6 @@ export function ProjectFilters({
               <button
                 key={status}
                 className={`status-chip${isActive ? " is-active" : ""}`}
-                style={{ "--chip-color": meta.color, "--chip-fill": meta.fill } as React.CSSProperties}
                 type="button"
                 aria-pressed={isActive}
                 onClick={() => onStatusToggle(status)}

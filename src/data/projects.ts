@@ -1,26 +1,41 @@
-import type { DevelopmentProject, ProjectStatus, StatusMeta } from "../types/project";
+import type { DevelopmentProject, ProjectStatus, ProjectType, ProjectTypeMeta, StatusMeta } from "../types/project";
 import projectsData from "./projects.json";
 
 export const statusMeta: Record<ProjectStatus, StatusMeta> = {
   planning: {
     label: "Planning",
-    color: "#2563eb",
-    fill: "#93c5fd",
   },
   permitting: {
     label: "Permitting",
-    color: "#9a3412",
-    fill: "#fdba74",
   },
   construction: {
     label: "Construction",
-    color: "#047857",
-    fill: "#86efac",
   },
   delivered: {
     label: "Delivered",
-    color: "#52525b",
-    fill: "#d4d4d8",
+  },
+};
+
+export const projectTypeMeta: Record<ProjectType, ProjectTypeMeta> = {
+  building: {
+    label: "Building",
+    color: "#2563eb",
+    fill: "#93c5fd",
+  },
+  park: {
+    label: "Park",
+    color: "#047857",
+    fill: "#86efac",
+  },
+  "transport-infrastructure": {
+    label: "Transport infrastructure",
+    color: "#ea580c",
+    fill: "#fdba74",
+  },
+  "public-space": {
+    label: "Public space",
+    color: "#7c3aed",
+    fill: "#c4b5fd",
   },
 };
 
