@@ -1,2 +1,2 @@
-export { MapView, MapView as default } from "./MapView";
+export { default, default as MapView } from "./MapView";
 export type { MapViewProps } from "./MapView.types";

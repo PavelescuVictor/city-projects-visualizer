@@ -118,7 +118,9 @@ export function createProjectDraftFromCenter(center: Leaflet.LatLng): CreateProj
 	};
 }
 
-export function CreateProjectLayer({ map, draft, onDraftChange }: CreateProjectLayerProps) {
+const CreateProjectLayer = (props: CreateProjectLayerProps) => {
+	const { map, draft, onDraftChange } = props;
+
 	useEffect(() => {
 		if (!map || !draft) {
 			return;
@@ -189,4 +191,6 @@ export function CreateProjectLayer({ map, draft, onDraftChange }: CreateProjectL
 	}, [map, draft, onDraftChange]);
 
 	return null;
-}
+};
+
+export default CreateProjectLayer;

@@ -7,13 +7,13 @@ These rules apply to the whole repository.
 - Write React components as functional arrow components.
 - Type component props explicitly.
 - Accept a single `props` parameter and destructure it inside the function body.
-- Export components at the end of the file on a separate line.
+- Export each component from its `ComponentName.tsx` file as `export default ComponentName` at the end of the file on a separate line.
 - Keep component prop types in a colocated `ComponentName.types.ts` file.
 - Keep component styles in a colocated `ComponentName.css` file and import it from `ComponentName.tsx`.
 
 ## Component Exports
 
-- Component folder `index.ts` files should export the component, optional default component export, component-local helpers, and colocated prop types.
+- Component folder `index.ts` files should export the default component as both the named component and default export, plus component-local helpers and colocated prop types.
 - The root `src/components/index.ts` barrel should export components only.
 
 ## Development Servers

@@ -1,6 +1,2 @@
-export {
-	CreateProjectLayer,
-	CreateProjectLayer as default,
-	createProjectDraftFromCenter,
-} from "./CreateProjectLayer";
+export { createProjectDraftFromCenter, default, default as CreateProjectLayer } from "./CreateProjectLayer";
 export type { CreateProjectLayerProps } from "./CreateProjectLayer.types";

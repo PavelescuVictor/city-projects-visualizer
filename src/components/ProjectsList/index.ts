@@ -1,2 +1,2 @@
-export { ProjectsList, ProjectsList as default } from "./ProjectsList";
+export { default, default as ProjectsList } from "./ProjectsList";
 export type { ProjectsListProps } from "./ProjectsList.types";

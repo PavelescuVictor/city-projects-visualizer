@@ -61,4 +61,4 @@ const MapController = (props: MapControllerProps) => {
 	);
 };
 
-export { MapController };
+export default MapController;

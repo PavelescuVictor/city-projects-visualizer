@@ -1,7 +1,7 @@
 export {
 	DeleteConfirmModal,
-	DeleteConfirmModalProvider,
-	DeleteConfirmModalProvider as default,
+	default,
+	default as DeleteConfirmModalProvider,
 	useDeleteConfirmModal,
 } from "./DeleteConfirmModal";
 export type {

@@ -18,4 +18,4 @@ const MapResetButton = (props: MapResetButtonProps) => {
 	);
 };
 
-export { MapResetButton };
+export default MapResetButton;

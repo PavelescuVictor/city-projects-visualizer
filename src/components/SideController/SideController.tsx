@@ -80,4 +80,4 @@ const SideController = (props: SideControllerProps) => {
 	);
 };
 
-export { SideController };
+export default SideController;

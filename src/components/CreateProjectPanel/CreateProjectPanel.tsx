@@ -5,7 +5,8 @@ import { PROJECT_STATUSES } from "../../data/projects";
 import type { CreateProjectDraft } from "../../data/projects.types";
 import type { CreateProjectPanelProps } from "./CreateProjectPanel.types";
 
-export function CreateProjectPanel({ draft, saveStatus, onDraftChange, onSave, onRevert }: CreateProjectPanelProps) {
+const CreateProjectPanel = (props: CreateProjectPanelProps) => {
+	const { draft, saveStatus, onDraftChange, onSave, onRevert } = props;
 	const isReady = Boolean(
 		draft?.name.trim() && draft.address.trim() && draft.neighbourhood.trim() && draft.websiteUrl.trim(),
 	);
@@ -71,4 +72,6 @@ export function CreateProjectPanel({ draft, saveStatus, onDraftChange, onSave, o
 			</div>
 		</div>
 	);
-}
+};
+
+export default CreateProjectPanel;

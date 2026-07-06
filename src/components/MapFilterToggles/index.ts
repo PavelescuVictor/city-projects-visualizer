@@ -1,5 +1,2 @@
-export {
-	MapFilterToggles,
-	MapFilterToggles as default,
-} from "./MapFilterToggles";
+export { default, default as MapFilterToggles } from "./MapFilterToggles";
 export type { MapFilterTogglesProps } from "./MapFilterToggles.types";

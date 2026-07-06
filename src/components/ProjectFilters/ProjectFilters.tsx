@@ -26,4 +26,4 @@ const ProjectFilters = (props: ProjectFiltersProps) => {
 	);
 };
 
-export { ProjectFilters };
+export default ProjectFilters;

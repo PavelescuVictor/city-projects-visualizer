@@ -42,7 +42,7 @@ function createProjectId(name: string, projects: Project[]) {
 	return candidateId;
 }
 
-export default function App() {
+const App = () => {
 	const [projects, setProjects] = useState<Project[]>(canEdit ? [] : initialProjects);
 	const projectsRef = useRef<Project[]>(canEdit ? [] : initialProjects);
 	const savedProjectsRef = useRef<Project[]>(canEdit ? [] : initialProjects);
@@ -454,4 +454,6 @@ export default function App() {
 			</main>
 		</DeleteConfirmModalProvider>
 	);
-}
+};
+
+export default App;

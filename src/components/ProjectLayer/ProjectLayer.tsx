@@ -250,19 +250,21 @@ function attachPopupControls(
 	});
 }
 
-export function ProjectLayer({
-	map,
-	projects,
-	selectedProjectId,
-	showParcels,
-	showMarkers,
-	editMode,
-	canEdit,
-	onProjectSelect,
-	onProjectChange,
-	onProjectEdit,
-	onProjectDeleteRequest,
-}: ProjectLayerProps) {
+const ProjectLayer = (props: ProjectLayerProps) => {
+	const {
+		map,
+		projects,
+		selectedProjectId,
+		showParcels,
+		showMarkers,
+		editMode,
+		canEdit,
+		onProjectSelect,
+		onProjectChange,
+		onProjectEdit,
+		onProjectDeleteRequest,
+	} = props;
+
 	const { confirmProjectDelete } = useDeleteConfirmModal();
 
 	useEffect(() => {
@@ -475,4 +477,6 @@ export function ProjectLayer({
 	]);
 
 	return null;
-}
+};
+
+export default ProjectLayer;

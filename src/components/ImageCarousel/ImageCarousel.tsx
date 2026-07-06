@@ -3,7 +3,8 @@ import { useState } from "react";
 import "./ImageCarousel.css";
 import type { ImageCarouselProps } from "./ImageCarousel.types";
 
-export function ImageCarousel({ images, compact = false }: ImageCarouselProps) {
+const ImageCarousel = (props: ImageCarouselProps) => {
+	const { images, compact = false } = props;
 	const [activeIndex, setActiveIndex] = useState(0);
 
 	if (images.length === 0) {
@@ -41,4 +42,6 @@ export function ImageCarousel({ images, compact = false }: ImageCarouselProps) {
 			) : null}
 		</div>
 	);
-}
+};
+
+export default ImageCarousel;

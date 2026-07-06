@@ -49,4 +49,4 @@ const SearchControls = (props: SearchControlsProps) => {
 	);
 };
 
-export { SearchControls };
+export default SearchControls;

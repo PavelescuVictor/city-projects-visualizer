@@ -84,3 +84,4 @@ const useDeleteConfirmModal = () => {
 };
 
 export { DeleteConfirmModal, DeleteConfirmModalProvider, useDeleteConfirmModal };
+export default DeleteConfirmModalProvider;

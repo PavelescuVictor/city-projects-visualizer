@@ -52,4 +52,4 @@ const ProjectsList = (props: ProjectsListProps) => {
 	);
 };
 
-export { ProjectsList };
+export default ProjectsList;

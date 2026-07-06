@@ -9,26 +9,28 @@ import type { MapViewProps } from "./MapView.types";
 
 const defaultCenter: Leaflet.LatLngExpression = [46.7712, 23.6236];
 
-export function MapView({
-	projects,
-	allProjects,
-	selectedProjectId,
-	focusProjectId,
-	focusSignal,
-	showParcels,
-	showMarkers,
-	editMode,
-	createMode,
-	canEdit,
-	createDraft,
-	resetSignal,
-	onProjectSelect,
-	onProjectChange,
-	onCreateDraftChange,
-	onProjectEdit,
-	onProjectDeleteRequest,
-	onCameraChangedByUser,
-}: MapViewProps) {
+const MapView = (props: MapViewProps) => {
+	const {
+		projects,
+		allProjects,
+		selectedProjectId,
+		focusProjectId,
+		focusSignal,
+		showParcels,
+		showMarkers,
+		editMode,
+		createMode,
+		canEdit,
+		createDraft,
+		resetSignal,
+		onProjectSelect,
+		onProjectChange,
+		onCreateDraftChange,
+		onProjectEdit,
+		onProjectDeleteRequest,
+		onCameraChangedByUser,
+	} = props;
+
 	const containerRef = useRef<HTMLDivElement | null>(null);
 	const mapRef = useRef<Leaflet.Map | null>(null);
 	const initialFitDoneRef = useRef(false);
@@ -218,4 +220,6 @@ export function MapView({
 			) : null}
 		</>
 	);
-}
+};
+
+export default MapView;

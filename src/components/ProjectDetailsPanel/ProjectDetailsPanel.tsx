@@ -147,4 +147,4 @@ const ProjectDetailsPanel = (props: ProjectDetailsPanelProps) => {
 	);
 };
 
-export { ProjectDetailsPanel };
+export default ProjectDetailsPanel;

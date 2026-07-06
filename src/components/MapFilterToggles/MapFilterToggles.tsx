@@ -49,4 +49,4 @@ const MapFilterToggles = (props: MapFilterTogglesProps) => {
 	);
 };
 
-export { MapFilterToggles };
+export default MapFilterToggles;

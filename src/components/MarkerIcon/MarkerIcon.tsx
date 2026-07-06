@@ -11,8 +11,11 @@ const projectTypeIcons: Record<ProjectType, MarkerIconComponent> = {
 	"public-space": Landmark,
 };
 
-export function MarkerIcon({ type }: MarkerIconProps) {
+const MarkerIcon = (props: MarkerIconProps) => {
+	const { type } = props;
 	const Icon = projectTypeIcons[type];
 
 	return <Icon className="project-marker-icon" aria-hidden />;
-}
+};
+
+export default MarkerIcon;
