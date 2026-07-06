@@ -229,7 +229,7 @@
   {
     "id": "rivus",
     "name": "Rivus",
-    "type": "building",
+    "type": "public-space",
     "status": "planning",
     "address": "Piața 1 Mai 3, 400394 Cluj-Napoca",
     "neighbourhood": "Marasti",
@@ -314,7 +314,7 @@
   {
     "id": "parc-armatura",
     "name": "Parc Armatura",
-    "type": "building",
+    "type": "park",
     "status": "planning",
     "address": "Strada Oașului 51, 400394 Cluj-Napoca",
     "neighbourhood": "Marasti",
@@ -383,7 +383,7 @@
   {
     "id": "parcul-feroviarilor",
     "name": "Parcul Feroviarilor",
-    "type": "building",
+    "type": "park",
     "status": "planning",
     "address": "Str. Parcul Feroviarilor 4, 400394 Cluj-Napoca",
     "neighbourhood": "Centru",
@@ -603,7 +603,7 @@
   {
     "id": "parc-est",
     "name": "Parc Est",
-    "type": "building",
+    "type": "park",
     "status": "planning",
     "address": "Strada Tulcea, Cluj-Napoca",
     "neighbourhood": "Intre Lacuri",
