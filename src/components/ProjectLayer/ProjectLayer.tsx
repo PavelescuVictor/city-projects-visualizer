@@ -1,33 +1,39 @@
 import { useEffect } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import L from "leaflet";
+import Leaflet from "leaflet";
 import "./ProjectLayer.css";
-import { projectTypeMeta, statusMeta } from "../../data/projects";
+import { PROJECT_TYPES } from "../../data/projects";
 import { MarkerIcon } from "../MarkerIcon";
 import { polygonToLatLngs, toLatLng } from "../../utils/geo";
-import type { DevelopmentProject, LngLat } from "../../types/project";
+import type { Project, LngLat, ProjectType } from "../../data/projects.types";
+import type { ProjectLayerProps } from "./ProjectLayer.types";
 
-interface ProjectLayerProps {
-  map: L.Map | null;
-  projects: DevelopmentProject[];
-  selectedProjectId?: string;
-  showParcels: boolean;
-  showMarkers: boolean;
-  editMode: boolean;
-  canEdit: boolean;
-  onProjectSelect: (project: DevelopmentProject) => void;
-  onProjectChange: (project: DevelopmentProject) => void;
-  onProjectEdit: (project: DevelopmentProject) => void;
-  onProjectDeleteRequest: (project: DevelopmentProject) => void;
-}
+const projectTypeLayerStyles: Record<ProjectType, { color: string; fill: string }> = {
+  [PROJECT_TYPES.BUILDING]: {
+    color: "#2563eb",
+    fill: "#93c5fd",
+  },
+  [PROJECT_TYPES.PARK]: {
+    color: "#047857",
+    fill: "#86efac",
+  },
+  [PROJECT_TYPES.TRANSPORT_INFRASTRUCTURE]: {
+    color: "#ea580c",
+    fill: "#fdba74",
+  },
+  [PROJECT_TYPES.PUBLIC_SPACE]: {
+    color: "#7c3aed",
+    fill: "#c4b5fd",
+  },
+};
 
-function markerIcon(project: DevelopmentProject, isSelected: boolean) {
-  const typeMeta = projectTypeMeta[project.type];
+function markerIcon(project: Project, isSelected: boolean) {
+  const layerStyle = projectTypeLayerStyles[project.type];
 
-  return L.divIcon({
+  return Leaflet.divIcon({
     className: "project-marker-wrapper",
     html: `
-      <span class="project-marker${isSelected ? " is-selected" : ""}" style="--marker-color: ${typeMeta.color}">
+      <span class="project-marker${isSelected ? " is-selected" : ""}" style="--marker-color: ${layerStyle.color}">
         ${renderToStaticMarkup(<MarkerIcon type={project.type} />)}
       </span>
     `,
@@ -36,8 +42,7 @@ function markerIcon(project: DevelopmentProject, isSelected: boolean) {
   });
 }
 
-function popupContent(project: DevelopmentProject, canEdit: boolean) {
-  const status = statusMeta[project.status];
+function popupContent(project: Project, canEdit: boolean) {
   const hasMultipleImages = (project.images ?? []).length > 1;
   const images = (project.images ?? [])
     .map(
@@ -76,7 +81,7 @@ function popupContent(project: DevelopmentProject, canEdit: boolean) {
       <strong>${escapeHtml(project.name)}</strong>
       <span>${escapeHtml(project.neighbourhood)}</span>
       <div class="map-popup-footer">
-        <small>${status.label}</small>
+        <small class="project-status-value">${escapeHtml(project.status)}</small>
         ${
           canEdit
             ? `
@@ -106,7 +111,7 @@ function escapeAttribute(value: string) {
 }
 
 function editHandleIcon(className: string) {
-  return L.divIcon({
+  return Leaflet.divIcon({
     className: "edit-handle-wrapper",
     html: `<span class="${className}"></span>`,
     iconSize: [18, 18],
@@ -114,7 +119,7 @@ function editHandleIcon(className: string) {
   });
 }
 
-function toLngLat(latLng: L.LatLng): LngLat {
+function toLngLat(latLng: Leaflet.LatLng): LngLat {
   return [Number(latLng.lng.toFixed(6)), Number(latLng.lat.toFixed(6))];
 }
 
@@ -130,12 +135,12 @@ function cloneRing(points: LngLat[]): LngLat[] {
   return points.map(([lng, lat]) => [lng, lat]);
 }
 
-function getEditableRing(project: DevelopmentProject): LngLat[] {
+function getEditableRing(project: Project): LngLat[] {
   const ring = project.parcelPolygon.coordinates[0] ?? [];
   return ring.length > 1 ? ring.slice(0, -1) : ring;
 }
 
-function updateProjectRing(project: DevelopmentProject, ring: LngLat[]): DevelopmentProject {
+function updateProjectRing(project: Project, ring: LngLat[]): Project {
   const nextRing = cloneRing(ring);
 
   return {
@@ -147,11 +152,11 @@ function updateProjectRing(project: DevelopmentProject, ring: LngLat[]): Develop
   };
 }
 
-function updatePolygonLatLngs(polygon: L.Polygon, ring: LngLat[]) {
+function updatePolygonLatLngs(polygon: Leaflet.Polygon, ring: LngLat[]) {
   polygon.setLatLngs([closeRing(ring).map(toLatLng)]);
 }
 
-function distanceToSegment(point: L.Point, start: L.Point, end: L.Point) {
+function distanceToSegment(point: Leaflet.Point, start: Leaflet.Point, end: Leaflet.Point) {
   const segmentLengthSquared = start.distanceTo(end) ** 2;
 
   if (segmentLengthSquared === 0) {
@@ -162,7 +167,7 @@ function distanceToSegment(point: L.Point, start: L.Point, end: L.Point) {
     ((point.x - start.x) * (end.x - start.x) + (point.y - start.y) * (end.y - start.y)) /
     segmentLengthSquared;
   const clampedProjection = Math.max(0, Math.min(1, projection));
-  const projectedPoint = L.point(
+  const projectedPoint = Leaflet.point(
     start.x + clampedProjection * (end.x - start.x),
     start.y + clampedProjection * (end.y - start.y),
   );
@@ -170,15 +175,15 @@ function distanceToSegment(point: L.Point, start: L.Point, end: L.Point) {
   return point.distanceTo(projectedPoint);
 }
 
-function closestSegmentIndex(map: L.Map, ring: LngLat[], latLng: L.LatLng) {
+function closestSegmentIndex(map: Leaflet.Map, ring: LngLat[], latLng: Leaflet.LatLng) {
   const cursorPoint = map.latLngToLayerPoint(latLng);
   let closestIndex = 0;
   let closestDistance = Number.POSITIVE_INFINITY;
 
   ring.forEach((point, index) => {
     const nextPoint = ring[(index + 1) % ring.length];
-    const start = map.latLngToLayerPoint(L.latLng(toLatLng(point)));
-    const end = map.latLngToLayerPoint(L.latLng(toLatLng(nextPoint)));
+    const start = map.latLngToLayerPoint(Leaflet.latLng(toLatLng(point)));
+    const end = map.latLngToLayerPoint(Leaflet.latLng(toLatLng(nextPoint)));
     const distance = distanceToSegment(cursorPoint, start, end);
 
     if (distance < closestDistance) {
@@ -191,10 +196,10 @@ function closestSegmentIndex(map: L.Map, ring: LngLat[], latLng: L.LatLng) {
 }
 
 function attachPopupControls(
-  layer: L.Layer,
-  project: DevelopmentProject,
-  onProjectEdit: (project: DevelopmentProject) => void,
-  onProjectDeleteRequest: (project: DevelopmentProject) => void,
+  layer: Leaflet.Layer,
+  project: Project,
+  onProjectEdit: (project: Project) => void,
+  onProjectDeleteRequest: (project: Project) => void,
 ) {
   layer.on("popupopen", (event) => {
     const popupElement = event.popup.getElement();
@@ -263,17 +268,17 @@ export function ProjectLayer({
       return;
     }
 
-    const layerGroup = L.layerGroup().addTo(map);
+    const layerGroup = Leaflet.layerGroup().addTo(map);
 
     projects.forEach((project) => {
-      const typeMeta = projectTypeMeta[project.type];
       const isSelected = project.id === selectedProjectId;
-      let projectPolygon: L.Polygon | null = null;
+      const layerStyle = projectTypeLayerStyles[project.type];
+      let projectPolygon: Leaflet.Polygon | null = null;
 
       if (showParcels || (editMode && isSelected)) {
-        const polygon = L.polygon(polygonToLatLngs(project.parcelPolygon), {
-          color: typeMeta.color,
-          fillColor: typeMeta.fill,
+        const polygon = Leaflet.polygon(polygonToLatLngs(project.parcelPolygon), {
+          color: layerStyle.color,
+          fillColor: layerStyle.fill,
           fillOpacity: isSelected ? 0.48 : 0.28,
           opacity: 0.95,
           weight: isSelected ? 4 : 2,
@@ -298,7 +303,7 @@ export function ProjectLayer({
       }
 
       if (showMarkers || editMode) {
-        const marker = L.marker(toLatLng(project.coordinates), {
+        const marker = Leaflet.marker(toLatLng(project.coordinates), {
           draggable: canEdit && editMode,
           icon: markerIcon(project, isSelected),
           title: project.name,
@@ -326,16 +331,16 @@ export function ProjectLayer({
         const ring = getEditableRing(project);
         const liveRing = cloneRing(ring);
         let addPointSegmentIndex = 0;
-        let addPointLocation = L.latLng(toLatLng(liveRing[0]));
+        let addPointLocation = Leaflet.latLng(toLatLng(liveRing[0]));
         let hideAddPointTimer: number | undefined;
-        const addPointMarker = L.marker(addPointLocation, {
+        const addPointMarker = Leaflet.marker(addPointLocation, {
           icon: editHandleIcon("parcel-add-handle"),
           keyboard: false,
           opacity: 0,
           title: "Add parcel point",
           zIndexOffset: 900,
         });
-        const boundaryHoverLine = L.polyline(closeRing(liveRing).map(toLatLng), {
+        const boundaryHoverLine = Leaflet.polyline(closeRing(liveRing).map(toLatLng), {
           color: "#11181c",
           opacity: 0.001,
           weight: 18,
@@ -356,7 +361,7 @@ export function ProjectLayer({
         };
 
         addPointMarker.on("click", (event) => {
-          L.DomEvent.stop(event);
+          Leaflet.DomEvent.stop(event);
 
           if (liveRing.length < 2) {
             return;
@@ -387,7 +392,7 @@ export function ProjectLayer({
         boundaryHoverLine.addTo(layerGroup);
 
         liveRing.forEach((point, index) => {
-          const vertexMarker = L.marker(toLatLng(point), {
+          const vertexMarker = Leaflet.marker(toLatLng(point), {
             draggable: true,
             icon: editHandleIcon("parcel-vertex-handle"),
             keyboard: false,

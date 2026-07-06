@@ -170,6 +170,10 @@
   margin-top: 0;
 }
 
+.map-popup .project-status-value {
+  text-transform: capitalize;
+}
+
 .map-popup-actions {
   display: flex;
   gap: 6px;

@@ -1,20 +1,20 @@
-import L from "leaflet";
-import type { DevelopmentProject, LngLat, ParcelPolygon } from "../types/project";
+import Leaflet from "leaflet";
+import type { Project, LngLat, ParcelPolygon } from "../data/projects.types";
 
-export function toLatLng([lng, lat]: LngLat): L.LatLngExpression {
+export function toLatLng([lng, lat]: LngLat): Leaflet.LatLngExpression {
   return [lat, lng];
 }
 
-export function polygonToLatLngs(polygon: ParcelPolygon): L.LatLngExpression[][] {
+export function polygonToLatLngs(polygon: ParcelPolygon): Leaflet.LatLngExpression[][] {
   return polygon.coordinates.map((ring) => ring.map(toLatLng));
 }
 
-export function getProjectBounds(projects: DevelopmentProject[]): L.LatLngBounds | null {
+export function getProjectBounds(projects: Project[]): Leaflet.LatLngBounds | null {
   if (projects.length === 0) {
     return null;
   }
 
-  const bounds = L.latLngBounds([]);
+  const bounds = Leaflet.latLngBounds([]);
 
   projects.forEach((project) => {
     bounds.extend(toLatLng(project.coordinates));

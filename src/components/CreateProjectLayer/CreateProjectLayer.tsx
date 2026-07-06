@@ -1,26 +1,40 @@
 import { useEffect } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import L from "leaflet";
+import Leaflet from "leaflet";
 import "./CreateProjectLayer.css";
 import { MarkerIcon } from "../MarkerIcon";
-import { projectTypeMeta } from "../../data/projects";
+import { PROJECT_TYPES } from "../../data/projects";
 import { polygonToLatLngs, toLatLng } from "../../utils/geo";
-import type { CreateProjectDraft, LngLat } from "../../types/project";
+import type { CreateProjectDraft, LngLat, ProjectType } from "../../data/projects.types";
+import type { CreateProjectLayerProps } from "./CreateProjectLayer.types";
 
-interface CreateProjectLayerProps {
-  map: L.Map | null;
-  draft: CreateProjectDraft | null;
-  onDraftChange: (draft: CreateProjectDraft) => void;
-}
+const createProjectLayerStyles: Record<ProjectType, { color: string; fill: string }> = {
+  [PROJECT_TYPES.BUILDING]: {
+    color: "#2563eb",
+    fill: "#93c5fd",
+  },
+  [PROJECT_TYPES.PARK]: {
+    color: "#047857",
+    fill: "#86efac",
+  },
+  [PROJECT_TYPES.TRANSPORT_INFRASTRUCTURE]: {
+    color: "#ea580c",
+    fill: "#fdba74",
+  },
+  [PROJECT_TYPES.PUBLIC_SPACE]: {
+    color: "#7c3aed",
+    fill: "#c4b5fd",
+  },
+};
 
-const createTypeMeta = projectTypeMeta.building;
+const createProjectStyle = createProjectLayerStyles[PROJECT_TYPES.BUILDING];
 const triangleRadiusMeters = 85;
 
 function createMarkerIcon() {
-  return L.divIcon({
+  return Leaflet.divIcon({
     className: "project-marker-wrapper",
     html: `
-      <span class="project-marker is-selected create-project-marker" style="--marker-color: ${createTypeMeta.color}">
+      <span class="project-marker is-selected create-project-marker" style="--marker-color: ${createProjectStyle.color}">
         ${renderToStaticMarkup(<MarkerIcon type="building" />)}
       </span>
     `,
@@ -30,7 +44,7 @@ function createMarkerIcon() {
 }
 
 function editHandleIcon() {
-  return L.divIcon({
+  return Leaflet.divIcon({
     className: "edit-handle-wrapper",
     html: '<span class="parcel-vertex-handle create-project-vertex-handle"></span>',
     iconSize: [18, 18],
@@ -38,7 +52,7 @@ function editHandleIcon() {
   });
 }
 
-function toLngLat(latLng: L.LatLng): LngLat {
+function toLngLat(latLng: Leaflet.LatLng): LngLat {
   return [Number(latLng.lng.toFixed(6)), Number(latLng.lat.toFixed(6))];
 }
 
@@ -71,11 +85,11 @@ function updateDraftRing(draft: CreateProjectDraft, ring: LngLat[]): CreateProje
   };
 }
 
-function updatePolygonLatLngs(polygon: L.Polygon, ring: LngLat[]) {
+function updatePolygonLatLngs(polygon: Leaflet.Polygon, ring: LngLat[]) {
   polygon.setLatLngs([closeRing(ring).map(toLatLng)]);
 }
 
-function triangleAround(center: L.LatLng): LngLat[] {
+function triangleAround(center: Leaflet.LatLng): LngLat[] {
   const lngMeters = 111_320 * Math.cos((center.lat * Math.PI) / 180);
   const angles = [-90, 30, 150];
 
@@ -88,7 +102,7 @@ function triangleAround(center: L.LatLng): LngLat[] {
   });
 }
 
-export function createProjectDraftFromCenter(center: L.LatLng): CreateProjectDraft {
+export function createProjectDraftFromCenter(center: Leaflet.LatLng): CreateProjectDraft {
   const ring = triangleAround(center);
 
   return {
@@ -110,13 +124,13 @@ export function CreateProjectLayer({ map, draft, onDraftChange }: CreateProjectL
       return;
     }
 
-    const layerGroup = L.layerGroup().addTo(map);
+    const layerGroup = Leaflet.layerGroup().addTo(map);
     const ring = getEditableRing(draft);
     const liveRing = cloneRing(ring);
 
-    const polygon = L.polygon(polygonToLatLngs(draft.parcelPolygon), {
-      color: createTypeMeta.color,
-      fillColor: createTypeMeta.fill,
+    const polygon = Leaflet.polygon(polygonToLatLngs(draft.parcelPolygon), {
+      color: createProjectStyle.color,
+      fillColor: createProjectStyle.fill,
       fillOpacity: 0.42,
       opacity: 0.98,
       weight: 4,
@@ -130,7 +144,7 @@ export function CreateProjectLayer({ map, draft, onDraftChange }: CreateProjectL
       onDraftChange(updateDraftRing(draft, committedRing));
     };
 
-    const marker = L.marker(toLatLng(draft.coordinates), {
+    const marker = Leaflet.marker(toLatLng(draft.coordinates), {
       draggable: true,
       icon: createMarkerIcon(),
       title: "Move new project marker",
@@ -147,7 +161,7 @@ export function CreateProjectLayer({ map, draft, onDraftChange }: CreateProjectL
     marker.addTo(layerGroup);
 
     liveRing.forEach((point, index) => {
-      const vertexMarker = L.marker(toLatLng(point), {
+      const vertexMarker = Leaflet.marker(toLatLng(point), {
         draggable: true,
         icon: editHandleIcon(),
         keyboard: false,

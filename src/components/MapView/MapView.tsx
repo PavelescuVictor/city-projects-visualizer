@@ -1,34 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import L from "leaflet";
+import Leaflet from "leaflet";
 import { Info, Minus, Plus } from "lucide-react";
 import "./MapView.css";
 import { CreateProjectLayer, createProjectDraftFromCenter } from "../CreateProjectLayer";
 import { ProjectLayer } from "../ProjectLayer";
 import { getProjectBounds, toLatLng } from "../../utils/geo";
-import type { CreateProjectDraft, DevelopmentProject } from "../../types/project";
+import type { MapViewProps } from "./MapView.types";
 
-interface MapViewProps {
-  projects: DevelopmentProject[];
-  allProjects: DevelopmentProject[];
-  selectedProjectId?: string;
-  focusProjectId: string;
-  focusSignal: number;
-  showParcels: boolean;
-  showMarkers: boolean;
-  editMode: boolean;
-  createMode: boolean;
-  canEdit: boolean;
-  createDraft: CreateProjectDraft | null;
-  resetSignal: number;
-  onProjectSelect: (project: DevelopmentProject) => void;
-  onProjectChange: (project: DevelopmentProject) => void;
-  onCreateDraftChange: (draft: CreateProjectDraft) => void;
-  onProjectEdit: (project: DevelopmentProject) => void;
-  onProjectDeleteRequest: (project: DevelopmentProject) => void;
-  onCameraChangedByUser: () => void;
-}
-
-const defaultCenter: L.LatLngExpression = [46.7712, 23.6236];
+const defaultCenter: Leaflet.LatLngExpression = [46.7712, 23.6236];
 
 export function MapView({
   projects,
@@ -51,10 +30,10 @@ export function MapView({
   onCameraChangedByUser,
 }: MapViewProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const mapRef = useRef<L.Map | null>(null);
+  const mapRef = useRef<Leaflet.Map | null>(null);
   const initialFitDoneRef = useRef(false);
   const suppressCameraChangeUntilRef = useRef(0);
-  const [map, setMap] = useState<L.Map | null>(null);
+  const [map, setMap] = useState<Leaflet.Map | null>(null);
   const [isAttributionOpen, setIsAttributionOpen] = useState(false);
 
   useEffect(() => {
@@ -62,14 +41,14 @@ export function MapView({
       return;
     }
 
-    const nextMap = L.map(containerRef.current, {
+    const nextMap = Leaflet.map(containerRef.current, {
       center: defaultCenter,
       zoom: 12,
       zoomControl: false,
       attributionControl: false,
     });
 
-    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    Leaflet.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
     }).addTo(nextMap);
 
