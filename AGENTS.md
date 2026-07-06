@@ -20,7 +20,7 @@ These rules apply to the whole repository.
 
 - Before adding a new generic-looking component, ask whether it should live in `src/components/basic/`.
 - Put confirmed generic/basic components in `src/components/basic/ComponentName/`.
-- Keep feature-specific components close to where they live or are first used.
+- Keep feature-specific components close to where they live or are first used; if a component is only used by one component, place it inside that component's folder.
 - Elevate a feature-specific component only when it becomes shared, and ask before moving it.
 
 ## Development Servers

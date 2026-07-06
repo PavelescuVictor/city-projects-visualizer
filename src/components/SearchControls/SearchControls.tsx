@@ -1,6 +1,6 @@
 import { ListFilter, Plus } from "lucide-react";
 import { Button } from "../basic";
-import { SearchField } from "../SearchField";
+import { SearchField } from "./SearchField";
 import "./SearchControls.css";
 import type { SearchControlsProps } from "./SearchControls.types";
 

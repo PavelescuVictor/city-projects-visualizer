@@ -13,5 +13,4 @@ export { ProjectFilters } from "./ProjectFilters";
 export { ProjectLayer } from "./ProjectLayer";
 export { ProjectsList } from "./ProjectsList";
 export { SearchControls } from "./SearchControls";
-export { SearchField } from "./SearchField";
 export { SideController } from "./SideController";
