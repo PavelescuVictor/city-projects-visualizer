@@ -1,4 +1,4 @@
-export { CreateProjectLayer, createProjectDraftFromCenter } from "./CreateProjectLayer";
+export { CreateProjectLayer } from "./CreateProjectLayer";
 export { CreateProjectPanel } from "./CreateProjectPanel";
 export { ImageCarousel } from "./ImageCarousel";
 export { MapLayerToggles } from "./MapLayerToggles";
