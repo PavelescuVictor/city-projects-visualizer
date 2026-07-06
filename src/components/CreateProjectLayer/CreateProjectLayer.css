@@ -1,0 +1,4 @@
+.create-project-marker,
+.create-project-vertex-handle {
+  box-shadow: 0 5px 16px rgba(4, 120, 87, 0.35);
+}

@@ -1,5 +1,6 @@
 import { Layers, ListFilter, MapPin, Minus } from "lucide-react";
 import { useState } from "react";
+import "./MapLayerToggles.css";
 
 interface MapLayerTogglesProps {
   showParcels: boolean;

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { ListFilter, Plus, Search } from "lucide-react";
-import { statusMeta } from "../data/projects";
-import type { ProjectStatus } from "../types/project";
+import "./ProjectFilters.css";
+import { statusMeta } from "../../data/projects";
+import type { ProjectStatus } from "../../types/project";
 
 interface ProjectFiltersProps {
   statuses: ProjectStatus[];

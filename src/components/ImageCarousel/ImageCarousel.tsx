@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import type { ProjectImage } from "../types/project";
+import "./ImageCarousel.css";
+import type { ProjectImage } from "../../types/project";
 
 interface ImageCarouselProps {
   images: ProjectImage[];

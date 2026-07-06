@@ -1,6 +1,7 @@
 import type { ChangeEvent } from "react";
 import { RotateCcwSquare, Save } from "lucide-react";
-import type { CreateProjectDraft } from "../types/project";
+import "./CreateProjectPanel.css";
+import type { CreateProjectDraft } from "../../types/project";
 
 interface CreateProjectPanelProps {
   draft: CreateProjectDraft | null;

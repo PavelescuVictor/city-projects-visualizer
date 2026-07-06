@@ -1,8 +1,9 @@
 import { ExternalLink, MapPinned, Pencil, RotateCcwSquare, Save, Trash2 } from "lucide-react";
-import { CreateProjectPanel } from "./CreateProjectPanel";
-import { ImageCarousel } from "./ImageCarousel";
-import { projectTypeMeta, statusMeta } from "../data/projects";
-import type { CreateProjectDraft, DevelopmentProject } from "../types/project";
+import "./ProjectDetailsPanel.css";
+import { CreateProjectPanel } from "../CreateProjectPanel";
+import { ImageCarousel } from "../ImageCarousel";
+import { projectTypeMeta, statusMeta } from "../../data/projects";
+import type { CreateProjectDraft, DevelopmentProject } from "../../types/project";
 
 interface ProjectDetailsPanelProps {
   projects: DevelopmentProject[];

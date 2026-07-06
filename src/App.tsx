@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { RotateCcw } from "lucide-react";
-import { MapLayerToggles } from "./components/MapLayerToggles";
-import { ProjectDetailsPanel } from "./components/ProjectDetailsPanel";
-import { ProjectFilters } from "./components/ProjectFilters";
-import { MapView } from "./components/MapView";
+import "./App.css";
+import { MapLayerToggles, MapView, ProjectDetailsPanel, ProjectFilters } from "./components";
 import { projects as initialProjects, statusMeta } from "./data/projects";
 import type { CreateProjectDraft, DevelopmentProject, ProjectStatus } from "./types/project";
 

@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import { Info, Minus, Plus } from "lucide-react";
-import { CreateProjectLayer, createProjectDraftFromCenter } from "./CreateProjectLayer";
-import { ProjectLayer } from "./ProjectLayer";
-import { getProjectBounds, toLatLng } from "../utils/geo";
-import type { CreateProjectDraft, DevelopmentProject } from "../types/project";
+import "./MapView.css";
+import { CreateProjectLayer, createProjectDraftFromCenter } from "../CreateProjectLayer";
+import { ProjectLayer } from "../ProjectLayer";
+import { getProjectBounds, toLatLng } from "../../utils/geo";
+import type { CreateProjectDraft, DevelopmentProject } from "../../types/project";
 
 interface MapViewProps {
   projects: DevelopmentProject[];

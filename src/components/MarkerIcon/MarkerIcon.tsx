@@ -1,5 +1,5 @@
 import { Building2, Landmark, Route, TreePine } from "lucide-react";
-import type { ProjectType } from "../types/project";
+import type { ProjectType } from "../../types/project";
 
 interface MarkerIconProps {
   type: ProjectType;

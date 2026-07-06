@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import L from "leaflet";
-import { MarkerIcon } from "./MarkerIcon";
-import { projectTypeMeta } from "../data/projects";
-import { polygonToLatLngs, toLatLng } from "../utils/geo";
-import type { CreateProjectDraft, LngLat } from "../types/project";
+import "./CreateProjectLayer.css";
+import { MarkerIcon } from "../MarkerIcon";
+import { projectTypeMeta } from "../../data/projects";
+import { polygonToLatLngs, toLatLng } from "../../utils/geo";
+import type { CreateProjectDraft, LngLat } from "../../types/project";
 
 interface CreateProjectLayerProps {
   map: L.Map | null;
