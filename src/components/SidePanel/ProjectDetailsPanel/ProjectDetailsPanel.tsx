@@ -1,8 +1,8 @@
 import { ExternalLink, MapPinned, Pencil, RotateCcwSquare, Save, Trash2 } from "lucide-react";
 import "./ProjectDetailsPanel.css";
 import { useAppState, useProjectData, useProjectEditing, useProjectMapState } from "../../../contexts";
+import { ImageCarousel } from "../../basic";
 import { CreateProjectPanel } from "../CreateProjectPanel";
-import { ImageCarousel } from "../ImageCarousel";
 
 const ProjectDetailsPanel = () => {
 	const { focusedProjectId, selectedProject, hasUnsavedChanges, saveStatus, createSaveStatus } = useProjectData();
