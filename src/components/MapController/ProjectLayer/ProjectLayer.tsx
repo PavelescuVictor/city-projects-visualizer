@@ -2,7 +2,14 @@ import Leaflet from "leaflet";
 import { useEffect } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import "./ProjectLayer.css";
-import { useAppState, useProjectData, useProjectEditing, useProjectMapState } from "../../../contexts";
+import {
+	APP_STATES,
+	useAppMode,
+	useEditPermitted,
+	useProjectData,
+	useProjectEditing,
+	useProjectMapState,
+} from "../../../contexts";
 import { PROJECT_TYPES } from "../../../data/projects";
 import type { LngLat, Project, ProjectType } from "../../../data/projects.types";
 import { polygonToLatLngs, toLatLng } from "../../../utils/geo";
@@ -256,8 +263,9 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 	const { onProjectChange, onProjectEdit, onProjectDeleteRequest } = useProjectEditing();
 	const { onProjectSelect } = useProjectMapState();
 
-	const { editPermitted, inEditMode } = useAppState();
-	const editMode = editPermitted && inEditMode;
+	const appState = useAppMode();
+	const editPermitted = useEditPermitted();
+	const editMode = editPermitted && appState === APP_STATES.EDIT;
 
 	useEffect(() => {
 		if (!map) {

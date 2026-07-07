@@ -90,5 +90,17 @@ const useAppStateActions = () => {
 	return context;
 };
 
-export { APP_STATES, AppStateProvider, useAppState, useAppStateActions };
+const useAppMode = () => {
+	const { appState } = useAppState();
+
+	return appState;
+};
+
+const useEditPermitted = () => {
+	const { editPermitted } = useAppState();
+
+	return editPermitted;
+};
+
+export { APP_STATES, AppStateProvider, useAppMode, useAppState, useAppStateActions, useEditPermitted };
 export default AppStateProvider;

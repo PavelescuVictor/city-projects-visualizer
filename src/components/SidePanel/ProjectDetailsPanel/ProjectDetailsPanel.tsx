@@ -1,6 +1,6 @@
 import { ExternalLink, MapPinned, Pencil, Trash2 } from "lucide-react";
 import "./ProjectDetailsPanel.css";
-import { useAppState, useProjectData, useProjectEditing, useProjectMapState } from "../../../contexts";
+import { useEditPermitted, useProjectData, useProjectEditing, useProjectMapState } from "../../../contexts";
 import { ImageCarousel } from "../../basic";
 import { ProjectMeta } from "./ProjectMeta";
 
@@ -8,7 +8,7 @@ const ProjectDetailsPanel = () => {
 	const { focusedProjectId, selectedProject } = useProjectData();
 	const { onProjectEdit, onProjectDeleteRequest } = useProjectEditing();
 	const { onProjectFocus } = useProjectMapState();
-	const { editPermitted } = useAppState();
+	const editPermitted = useEditPermitted();
 
 	if (!selectedProject) {
 		return null;

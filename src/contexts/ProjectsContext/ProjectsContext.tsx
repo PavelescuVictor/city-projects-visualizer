@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { PROJECT_STATUSES, PROJECTS } from "../../data/projects";
 import type { CreateProjectDraft, Project, ProjectStatus } from "../../data/projects.types";
 import { loadProjects, saveProjects } from "../../services/projectService";
-import { useAppState, useAppStateActions } from "../AppStateContext";
+import { APP_STATES, useAppMode, useAppStateActions, useEditPermitted } from "../AppStateContext";
 import { useConfirmModal } from "../ConfirmModalContext";
 import type {
 	ProjectDataContextValue,
@@ -58,9 +58,12 @@ function findProjectById(projects: Project[], projectId: string) {
 
 const ProjectsProvider = (props: ProjectsProviderProps) => {
 	const { children } = props;
-	const { editPermitted, inEditMode, inCreateMode } = useAppState();
+	const appState = useAppMode();
+	const editPermitted = useEditPermitted();
 	const { switchToViewState, switchToEditState, switchToCreateState } = useAppStateActions();
 	const { confirm } = useConfirmModal();
+	const inEditMode = appState === APP_STATES.EDIT;
+	const inCreateMode = appState === APP_STATES.CREATE;
 	const [projects, setProjects] = useState<Project[]>(editPermitted ? [] : PROJECTS);
 	const projectsRef = useRef<Project[]>(editPermitted ? [] : PROJECTS);
 	const savedProjectsRef = useRef<Project[]>(editPermitted ? [] : PROJECTS);

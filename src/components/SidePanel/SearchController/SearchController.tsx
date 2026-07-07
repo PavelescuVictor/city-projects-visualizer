@@ -1,6 +1,12 @@
 import { ListFilter, Plus } from "lucide-react";
 import { useState } from "react";
-import { useAppState, useProjectEditing, useProjectSearchFilters } from "../../../contexts";
+import {
+	APP_STATES,
+	useAppMode,
+	useEditPermitted,
+	useProjectEditing,
+	useProjectSearchFilters,
+} from "../../../contexts";
 import { Button } from "../../basic";
 import { SearchField } from "./SearchField";
 import { SearchFilters } from "./SearchFilters";
@@ -9,7 +15,9 @@ import "./SearchController.css";
 const SearchController = () => {
 	const { searchTerm, onSearchChange } = useProjectSearchFilters();
 	const { onCreateProject } = useProjectEditing();
-	const { editPermitted, inCreateMode } = useAppState();
+	const appState = useAppMode();
+	const editPermitted = useEditPermitted();
+	const inCreateMode = appState === APP_STATES.CREATE;
 	const [showSearchFilters, setShowSearchFilters] = useState(false);
 
 	const handleSearchFiltersToggle = () => {

@@ -2,7 +2,14 @@ import Leaflet from "leaflet";
 import { Info, Minus, Plus } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import "./MapView.css";
-import { useAppState, useProjectData, useProjectEditing, useProjectMapState } from "../../../contexts";
+import {
+	APP_STATES,
+	useAppMode,
+	useEditPermitted,
+	useProjectData,
+	useProjectEditing,
+	useProjectMapState,
+} from "../../../contexts";
 import { getProjectBounds, toLatLng } from "../../../utils/geo";
 import { CreateProjectLayer, createProjectDraftFromCenter } from "../CreateProjectLayer";
 import { ProjectLayer } from "../ProjectLayer";
@@ -15,8 +22,9 @@ const MapView = (props: MapViewProps) => {
 	const { projects } = useProjectData();
 	const { createDraft, onCreateDraftChange } = useProjectEditing();
 	const { focusProjectId, focusSignal, resetSignal, onCameraChangedByUser } = useProjectMapState();
-	const { editPermitted, inCreateMode } = useAppState();
-	const createMode = editPermitted && inCreateMode;
+	const appState = useAppMode();
+	const editPermitted = useEditPermitted();
+	const createMode = editPermitted && appState === APP_STATES.CREATE;
 	const containerRef = useRef<HTMLDivElement | null>(null);
 	const mapRef = useRef<Leaflet.Map | null>(null);
 	const initialFitDoneRef = useRef(false);
