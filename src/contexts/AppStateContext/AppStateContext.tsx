@@ -1,5 +1,10 @@
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
-import type { AppState, AppStateContextValue, AppStateProviderProps } from "./AppStateContext.types";
+import type {
+	AppState,
+	AppStateActionsContextValue,
+	AppStateProviderProps,
+	AppStateValueContextValue,
+} from "./AppStateContext.types";
 
 const APP_STATES = {
 	VIEW: "view",
@@ -9,7 +14,8 @@ const APP_STATES = {
 
 const EDIT_PERMITTED = import.meta.env.DEV;
 
-const AppStateContext = createContext<AppStateContextValue | null>(null);
+const AppStateValueContext = createContext<AppStateValueContextValue | null>(null);
+const AppStateActionsContext = createContext<AppStateActionsContextValue | null>(null);
 
 const AppStateProvider = (props: AppStateProviderProps) => {
 	const { children } = props;
@@ -37,25 +43,35 @@ const AppStateProvider = (props: AppStateProviderProps) => {
 		setAppState(APP_STATES.CREATE);
 	}, []);
 
-	const value = useMemo<AppStateContextValue>(
+	const value = useMemo<AppStateValueContextValue>(
 		() => ({
 			appState,
 			editPermitted: EDIT_PERMITTED,
 			inViewMode: appState === APP_STATES.VIEW,
 			inEditMode: appState === APP_STATES.EDIT,
 			inCreateMode: appState === APP_STATES.CREATE,
+		}),
+		[appState],
+	);
+
+	const actions = useMemo<AppStateActionsContextValue>(
+		() => ({
 			switchToViewState,
 			switchToEditState,
 			switchToCreateState,
 		}),
-		[appState, switchToCreateState, switchToEditState, switchToViewState],
+		[switchToCreateState, switchToEditState, switchToViewState],
 	);
 
-	return <AppStateContext.Provider value={value}>{children}</AppStateContext.Provider>;
+	return (
+		<AppStateActionsContext.Provider value={actions}>
+			<AppStateValueContext.Provider value={value}>{children}</AppStateValueContext.Provider>
+		</AppStateActionsContext.Provider>
+	);
 };
 
 const useAppState = () => {
-	const context = useContext(AppStateContext);
+	const context = useContext(AppStateValueContext);
 
 	if (!context) {
 		throw new Error("useAppState must be used within AppStateProvider");
@@ -64,5 +80,15 @@ const useAppState = () => {
 	return context;
 };
 
-export { APP_STATES, AppStateProvider, useAppState };
+const useAppStateActions = () => {
+	const context = useContext(AppStateActionsContext);
+
+	if (!context) {
+		throw new Error("useAppStateActions must be used within AppStateProvider");
+	}
+
+	return context;
+};
+
+export { APP_STATES, AppStateProvider, useAppState, useAppStateActions };
 export default AppStateProvider;

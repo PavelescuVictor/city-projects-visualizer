@@ -2,12 +2,15 @@ import type { ReactNode } from "react";
 
 export type AppState = "view" | "edit" | "create";
 
-export interface AppStateContextValue {
+export interface AppStateValueContextValue {
 	appState: AppState;
 	editPermitted: boolean;
 	inViewMode: boolean;
 	inEditMode: boolean;
 	inCreateMode: boolean;
+}
+
+export interface AppStateActionsContextValue {
 	switchToViewState: () => void;
 	switchToEditState: () => void;
 	switchToCreateState: () => void;
