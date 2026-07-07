@@ -2,6 +2,10 @@
 
 These rules apply to the whole repository.
 
+## Naming
+
+- Write constant names as uppercase words separated by underscores, such as `PROJECT_STATUSES`.
+
 ## React Components
 
 - Write React components as functional arrow components.
