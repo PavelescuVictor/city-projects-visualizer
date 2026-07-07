@@ -23,6 +23,10 @@ These rules apply to the whole repository.
 - Keep feature-specific components close to where they live or are first used; if a component is only used by one component, place it inside that component's folder.
 - Elevate a feature-specific component only when it becomes shared, and ask before moving it.
 
+## CSS
+
+- Prefer native CSS nesting with explicit `&` syntax, such as `& .child-class`, for component-scoped nested rules when it improves readability.
+
 ## Development Servers
 
 - Before starting a dev server, check whether this project already has a running dev server.
