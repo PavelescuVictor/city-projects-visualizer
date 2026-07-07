@@ -1,20 +1,20 @@
 import { RotateCcw } from "lucide-react";
+import { useProjectMapState } from "../../../contexts";
+import { Button } from "../../basic";
 import "./MapResetButton.css";
-import type { MapResetButtonProps } from "./MapResetButton.types";
 
-const MapResetButton = (props: MapResetButtonProps) => {
-	const { onReset } = props;
+const MapResetButton = () => {
+	const { onReset } = useProjectMapState();
 
 	return (
-		<button
+		<Button
 			className="icon-button map-reset-button"
-			type="button"
 			aria-label="Reset map view"
 			title="Reset map view"
 			onClick={onReset}
 		>
 			<RotateCcw size={18} aria-hidden="true" />
-		</button>
+		</Button>
 	);
 };
 

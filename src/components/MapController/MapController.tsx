@@ -3,10 +3,8 @@ import { MapFilterToggles } from "./MapFilterToggles";
 import { MapResetButton } from "./MapResetButton";
 import { MapView } from "./MapView";
 import "./MapController.css";
-import { useProjectMapState } from "../../contexts";
 
 const MapController = () => {
-	const { onReset } = useProjectMapState();
 	const [showParcels, setShowParcels] = useState(true);
 	const [showMarkers, setShowMarkers] = useState(true);
 
@@ -19,7 +17,7 @@ const MapController = () => {
 				onShowParcelsChange={setShowParcels}
 				onShowMarkersChange={setShowMarkers}
 			/>
-			<MapResetButton onReset={onReset} />
+			<MapResetButton />
 		</section>
 	);
 };
