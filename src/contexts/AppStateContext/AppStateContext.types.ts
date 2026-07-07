@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import type { AppState } from "../../appState";
+
+export type AppState = "view" | "edit" | "create";
 
 export interface AppStateContextValue {
 	appState: AppState;

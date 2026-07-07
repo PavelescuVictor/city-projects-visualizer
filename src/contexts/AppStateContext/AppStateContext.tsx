@@ -1,7 +1,11 @@
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
-import type { AppState } from "../../appState";
-import { APP_STATES } from "../../appState";
-import type { AppStateContextValue, AppStateProviderProps } from "./AppStateContext.types";
+import type { AppState, AppStateContextValue, AppStateProviderProps } from "./AppStateContext.types";
+
+const APP_STATES = {
+	VIEW: "view",
+	EDIT: "edit",
+	CREATE: "create",
+} as const satisfies Record<string, AppState>;
 
 const AppStateContext = createContext<AppStateContextValue | null>(null);
 
