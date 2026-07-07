@@ -6,7 +6,6 @@ import { useProjectEditing } from "../../../contexts";
 import { PROJECT_TYPES } from "../../../data/projects";
 import type { CreateProjectDraft, LngLat, ProjectType } from "../../../data/projects.types";
 import { polygonToLatLngs, toLatLng } from "../../../utils/geo";
-import { applyPolygonStripeFill } from "../../../utils/leafletPatterns";
 import { MarkerIcon } from "../MarkerIcon";
 import type { CreateProjectLayerProps } from "./CreateProjectLayer.types";
 
@@ -140,7 +139,6 @@ const CreateProjectLayer = (props: CreateProjectLayerProps) => {
 			opacity: 0.98,
 			weight: 4,
 		}).addTo(layerGroup);
-		applyPolygonStripeFill(polygon, CREATE_PROJECT_STYLE.color);
 
 		const commitRingChange = (nextRing: LngLat[]) => {
 			const committedRing = cloneRing(nextRing);
