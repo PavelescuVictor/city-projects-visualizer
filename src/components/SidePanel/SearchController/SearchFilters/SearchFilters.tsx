@@ -1,4 +1,4 @@
-import { useProjectSearchFilters } from "../../../contexts";
+import { useProjectSearchFilters } from "../../../../contexts";
 import "./SearchFilters.css";
 
 const SearchFilters = () => {

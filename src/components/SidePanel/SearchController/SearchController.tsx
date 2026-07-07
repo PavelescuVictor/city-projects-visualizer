@@ -2,8 +2,8 @@ import { ListFilter, Plus } from "lucide-react";
 import { useState } from "react";
 import { useAppState, useProjectEditing, useProjectSearchFilters } from "../../../contexts";
 import { Button } from "../../basic";
-import { SearchFilters } from "../SearchFilters";
 import { SearchField } from "./SearchField";
+import { SearchFilters } from "./SearchFilters";
 import "./SearchController.css";
 
 const SearchController = () => {
