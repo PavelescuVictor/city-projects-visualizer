@@ -3,7 +3,7 @@ import { PROJECT_TYPES } from "../../../data/projects";
 import type { ProjectType } from "../../../data/projects.types";
 import "./ProjectsList.css";
 
-const projectTypeDotColors: Record<ProjectType, string> = {
+const PROJECT_TYPE_DOT_COLORS: Record<ProjectType, string> = {
 	[PROJECT_TYPES.BUILDING]: "#2563eb",
 	[PROJECT_TYPES.PARK]: "#047857",
 	[PROJECT_TYPES.TRANSPORT_INFRASTRUCTURE]: "#ea580c",
@@ -35,7 +35,7 @@ const ProjectsList = () => {
 							<span
 								className="project-row-dot"
 								style={{
-									background: projectTypeDotColors[project.type],
+									background: PROJECT_TYPE_DOT_COLORS[project.type],
 								}}
 							/>
 							<span>

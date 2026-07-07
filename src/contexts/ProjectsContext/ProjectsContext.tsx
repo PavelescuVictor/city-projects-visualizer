@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { projects as initialProjects, PROJECT_STATUSES } from "../../data/projects";
+import { PROJECT_STATUSES, PROJECTS } from "../../data/projects";
 import type { CreateProjectDraft, Project, ProjectStatus } from "../../data/projects.types";
 import { loadProjects, saveProjects } from "../../services/projectService";
 import { useAppState } from "../AppStateContext";
@@ -14,7 +14,7 @@ import type {
 	ProjectsProviderProps,
 } from "./ProjectsContext.types";
 
-const allStatuses = Object.values(PROJECT_STATUSES);
+const ALL_STATUSES = Object.values(PROJECT_STATUSES);
 const ProjectsContext = createContext<ProjectsContextValue | null>(null);
 
 function normalizeWebsiteUrl(value: string) {
@@ -56,12 +56,12 @@ const ProjectsProvider = (props: ProjectsProviderProps) => {
 	const { editPermitted, inEditMode, inCreateMode, switchToViewState, switchToEditState, switchToCreateState } =
 		useAppState();
 	const { confirm } = useConfirmModal();
-	const [projects, setProjects] = useState<Project[]>(editPermitted ? [] : initialProjects);
-	const projectsRef = useRef<Project[]>(editPermitted ? [] : initialProjects);
-	const savedProjectsRef = useRef<Project[]>(editPermitted ? [] : initialProjects);
+	const [projects, setProjects] = useState<Project[]>(editPermitted ? [] : PROJECTS);
+	const projectsRef = useRef<Project[]>(editPermitted ? [] : PROJECTS);
+	const savedProjectsRef = useRef<Project[]>(editPermitted ? [] : PROJECTS);
 	const [selectedProjectId, setSelectedProjectId] = useState("");
 	const selectedProjectIdRef = useRef("");
-	const [activeStatuses, setActiveStatuses] = useState<ProjectStatus[]>(allStatuses);
+	const [activeStatuses, setActiveStatuses] = useState<ProjectStatus[]>(ALL_STATUSES);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [resetSignal, setResetSignal] = useState(0);
 	const [focusRequest, setFocusRequest] = useState({
@@ -86,12 +86,10 @@ const ProjectsProvider = (props: ProjectsProviderProps) => {
 				setSelectedProjectId(current => (projectData.some(project => project.id === current) ? current : ""));
 			})
 			.catch(() => {
-				savedProjectsRef.current = initialProjects;
-				projectsRef.current = initialProjects;
-				setProjects(initialProjects);
-				setSelectedProjectId(current =>
-					initialProjects.some(project => project.id === current) ? current : "",
-				);
+				savedProjectsRef.current = PROJECTS;
+				projectsRef.current = PROJECTS;
+				setProjects(PROJECTS);
+				setSelectedProjectId(current => (PROJECTS.some(project => project.id === current) ? current : ""));
 			});
 	}, []);
 
@@ -457,7 +455,7 @@ const ProjectsProvider = (props: ProjectsProviderProps) => {
 			projects,
 			filteredProjects,
 			selectedProject,
-			statuses: allStatuses,
+			statuses: ALL_STATUSES,
 			activeStatuses,
 			searchTerm,
 			focusedProjectId: focusRequest.projectId,

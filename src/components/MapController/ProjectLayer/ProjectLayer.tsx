@@ -9,7 +9,7 @@ import { polygonToLatLngs, toLatLng } from "../../../utils/geo";
 import { MarkerIcon } from "../MarkerIcon";
 import type { ProjectLayerProps } from "./ProjectLayer.types";
 
-const projectTypeLayerStyles: Record<ProjectType, { color: string; fill: string }> = {
+const PROJECT_TYPE_LAYER_STYLES: Record<ProjectType, { color: string; fill: string }> = {
 	[PROJECT_TYPES.BUILDING]: {
 		color: "#2563eb",
 		fill: "#93c5fd",
@@ -29,7 +29,7 @@ const projectTypeLayerStyles: Record<ProjectType, { color: string; fill: string 
 };
 
 function markerIcon(project: Project, isSelected: boolean) {
-	const layerStyle = projectTypeLayerStyles[project.type];
+	const layerStyle = PROJECT_TYPE_LAYER_STYLES[project.type];
 
 	return Leaflet.divIcon({
 		className: "project-marker-wrapper",
@@ -268,7 +268,7 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 
 		filteredProjects.forEach(project => {
 			const isSelected = project.id === selectedProject?.id;
-			const layerStyle = projectTypeLayerStyles[project.type];
+			const layerStyle = PROJECT_TYPE_LAYER_STYLES[project.type];
 			let projectPolygon: Leaflet.Polygon | null = null;
 
 			if (showParcels || (editMode && isSelected)) {

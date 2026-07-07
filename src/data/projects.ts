@@ -15,4 +15,4 @@ export const PROJECT_TYPES = {
 	PUBLIC_SPACE: "public-space",
 } as const satisfies Record<string, ProjectType>;
 
-export const projects = projectsData as unknown as Project[];
+export const PROJECTS = projectsData as unknown as Project[];

@@ -8,7 +8,7 @@ import { CreateProjectLayer, createProjectDraftFromCenter } from "../CreateProje
 import { ProjectLayer } from "../ProjectLayer";
 import type { MapViewProps } from "./MapView.types";
 
-const defaultCenter: Leaflet.LatLngExpression = [46.7712, 23.6236];
+const DEFAULT_CENTER: Leaflet.LatLngExpression = [46.7712, 23.6236];
 
 const MapView = (props: MapViewProps) => {
 	const { showParcels, showMarkers } = props;
@@ -30,7 +30,7 @@ const MapView = (props: MapViewProps) => {
 		}
 
 		const nextMap = Leaflet.map(containerRef.current, {
-			center: defaultCenter,
+			center: DEFAULT_CENTER,
 			zoom: 12,
 			zoomControl: false,
 			attributionControl: false,
@@ -88,7 +88,7 @@ const MapView = (props: MapViewProps) => {
 				maxZoom: 14,
 			});
 		} else {
-			map.setView(defaultCenter, 12);
+			map.setView(DEFAULT_CENTER, 12);
 		}
 
 		initialFitDoneRef.current = true;
@@ -110,7 +110,7 @@ const MapView = (props: MapViewProps) => {
 				maxZoom: 14,
 			});
 		} else {
-			map.setView(defaultCenter, 12);
+			map.setView(DEFAULT_CENTER, 12);
 		}
 	}, [map, projects, resetSignal]);
 

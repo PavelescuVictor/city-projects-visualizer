@@ -6,11 +6,11 @@ import "./styles/global.css";
 import App from "./App";
 import { AppStateProvider } from "./contexts";
 
-const editPermitted = import.meta.env.DEV;
+const EDIT_PERMITTED = import.meta.env.DEV;
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>
-		<AppStateProvider editPermitted={editPermitted}>
+		<AppStateProvider editPermitted={EDIT_PERMITTED}>
 			<App />
 		</AppStateProvider>
 	</React.StrictMode>,

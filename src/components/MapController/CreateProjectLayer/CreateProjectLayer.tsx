@@ -9,7 +9,7 @@ import { polygonToLatLngs, toLatLng } from "../../../utils/geo";
 import { MarkerIcon } from "../MarkerIcon";
 import type { CreateProjectLayerProps } from "./CreateProjectLayer.types";
 
-const createProjectLayerStyles: Record<ProjectType, { color: string; fill: string }> = {
+const CREATE_PROJECT_LAYER_STYLES: Record<ProjectType, { color: string; fill: string }> = {
 	[PROJECT_TYPES.BUILDING]: {
 		color: "#2563eb",
 		fill: "#93c5fd",
@@ -28,14 +28,14 @@ const createProjectLayerStyles: Record<ProjectType, { color: string; fill: strin
 	},
 };
 
-const createProjectStyle = createProjectLayerStyles[PROJECT_TYPES.BUILDING];
-const triangleRadiusMeters = 85;
+const CREATE_PROJECT_STYLE = CREATE_PROJECT_LAYER_STYLES[PROJECT_TYPES.BUILDING];
+const TRIANGLE_RADIUS_METERS = 85;
 
 function createMarkerIcon() {
 	return Leaflet.divIcon({
 		className: "project-marker-wrapper",
 		html: `
-      <span class="project-marker is-selected create-project-marker" style="--marker-color: ${createProjectStyle.color}">
+      <span class="project-marker is-selected create-project-marker" style="--marker-color: ${CREATE_PROJECT_STYLE.color}">
         ${renderToStaticMarkup(<MarkerIcon type="building" />)}
       </span>
     `,
@@ -96,8 +96,8 @@ function triangleAround(center: Leaflet.LatLng): LngLat[] {
 
 	return angles.map(angle => {
 		const radians = (angle * Math.PI) / 180;
-		const lng = center.lng + (Math.cos(radians) * triangleRadiusMeters) / lngMeters;
-		const lat = center.lat + (Math.sin(radians) * triangleRadiusMeters) / 111_320;
+		const lng = center.lng + (Math.cos(radians) * TRIANGLE_RADIUS_METERS) / lngMeters;
+		const lat = center.lat + (Math.sin(radians) * TRIANGLE_RADIUS_METERS) / 111_320;
 
 		return [Number(lng.toFixed(6)), Number(lat.toFixed(6))];
 	});
@@ -133,8 +133,8 @@ const CreateProjectLayer = (props: CreateProjectLayerProps) => {
 		const liveRing = cloneRing(ring);
 
 		const polygon = Leaflet.polygon(polygonToLatLngs(createDraft.parcelPolygon), {
-			color: createProjectStyle.color,
-			fillColor: createProjectStyle.fill,
+			color: CREATE_PROJECT_STYLE.color,
+			fillColor: CREATE_PROJECT_STYLE.fill,
 			fillOpacity: 0.42,
 			opacity: 0.98,
 			weight: 4,

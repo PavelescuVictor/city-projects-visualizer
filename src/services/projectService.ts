@@ -1,7 +1,7 @@
-import { projects as bundledProjects } from "../data/projects";
+import { PROJECTS } from "../data/projects";
 import type { Project } from "../data/projects.types";
 
-const projectsApiPath = "/api/projects";
+const PROJECTS_API_PATH = "/api/projects";
 
 const validateProjectData = (value: unknown, errorMessage: string): Project[] => {
 	if (!Array.isArray(value)) {
@@ -13,10 +13,10 @@ const validateProjectData = (value: unknown, errorMessage: string): Project[] =>
 
 const loadProjects = async (): Promise<Project[]> => {
 	if (!import.meta.env.DEV) {
-		return bundledProjects;
+		return PROJECTS;
 	}
 
-	const response = await fetch(projectsApiPath, {
+	const response = await fetch(PROJECTS_API_PATH, {
 		cache: "no-store",
 	});
 
@@ -32,7 +32,7 @@ const saveProjects = async (projects: Project[]): Promise<Project[]> => {
 		throw new Error("Project saving is only available in local development");
 	}
 
-	const response = await fetch(projectsApiPath, {
+	const response = await fetch(PROJECTS_API_PATH, {
 		method: "POST",
 		cache: "no-store",
 		headers: {
