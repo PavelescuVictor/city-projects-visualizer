@@ -7,8 +7,6 @@ export interface ProjectLayerProps {
 	selectedProjectId?: string;
 	showParcels: boolean;
 	showMarkers: boolean;
-	editMode: boolean;
-	canEdit: boolean;
 	onProjectSelect: (project: Project) => void;
 	onProjectChange: (project: Project) => void;
 	onProjectEdit: (project: Project) => void;

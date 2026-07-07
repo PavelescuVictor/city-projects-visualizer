@@ -6,9 +6,6 @@ export interface MapControllerProps {
 	selectedProject?: Project;
 	focusProjectId: string;
 	focusSignal: number;
-	editMode: boolean;
-	createMode: boolean;
-	canEdit: boolean;
 	createDraft: CreateProjectDraft | null;
 	resetSignal: number;
 	onProjectSelect: (project: Project) => void;

@@ -12,9 +12,6 @@ const MapController = (props: MapControllerProps) => {
 		selectedProject,
 		focusProjectId,
 		focusSignal,
-		editMode,
-		createMode,
-		canEdit,
 		createDraft,
 		resetSignal,
 		onProjectSelect,
@@ -38,9 +35,6 @@ const MapController = (props: MapControllerProps) => {
 				focusSignal={focusSignal}
 				showParcels={showParcels}
 				showMarkers={showMarkers}
-				editMode={editMode}
-				createMode={createMode}
-				canEdit={canEdit}
 				createDraft={createDraft}
 				resetSignal={resetSignal}
 				onProjectSelect={onProjectSelect}

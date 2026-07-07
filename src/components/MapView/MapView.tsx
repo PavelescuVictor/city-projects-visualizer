@@ -2,6 +2,7 @@ import Leaflet from "leaflet";
 import { Info, Minus, Plus } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import "./MapView.css";
+import { useAppState } from "../../contexts";
 import { getProjectBounds, toLatLng } from "../../utils/geo";
 import { CreateProjectLayer, createProjectDraftFromCenter } from "../CreateProjectLayer";
 import { ProjectLayer } from "../ProjectLayer";
@@ -18,9 +19,6 @@ const MapView = (props: MapViewProps) => {
 		focusSignal,
 		showParcels,
 		showMarkers,
-		editMode,
-		createMode,
-		canEdit,
 		createDraft,
 		resetSignal,
 		onProjectSelect,
@@ -31,6 +29,8 @@ const MapView = (props: MapViewProps) => {
 		onCameraChangedByUser,
 	} = props;
 
+	const { editPermitted, inCreateMode } = useAppState();
+	const createMode = editPermitted && inCreateMode;
 	const containerRef = useRef<HTMLDivElement | null>(null);
 	const mapRef = useRef<Leaflet.Map | null>(null);
 	const initialFitDoneRef = useRef(false);
@@ -208,14 +208,12 @@ const MapView = (props: MapViewProps) => {
 				selectedProjectId={selectedProjectId}
 				showParcels={showParcels}
 				showMarkers={showMarkers}
-				editMode={editMode}
-				canEdit={canEdit}
 				onProjectSelect={onProjectSelect}
 				onProjectChange={onProjectChange}
 				onProjectEdit={onProjectEdit}
 				onProjectDeleteRequest={onProjectDeleteRequest}
 			/>
-			{canEdit && createMode ? (
+			{createMode ? (
 				<CreateProjectLayer map={map} draft={createDraft} onDraftChange={onCreateDraftChange} />
 			) : null}
 		</>

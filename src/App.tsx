@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 import { DeleteConfirmModalProvider, MapController, SideController } from "./components";
+import { useAppState } from "./contexts";
 import { projects as initialProjects, PROJECT_STATUSES } from "./data/projects";
 import type { CreateProjectDraft, Project, ProjectStatus } from "./data/projects.types";
 import { loadProjects, saveProjects } from "./services/projectService";
 
 const allStatuses = Object.values(PROJECT_STATUSES);
-const canEdit = import.meta.env.DEV;
 
 function normalizeWebsiteUrl(value: string) {
 	const trimmedValue = value.trim();
@@ -43,9 +43,11 @@ function createProjectId(name: string, projects: Project[]) {
 }
 
 const App = () => {
-	const [projects, setProjects] = useState<Project[]>(canEdit ? [] : initialProjects);
-	const projectsRef = useRef<Project[]>(canEdit ? [] : initialProjects);
-	const savedProjectsRef = useRef<Project[]>(canEdit ? [] : initialProjects);
+	const { editPermitted, inEditMode, inCreateMode, switchToViewState, switchToEditState, switchToCreateState } =
+		useAppState();
+	const [projects, setProjects] = useState<Project[]>(editPermitted ? [] : initialProjects);
+	const projectsRef = useRef<Project[]>(editPermitted ? [] : initialProjects);
+	const savedProjectsRef = useRef<Project[]>(editPermitted ? [] : initialProjects);
 	const [selectedProjectId, setSelectedProjectId] = useState("");
 	const selectedProjectIdRef = useRef("");
 	const [activeStatuses, setActiveStatuses] = useState<ProjectStatus[]>(allStatuses);
@@ -55,8 +57,6 @@ const App = () => {
 		projectId: "",
 		requestId: 0,
 	});
-	const [isEditMode, setIsEditMode] = useState(false);
-	const [isCreateMode, setIsCreateMode] = useState(false);
 	const [createDraft, setCreateDraft] = useState<CreateProjectDraft | null>(null);
 	const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 	const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
@@ -103,21 +103,24 @@ const App = () => {
 
 	const clearProjectSelection = useCallback(() => {
 		setSelectedProjectId("");
-		setIsEditMode(false);
+		switchToViewState();
 		setFocusRequest(current => ({
 			projectId: "",
 			requestId: current.requestId,
 		}));
-	}, []);
+	}, [switchToViewState]);
 
 	const closeCreateMode = useCallback(() => {
-		setIsCreateMode(false);
+		if (inCreateMode) {
+			switchToViewState();
+		}
+
 		setCreateDraft(null);
 		setCreateSaveStatus("idle");
-	}, []);
+	}, [inCreateMode, switchToViewState]);
 
 	const discardUnsavedEditChanges = useCallback(() => {
-		if (!isEditMode || !hasUnsavedChanges) {
+		if (!inEditMode || !hasUnsavedChanges) {
 			return;
 		}
 
@@ -126,7 +129,7 @@ const App = () => {
 		setProjects(savedProjects);
 		setHasUnsavedChanges(false);
 		setSaveStatus("idle");
-	}, [hasUnsavedChanges, isEditMode]);
+	}, [hasUnsavedChanges, inEditMode]);
 
 	const discardUnsavedEditChangesBeforeSelection = useCallback(
 		(nextProjectId: string) => {
@@ -169,12 +172,12 @@ const App = () => {
 			discardUnsavedEditChangesBeforeSelection(project.id);
 
 			if (project.id !== selectedProjectIdRef.current) {
-				setIsEditMode(false);
+				switchToViewState();
 			}
 
 			setSelectedProjectId(project.id);
 		},
-		[closeCreateMode, discardUnsavedEditChangesBeforeSelection],
+		[closeCreateMode, discardUnsavedEditChangesBeforeSelection, switchToViewState],
 	);
 
 	const handleProjectFocus = useCallback(
@@ -183,7 +186,7 @@ const App = () => {
 			discardUnsavedEditChangesBeforeSelection(project.id);
 
 			if (project.id !== selectedProjectIdRef.current) {
-				setIsEditMode(false);
+				switchToViewState();
 			}
 
 			setSelectedProjectId(project.id);
@@ -192,7 +195,7 @@ const App = () => {
 				requestId: current.requestId + 1,
 			}));
 		},
-		[closeCreateMode, discardUnsavedEditChangesBeforeSelection],
+		[closeCreateMode, discardUnsavedEditChangesBeforeSelection, switchToViewState],
 	);
 
 	const handleProjectToggleFocus = useCallback(
@@ -207,14 +210,20 @@ const App = () => {
 			}
 
 			discardUnsavedEditChangesBeforeSelection(project.id);
-			setIsEditMode(false);
+			switchToViewState();
 			setSelectedProjectId(project.id);
 			setFocusRequest(current => ({
 				projectId: project.id,
 				requestId: current.requestId + 1,
 			}));
 		},
-		[clearProjectSelection, closeCreateMode, discardUnsavedEditChanges, discardUnsavedEditChangesBeforeSelection],
+		[
+			clearProjectSelection,
+			closeCreateMode,
+			discardUnsavedEditChanges,
+			discardUnsavedEditChangesBeforeSelection,
+			switchToViewState,
+		],
 	);
 
 	const handleCameraChangedByUser = useCallback(() => {
@@ -229,89 +238,101 @@ const App = () => {
 
 	const handleProjectEdit = useCallback(
 		(project: Project) => {
-			if (!canEdit) {
+			if (!editPermitted) {
 				return;
 			}
 
 			closeCreateMode();
 			setSelectedProjectId(project.id);
-			setIsEditMode(current => !(current && selectedProjectIdRef.current === project.id));
+			if (inEditMode && selectedProjectIdRef.current === project.id) {
+				switchToViewState();
+				return;
+			}
+
+			switchToEditState();
 		},
-		[closeCreateMode],
+		[closeCreateMode, editPermitted, inEditMode, switchToEditState, switchToViewState],
 	);
 
 	const handleCreateStart = useCallback(() => {
-		if (!canEdit) {
+		if (!editPermitted) {
 			return;
 		}
 
-		setIsEditMode(false);
+		switchToCreateState();
 		setSelectedProjectId("");
 		setFocusRequest(current => ({
 			projectId: "",
 			requestId: current.requestId,
 		}));
-		setIsCreateMode(true);
 		setCreateDraft(null);
 		setCreateSaveStatus("idle");
-	}, []);
+	}, [editPermitted, switchToCreateState]);
 
 	const handleCreateCancel = useCallback(() => {
 		closeCreateMode();
 		clearProjectSelection();
 	}, [clearProjectSelection, closeCreateMode]);
 
-	const handleProjectChange = useCallback((updatedProject: Project) => {
-		if (!canEdit) {
-			return;
-		}
+	const handleProjectChange = useCallback(
+		(updatedProject: Project) => {
+			if (!editPermitted) {
+				return;
+			}
 
-		setProjects(currentProjects => {
-			const nextProjects = currentProjects.map(project =>
-				project.id === updatedProject.id ? { ...project, ...updatedProject } : project,
-			);
+			setProjects(currentProjects => {
+				const nextProjects = currentProjects.map(project =>
+					project.id === updatedProject.id ? { ...project, ...updatedProject } : project,
+				);
+
+				projectsRef.current = nextProjects;
+				return nextProjects;
+			});
+			setSelectedProjectId(updatedProject.id);
+			setHasUnsavedChanges(true);
+			setSaveStatus("idle");
+		},
+		[editPermitted],
+	);
+
+	const handleProjectDelete = useCallback(
+		async (projectToDelete: Project) => {
+			if (!editPermitted) {
+				return;
+			}
+
+			const previousProjects = projectsRef.current;
+			const nextProjects = previousProjects.filter(project => project.id !== projectToDelete.id);
 
 			projectsRef.current = nextProjects;
-			return nextProjects;
-		});
-		setSelectedProjectId(updatedProject.id);
-		setHasUnsavedChanges(true);
-		setSaveStatus("idle");
-	}, []);
+			setProjects(nextProjects);
+			setSelectedProjectId(nextProjects[0]?.id ?? "");
+			switchToViewState();
+			setHasUnsavedChanges(false);
+			setSaveStatus("saving");
 
-	const handleProjectDelete = useCallback(async (projectToDelete: Project) => {
-		if (!canEdit) {
-			return;
-		}
+			try {
+				const savedProjects = await saveProjects(nextProjects);
 
-		const previousProjects = projectsRef.current;
-		const nextProjects = previousProjects.filter(project => project.id !== projectToDelete.id);
-
-		projectsRef.current = nextProjects;
-		setProjects(nextProjects);
-		setSelectedProjectId(nextProjects[0]?.id ?? "");
-		setIsEditMode(false);
-		setHasUnsavedChanges(false);
-		setSaveStatus("saving");
-
-		try {
-			const savedProjects = await saveProjects(nextProjects);
-
-			projectsRef.current = savedProjects;
-			savedProjectsRef.current = savedProjects;
-			setProjects(savedProjects);
-			setSelectedProjectId(current => (savedProjects.some(project => project.id === current) ? current : ""));
-			setSaveStatus("saved");
-		} catch {
-			projectsRef.current = previousProjects;
-			setProjects(previousProjects);
-			setSelectedProjectId(current => (previousProjects.some(project => project.id === current) ? current : ""));
-			setSaveStatus("error");
-		}
-	}, []);
+				projectsRef.current = savedProjects;
+				savedProjectsRef.current = savedProjects;
+				setProjects(savedProjects);
+				setSelectedProjectId(current => (savedProjects.some(project => project.id === current) ? current : ""));
+				setSaveStatus("saved");
+			} catch {
+				projectsRef.current = previousProjects;
+				setProjects(previousProjects);
+				setSelectedProjectId(current =>
+					previousProjects.some(project => project.id === current) ? current : "",
+				);
+				setSaveStatus("error");
+			}
+		},
+		[editPermitted, switchToViewState],
+	);
 
 	async function handleSaveProjects() {
-		if (!canEdit) {
+		if (!editPermitted) {
 			return;
 		}
 
@@ -332,7 +353,7 @@ const App = () => {
 	}
 
 	async function handleRevertProjects() {
-		if (!canEdit) {
+		if (!editPermitted) {
 			return;
 		}
 
@@ -351,7 +372,7 @@ const App = () => {
 	}
 
 	async function handleCreateSave() {
-		if (!canEdit) {
+		if (!editPermitted) {
 			return;
 		}
 
@@ -392,9 +413,8 @@ const App = () => {
 			setProjects(savedProjects);
 			setActiveStatuses(current => (current.includes("planning") ? current : [...current, "planning"]));
 			setSelectedProjectId(newProject.id);
-			setIsCreateMode(false);
+			switchToViewState();
 			setCreateDraft(null);
-			setIsEditMode(false);
 			setCreateSaveStatus("saved");
 		} catch {
 			setCreateSaveStatus("error");
@@ -410,9 +430,6 @@ const App = () => {
 					selectedProject={selectedProject}
 					focusProjectId={focusRequest.projectId}
 					focusSignal={focusRequest.requestId}
-					editMode={canEdit && isEditMode}
-					createMode={canEdit && isCreateMode}
-					canEdit={canEdit}
 					createDraft={createDraft}
 					resetSignal={resetSignal}
 					onProjectSelect={handleProjectSelect}
@@ -431,11 +448,8 @@ const App = () => {
 					statuses={allStatuses}
 					activeStatuses={activeStatuses}
 					searchTerm={searchTerm}
-					isCreateMode={isCreateMode}
 					createDraft={createDraft}
 					createSaveStatus={createSaveStatus}
-					canEdit={canEdit}
-					isEditMode={isEditMode}
 					hasUnsavedChanges={hasUnsavedChanges}
 					saveStatus={saveStatus}
 					onSearchChange={handleSearchChange}

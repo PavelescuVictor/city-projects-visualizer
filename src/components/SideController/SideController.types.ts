@@ -7,11 +7,8 @@ export interface SideControllerProps {
 	statuses: ProjectStatus[];
 	activeStatuses: ProjectStatus[];
 	searchTerm: string;
-	isCreateMode: boolean;
 	createDraft: CreateProjectDraft | null;
 	createSaveStatus: "idle" | "saving" | "saved" | "error";
-	canEdit: boolean;
-	isEditMode: boolean;
 	hasUnsavedChanges: boolean;
 	saveStatus: "idle" | "saving" | "saved" | "error";
 	onSearchChange: (value: string) => void;

@@ -8,9 +8,6 @@ export interface MapViewProps {
 	focusSignal: number;
 	showParcels: boolean;
 	showMarkers: boolean;
-	editMode: boolean;
-	createMode: boolean;
-	canEdit: boolean;
 	createDraft: CreateProjectDraft | null;
 	resetSignal: number;
 	onProjectSelect: (project: Project) => void;

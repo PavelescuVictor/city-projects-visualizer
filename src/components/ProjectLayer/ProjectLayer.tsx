@@ -2,6 +2,7 @@ import Leaflet from "leaflet";
 import { useEffect } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import "./ProjectLayer.css";
+import { useAppState } from "../../contexts";
 import { PROJECT_TYPES } from "../../data/projects";
 import type { LngLat, Project, ProjectType } from "../../data/projects.types";
 import { polygonToLatLngs, toLatLng } from "../../utils/geo";
@@ -43,7 +44,7 @@ function markerIcon(project: Project, isSelected: boolean) {
 	});
 }
 
-function popupContent(project: Project, canEdit: boolean) {
+function popupContent(project: Project, editPermitted: boolean) {
 	const hasMultipleImages = (project.images ?? []).length > 1;
 	const images = (project.images ?? [])
 		.map(
@@ -84,7 +85,7 @@ function popupContent(project: Project, canEdit: boolean) {
       <div class="map-popup-footer">
         <small class="project-status-value">${escapeHtml(project.status)}</small>
         ${
-			canEdit
+			editPermitted
 				? `
               <div class="map-popup-actions">
                 <button class="map-popup-action map-popup-edit" type="button" aria-label="Edit project">✎</button>
@@ -257,15 +258,15 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 		selectedProjectId,
 		showParcels,
 		showMarkers,
-		editMode,
-		canEdit,
 		onProjectSelect,
 		onProjectChange,
 		onProjectEdit,
 		onProjectDeleteRequest,
 	} = props;
 
+	const { editPermitted, inEditMode } = useAppState();
 	const { confirmProjectDelete } = useDeleteConfirmModal();
+	const editMode = editPermitted && inEditMode;
 
 	useEffect(() => {
 		if (!map) {
@@ -288,13 +289,13 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 					weight: isSelected ? 4 : 2,
 				});
 
-				polygon.bindPopup(popupContent(project, canEdit), {
+				polygon.bindPopup(popupContent(project, editPermitted), {
 					closeButton: false,
 					minWidth: 273,
 					maxWidth: 273,
 				});
 
-				if (canEdit) {
+				if (editPermitted) {
 					attachPopupControls(polygon, project, onProjectEdit, async projectToDelete => {
 						const shouldDelete = await confirmProjectDelete(projectToDelete);
 
@@ -318,19 +319,19 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 
 			if (showMarkers || editMode) {
 				const marker = Leaflet.marker(toLatLng(project.coordinates), {
-					draggable: canEdit && editMode,
+					draggable: editPermitted && editMode,
 					icon: markerIcon(project, isSelected),
 					title: project.name,
 					riseOnHover: true,
 				});
 
-				marker.bindPopup(popupContent(project, canEdit), {
+				marker.bindPopup(popupContent(project, editPermitted), {
 					closeButton: false,
 					minWidth: 273,
 					maxWidth: 273,
 				});
 
-				if (canEdit) {
+				if (editPermitted) {
 					attachPopupControls(marker, project, onProjectEdit, async projectToDelete => {
 						const shouldDelete = await confirmProjectDelete(projectToDelete);
 
@@ -351,7 +352,7 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 				marker.addTo(layerGroup);
 			}
 
-			if (canEdit && editMode && isSelected) {
+			if (editPermitted && editMode && isSelected) {
 				const ring = getEditableRing(project);
 				const liveRing = cloneRing(ring);
 				let addPointSegmentIndex = 0;
@@ -468,7 +469,7 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 		showMarkers,
 		showParcels,
 		editMode,
-		canEdit,
+		editPermitted,
 		onProjectSelect,
 		onProjectChange,
 		onProjectEdit,

@@ -1,29 +1,23 @@
 import { ListFilter, Plus } from "lucide-react";
+import { useAppState } from "../../contexts";
 import { Button } from "../basic";
 import { SearchField } from "./SearchField";
 import "./SearchControls.css";
 import type { SearchControlsProps } from "./SearchControls.types";
 
 const SearchControls = (props: SearchControlsProps) => {
-	const {
-		searchTerm,
-		isCreateMode,
-		canEdit,
-		showStatusFilters,
-		onSearchChange,
-		onCreateProject,
-		onStatusFiltersToggle,
-	} = props;
+	const { searchTerm, showStatusFilters, onSearchChange, onCreateProject, onStatusFiltersToggle } = props;
+	const { editPermitted, inCreateMode } = useAppState();
 
 	return (
-		<div className={`search-row${canEdit ? " can-edit" : ""}`}>
+		<div className={`search-row${editPermitted ? " can-edit" : ""}`}>
 			<SearchField value={searchTerm} placeholder="Search city projects" onChange={onSearchChange} />
-			{canEdit ? (
+			{editPermitted ? (
 				<Button
 					className="create-project-button"
-					isActive={isCreateMode}
+					isActive={inCreateMode}
 					aria-label="Create project"
-					aria-pressed={isCreateMode}
+					aria-pressed={inCreateMode}
 					title="Create project"
 					onClick={onCreateProject}
 				>

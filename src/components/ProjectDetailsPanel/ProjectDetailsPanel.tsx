@@ -1,5 +1,6 @@
 import { ExternalLink, MapPinned, Pencil, RotateCcwSquare, Save, Trash2 } from "lucide-react";
 import "./ProjectDetailsPanel.css";
+import { useAppState } from "../../contexts";
 import { CreateProjectPanel } from "../CreateProjectPanel";
 import { useDeleteConfirmModal } from "../DeleteConfirmModal";
 import { ImageCarousel } from "../ImageCarousel";
@@ -9,12 +10,9 @@ const ProjectDetailsPanel = (props: ProjectDetailsPanelProps) => {
 	const {
 		selectedProject,
 		focusedProjectId,
-		isCreateMode,
 		createDraft,
 		createSaveStatus,
-		canEdit,
 		onProjectFocus,
-		isEditMode,
 		hasUnsavedChanges,
 		saveStatus,
 		onCreateDraftChange,
@@ -25,9 +23,10 @@ const ProjectDetailsPanel = (props: ProjectDetailsPanelProps) => {
 		onSaveProjects,
 		onRevertProjects,
 	} = props;
+	const { editPermitted, inCreateMode, inEditMode } = useAppState();
 	const { confirmProjectDelete } = useDeleteConfirmModal();
 
-	if (!isCreateMode && !selectedProject) {
+	if (!inCreateMode && !selectedProject) {
 		return null;
 	}
 
@@ -45,7 +44,7 @@ const ProjectDetailsPanel = (props: ProjectDetailsPanelProps) => {
 
 	return (
 		<section className="details-panel" aria-label="Project details">
-			{isCreateMode ? (
+			{inCreateMode ? (
 				<CreateProjectPanel
 					draft={createDraft}
 					saveStatus={createSaveStatus}
@@ -70,14 +69,14 @@ const ProjectDetailsPanel = (props: ProjectDetailsPanelProps) => {
 							>
 								<MapPinned size={20} aria-hidden="true" />
 							</button>
-							{canEdit ? (
+							{editPermitted ? (
 								<>
 									<button
-										className={`project-title-edit-button${isEditMode ? " is-active" : ""}`}
+										className={`project-title-edit-button${inEditMode ? " is-active" : ""}`}
 										type="button"
 										aria-label="Edit project geometry"
 										title="Edit project geometry"
-										aria-pressed={isEditMode}
+										aria-pressed={inEditMode}
 										onClick={() => onProjectEdit(selectedProject)}
 									>
 										<Pencil size={18} aria-hidden="true" />
@@ -118,7 +117,7 @@ const ProjectDetailsPanel = (props: ProjectDetailsPanelProps) => {
 						<ExternalLink size={17} aria-hidden="true" />
 						Project website
 					</a>
-					{canEdit && isEditMode ? (
+					{editPermitted && inEditMode ? (
 						<div className="save-row">
 							<button
 								className="save-button"

@@ -14,11 +14,8 @@ const SideController = (props: SideControllerProps) => {
 		statuses,
 		activeStatuses,
 		searchTerm,
-		isCreateMode,
 		createDraft,
 		createSaveStatus,
-		canEdit,
-		isEditMode,
 		hasUnsavedChanges,
 		saveStatus,
 		onSearchChange,
@@ -41,8 +38,6 @@ const SideController = (props: SideControllerProps) => {
 			<section className="filters" aria-label="Map filters">
 				<SearchControls
 					searchTerm={searchTerm}
-					isCreateMode={isCreateMode}
-					canEdit={canEdit}
 					showStatusFilters={showStatusFilters}
 					onSearchChange={onSearchChange}
 					onCreateProject={onCreateProject}
@@ -59,12 +54,9 @@ const SideController = (props: SideControllerProps) => {
 			<ProjectDetailsPanel
 				selectedProject={selectedProject}
 				focusedProjectId={focusedProjectId}
-				isCreateMode={isCreateMode}
 				createDraft={createDraft}
 				createSaveStatus={createSaveStatus}
-				canEdit={canEdit}
 				onProjectFocus={onProjectFocus}
-				isEditMode={isEditMode}
 				hasUnsavedChanges={hasUnsavedChanges}
 				saveStatus={saveStatus}
 				onCreateDraftChange={onCreateDraftChange}
