@@ -62,5 +62,5 @@ const useAppState = () => {
 	return context;
 };
 
-export { AppStateProvider, useAppState };
+export { APP_STATES, AppStateProvider, useAppState };
 export default AppStateProvider;

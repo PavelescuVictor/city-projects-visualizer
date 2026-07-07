@@ -1,4 +1,4 @@
-export { AppStateProvider, useAppState } from "./AppStateContext";
+export { APP_STATES, AppStateProvider, useAppState } from "./AppStateContext";
 export { ConfirmModalProvider, useConfirmModal } from "./ConfirmModalContext";
 export {
 	ProjectsProvider,
