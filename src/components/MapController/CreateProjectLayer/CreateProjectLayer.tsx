@@ -2,6 +2,7 @@ import Leaflet from "leaflet";
 import { useEffect } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import "./CreateProjectLayer.css";
+import { useProjectEditing } from "../../../contexts";
 import { PROJECT_TYPES } from "../../../data/projects";
 import type { CreateProjectDraft, LngLat, ProjectType } from "../../../data/projects.types";
 import { polygonToLatLngs, toLatLng } from "../../../utils/geo";
@@ -119,18 +120,19 @@ export function createProjectDraftFromCenter(center: Leaflet.LatLng): CreateProj
 }
 
 const CreateProjectLayer = (props: CreateProjectLayerProps) => {
-	const { map, draft, onDraftChange } = props;
+	const { map } = props;
+	const { createDraft, onCreateDraftChange } = useProjectEditing();
 
 	useEffect(() => {
-		if (!map || !draft) {
+		if (!map || !createDraft) {
 			return;
 		}
 
 		const layerGroup = Leaflet.layerGroup().addTo(map);
-		const ring = getEditableRing(draft);
+		const ring = getEditableRing(createDraft);
 		const liveRing = cloneRing(ring);
 
-		const polygon = Leaflet.polygon(polygonToLatLngs(draft.parcelPolygon), {
+		const polygon = Leaflet.polygon(polygonToLatLngs(createDraft.parcelPolygon), {
 			color: createProjectStyle.color,
 			fillColor: createProjectStyle.fill,
 			fillOpacity: 0.42,
@@ -143,10 +145,10 @@ const CreateProjectLayer = (props: CreateProjectLayerProps) => {
 
 			liveRing.splice(0, liveRing.length, ...committedRing);
 			updatePolygonLatLngs(polygon, committedRing);
-			onDraftChange(updateDraftRing(draft, committedRing));
+			onCreateDraftChange(updateDraftRing(createDraft, committedRing));
 		};
 
-		const marker = Leaflet.marker(toLatLng(draft.coordinates), {
+		const marker = Leaflet.marker(toLatLng(createDraft.coordinates), {
 			draggable: true,
 			icon: createMarkerIcon(),
 			title: "Move new project marker",
@@ -154,8 +156,8 @@ const CreateProjectLayer = (props: CreateProjectLayerProps) => {
 		});
 
 		marker.on("dragend", () => {
-			onDraftChange({
-				...draft,
+			onCreateDraftChange({
+				...createDraft,
 				coordinates: toLngLat(marker.getLatLng()),
 			});
 		});
@@ -188,7 +190,7 @@ const CreateProjectLayer = (props: CreateProjectLayerProps) => {
 		return () => {
 			layerGroup.remove();
 		};
-	}, [map, draft, onDraftChange]);
+	}, [map, createDraft, onCreateDraftChange]);
 
 	return null;
 };

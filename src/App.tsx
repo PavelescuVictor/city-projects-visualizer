@@ -1,5 +1,5 @@
 import "./App.css";
-import { MapController, SideController } from "./components";
+import { MapController, SidePanel } from "./components";
 import { ConfirmModalProvider, ProjectsProvider } from "./contexts";
 
 const App = () => {
@@ -8,7 +8,7 @@ const App = () => {
 			<ProjectsProvider>
 				<main className="app-shell">
 					<MapController />
-					<SideController />
+					<SidePanel />
 				</main>
 			</ProjectsProvider>
 		</ConfirmModalProvider>

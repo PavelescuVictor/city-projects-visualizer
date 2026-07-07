@@ -1,7 +1,7 @@
+import { useProjectData, useProjectMapState } from "../../../contexts";
 import { PROJECT_TYPES } from "../../../data/projects";
 import type { ProjectType } from "../../../data/projects.types";
 import "./ProjectsList.css";
-import type { ProjectsListProps } from "./ProjectsList.types";
 
 const projectTypeDotColors: Record<ProjectType, string> = {
 	[PROJECT_TYPES.BUILDING]: "#2563eb",
@@ -10,17 +10,18 @@ const projectTypeDotColors: Record<ProjectType, string> = {
 	[PROJECT_TYPES.PUBLIC_SPACE]: "#7c3aed",
 };
 
-const ProjectsList = (props: ProjectsListProps) => {
-	const { projects, selectedProject, onProjectSelect } = props;
+const ProjectsList = () => {
+	const { filteredProjects, selectedProject } = useProjectData();
+	const { onProjectToggleFocus } = useProjectMapState();
 
 	return (
 		<>
 			<div className="project-list-divider">
-				<span>{projects.length} shown</span>
+				<span>{filteredProjects.length} shown</span>
 			</div>
 
 			<section className="project-list" aria-label="Visible projects">
-				{projects.map(project => {
+				{filteredProjects.map(project => {
 					const isSelected = project.id === selectedProject?.id;
 
 					return (
@@ -29,7 +30,7 @@ const ProjectsList = (props: ProjectsListProps) => {
 							className={`project-row${isSelected ? " is-selected" : ""}`}
 							data-project-id={project.id}
 							type="button"
-							onClick={() => onProjectSelect(project)}
+							onClick={() => onProjectToggleFocus(project)}
 						>
 							<span
 								className="project-row-dot"

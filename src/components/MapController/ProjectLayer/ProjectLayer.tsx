@@ -2,7 +2,7 @@ import Leaflet from "leaflet";
 import { useEffect } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import "./ProjectLayer.css";
-import { useAppState } from "../../../contexts";
+import { useAppState, useProjectData, useProjectEditing, useProjectMapState } from "../../../contexts";
 import { PROJECT_TYPES } from "../../../data/projects";
 import type { LngLat, Project, ProjectType } from "../../../data/projects.types";
 import { polygonToLatLngs, toLatLng } from "../../../utils/geo";
@@ -251,17 +251,10 @@ function attachPopupControls(
 }
 
 const ProjectLayer = (props: ProjectLayerProps) => {
-	const {
-		map,
-		projects,
-		selectedProjectId,
-		showParcels,
-		showMarkers,
-		onProjectSelect,
-		onProjectChange,
-		onProjectEdit,
-		onProjectDeleteRequest,
-	} = props;
+	const { map, showParcels, showMarkers } = props;
+	const { filteredProjects, selectedProject } = useProjectData();
+	const { onProjectChange, onProjectEdit, onProjectDeleteRequest } = useProjectEditing();
+	const { onProjectSelect } = useProjectMapState();
 
 	const { editPermitted, inEditMode } = useAppState();
 	const editMode = editPermitted && inEditMode;
@@ -273,8 +266,8 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 
 		const layerGroup = Leaflet.layerGroup().addTo(map);
 
-		projects.forEach(project => {
-			const isSelected = project.id === selectedProjectId;
+		filteredProjects.forEach(project => {
+			const isSelected = project.id === selectedProject?.id;
 			const layerStyle = projectTypeLayerStyles[project.type];
 			let projectPolygon: Leaflet.Polygon | null = null;
 
@@ -450,8 +443,8 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 		};
 	}, [
 		map,
-		projects,
-		selectedProjectId,
+		filteredProjects,
+		selectedProject?.id,
 		showMarkers,
 		showParcels,
 		editMode,

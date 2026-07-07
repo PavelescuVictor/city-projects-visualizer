@@ -1,11 +1,11 @@
-.status-row {
+.search-filters-row {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
 	align-items: center;
 }
 
-.status-chip {
+.search-filter-chip {
 	display: inline-flex;
 	align-items: center;
 	gap: 8px;
@@ -20,20 +20,20 @@
 	text-transform: capitalize;
 }
 
-.status-chip span {
+.search-filter-chip span {
 	width: 10px;
 	height: 10px;
 	border-radius: 50%;
 	border: 2px solid currentColor;
 }
 
-.status-chip.is-active {
+.search-filter-chip.is-active {
 	border-color: #047857;
 	background: #dff6eb;
 	color: #11181c;
 }
 
-.status-chip.is-active span {
+.search-filter-chip.is-active span {
 	background: #047857;
 	border-color: #047857;
 }

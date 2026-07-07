@@ -2,7 +2,7 @@ import Leaflet from "leaflet";
 import { Info, Minus, Plus } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import "./MapView.css";
-import { useAppState } from "../../../contexts";
+import { useAppState, useProjectData, useProjectEditing, useProjectMapState } from "../../../contexts";
 import { getProjectBounds, toLatLng } from "../../../utils/geo";
 import { CreateProjectLayer, createProjectDraftFromCenter } from "../CreateProjectLayer";
 import { ProjectLayer } from "../ProjectLayer";
@@ -11,24 +11,10 @@ import type { MapViewProps } from "./MapView.types";
 const defaultCenter: Leaflet.LatLngExpression = [46.7712, 23.6236];
 
 const MapView = (props: MapViewProps) => {
-	const {
-		projects,
-		allProjects,
-		selectedProjectId,
-		focusProjectId,
-		focusSignal,
-		showParcels,
-		showMarkers,
-		createDraft,
-		resetSignal,
-		onProjectSelect,
-		onProjectChange,
-		onCreateDraftChange,
-		onProjectEdit,
-		onProjectDeleteRequest,
-		onCameraChangedByUser,
-	} = props;
-
+	const { showParcels, showMarkers } = props;
+	const { projects } = useProjectData();
+	const { createDraft, onCreateDraftChange } = useProjectEditing();
+	const { focusProjectId, focusSignal, resetSignal, onCameraChangedByUser } = useProjectMapState();
 	const { editPermitted, inCreateMode } = useAppState();
 	const createMode = editPermitted && inCreateMode;
 	const containerRef = useRef<HTMLDivElement | null>(null);
@@ -87,11 +73,11 @@ const MapView = (props: MapViewProps) => {
 	}, [map, onCameraChangedByUser]);
 
 	useEffect(() => {
-		if (!map || initialFitDoneRef.current || allProjects.length === 0) {
+		if (!map || initialFitDoneRef.current || projects.length === 0) {
 			return;
 		}
 
-		const bounds = getProjectBounds(allProjects);
+		const bounds = getProjectBounds(projects);
 
 		if (bounds) {
 			suppressCameraChangeUntilRef.current = Date.now() + 300;
@@ -106,14 +92,14 @@ const MapView = (props: MapViewProps) => {
 		}
 
 		initialFitDoneRef.current = true;
-	}, [map, allProjects]);
+	}, [map, projects]);
 
 	useEffect(() => {
 		if (!map || resetSignal === 0) {
 			return;
 		}
 
-		const bounds = getProjectBounds(allProjects);
+		const bounds = getProjectBounds(projects);
 
 		if (bounds) {
 			suppressCameraChangeUntilRef.current = Date.now() + 900;
@@ -126,7 +112,7 @@ const MapView = (props: MapViewProps) => {
 		} else {
 			map.setView(defaultCenter, 12);
 		}
-	}, [map, allProjects, resetSignal]);
+	}, [map, projects, resetSignal]);
 
 	useEffect(() => {
 		if (!map || !createMode || createDraft) {
@@ -141,7 +127,7 @@ const MapView = (props: MapViewProps) => {
 			return;
 		}
 
-		const project = allProjects.find(item => item.id === focusProjectId);
+		const project = projects.find(item => item.id === focusProjectId);
 
 		if (project) {
 			suppressCameraChangeUntilRef.current = Date.now() + 700;
@@ -150,7 +136,7 @@ const MapView = (props: MapViewProps) => {
 				duration: 0.55,
 			});
 		}
-	}, [map, allProjects, focusProjectId, focusSignal]);
+	}, [map, projects, focusProjectId, focusSignal]);
 
 	function handleZoomIn() {
 		map?.zoomIn();
@@ -202,20 +188,8 @@ const MapView = (props: MapViewProps) => {
 					</a>
 				</div>
 			</div>
-			<ProjectLayer
-				map={map}
-				projects={projects}
-				selectedProjectId={selectedProjectId}
-				showParcels={showParcels}
-				showMarkers={showMarkers}
-				onProjectSelect={onProjectSelect}
-				onProjectChange={onProjectChange}
-				onProjectEdit={onProjectEdit}
-				onProjectDeleteRequest={onProjectDeleteRequest}
-			/>
-			{createMode ? (
-				<CreateProjectLayer map={map} draft={createDraft} onDraftChange={onCreateDraftChange} />
-			) : null}
+			<ProjectLayer map={map} showParcels={showParcels} showMarkers={showMarkers} />
+			{createMode ? <CreateProjectLayer map={map} /> : null}
 		</>
 	);
 };

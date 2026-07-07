@@ -14,9 +14,3 @@
 	border-color: #047857;
 	color: #03543f;
 }
-
-.basic-button.create-project-button.is-active {
-	border-color: #047857;
-	background: #047857;
-	color: #ffffff;
-}

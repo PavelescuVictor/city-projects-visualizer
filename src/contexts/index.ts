@@ -4,6 +4,6 @@ export {
 	ProjectsProvider,
 	useProjectData,
 	useProjectEditing,
-	useProjectFilters,
 	useProjectMapState,
+	useProjectSearchFilters,
 } from "./ProjectsContext";

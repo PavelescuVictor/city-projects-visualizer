@@ -7,9 +7,9 @@ import { useConfirmModal } from "../ConfirmModalContext";
 import type {
 	ProjectDataContextValue,
 	ProjectEditingContextValue,
-	ProjectFiltersContextValue,
 	ProjectMapStateContextValue,
 	ProjectSaveStatus,
+	ProjectSearchFiltersContextValue,
 	ProjectsContextValue,
 	ProjectsProviderProps,
 } from "./ProjectsContext.types";
@@ -547,7 +547,7 @@ const useProjectData = (): ProjectDataContextValue => {
 	};
 };
 
-const useProjectFilters = (): ProjectFiltersContextValue => {
+const useProjectSearchFilters = (): ProjectSearchFiltersContextValue => {
 	const context = useProjectsContext();
 
 	return {
@@ -594,5 +594,5 @@ const useProjectMapState = (): ProjectMapStateContextValue => {
 	};
 };
 
-export { ProjectsProvider, useProjectData, useProjectEditing, useProjectFilters, useProjectMapState };
+export { ProjectsProvider, useProjectData, useProjectEditing, useProjectMapState, useProjectSearchFilters };
 export default ProjectsProvider;

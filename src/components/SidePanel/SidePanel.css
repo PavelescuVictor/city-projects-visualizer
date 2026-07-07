@@ -6,16 +6,9 @@
 	min-height: 100vh;
 	max-height: 100vh;
 	overflow-y: auto;
-	border-left: 1px solid rgba(25, 33, 38, 0.14);
 	background: #f8faf9;
 	padding: 24px;
 	box-shadow: -18px 0 40px rgba(34, 47, 53, 0.12);
-}
-
-.filters {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
 }
 
 @media (max-width: 900px) {

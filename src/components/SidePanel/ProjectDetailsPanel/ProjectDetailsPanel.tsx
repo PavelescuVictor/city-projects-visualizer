@@ -1,19 +1,13 @@
 import { ExternalLink, MapPinned, Pencil, RotateCcwSquare, Save, Trash2 } from "lucide-react";
 import "./ProjectDetailsPanel.css";
-import { useAppState } from "../../../contexts";
+import { useAppState, useProjectData, useProjectEditing, useProjectMapState } from "../../../contexts";
 import { CreateProjectPanel } from "../CreateProjectPanel";
 import { ImageCarousel } from "../ImageCarousel";
-import type { ProjectDetailsPanelProps } from "./ProjectDetailsPanel.types";
 
-const ProjectDetailsPanel = (props: ProjectDetailsPanelProps) => {
+const ProjectDetailsPanel = () => {
+	const { focusedProjectId, selectedProject, hasUnsavedChanges, saveStatus, createSaveStatus } = useProjectData();
 	const {
-		selectedProject,
-		focusedProjectId,
 		createDraft,
-		createSaveStatus,
-		onProjectFocus,
-		hasUnsavedChanges,
-		saveStatus,
 		onCreateDraftChange,
 		onCreateSave,
 		onCreateCancel,
@@ -21,7 +15,8 @@ const ProjectDetailsPanel = (props: ProjectDetailsPanelProps) => {
 		onProjectDeleteRequest,
 		onSaveProjects,
 		onRevertProjects,
-	} = props;
+	} = useProjectEditing();
+	const { onProjectFocus } = useProjectMapState();
 	const { editPermitted, inCreateMode, inEditMode } = useAppState();
 
 	if (!inCreateMode && !selectedProject) {

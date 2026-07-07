@@ -1,9 +1,0 @@
-.search-row {
-	display: grid;
-	grid-template-columns: minmax(0, 1fr) 42px;
-	gap: 10px;
-}
-
-.search-row.can-edit {
-	grid-template-columns: minmax(0, 1fr) 42px 42px;
-}

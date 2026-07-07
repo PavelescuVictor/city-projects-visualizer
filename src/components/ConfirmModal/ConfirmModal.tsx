@@ -2,7 +2,15 @@ import "./ConfirmModal.css";
 import type { ConfirmModalProps } from "./ConfirmModal.types";
 
 const ConfirmModal = (props: ConfirmModalProps) => {
-	const { title, message, confirmLabel, cancelLabel, variant = "default", onCancel, onConfirm } = props;
+	const {
+		title = "",
+		message = "",
+		confirmLabel = "",
+		cancelLabel = "",
+		variant = "default",
+		onCancel,
+		onConfirm,
+	} = props;
 
 	return (
 		<div className="modal-backdrop" role="presentation">

@@ -21,7 +21,7 @@ export interface ProjectDataContextValue {
 	createSaveStatus: ProjectSaveStatus;
 }
 
-export interface ProjectFiltersContextValue {
+export interface ProjectSearchFiltersContextValue {
 	searchTerm: string;
 	activeStatuses: ProjectStatus[];
 	statuses: ProjectStatus[];
@@ -58,7 +58,7 @@ export interface ProjectMapStateContextValue {
 
 export interface ProjectsContextValue
 	extends ProjectDataContextValue,
-		ProjectFiltersContextValue,
+		ProjectSearchFiltersContextValue,
 		ProjectEditingContextValue,
 		ProjectMapStateContextValue {}
 

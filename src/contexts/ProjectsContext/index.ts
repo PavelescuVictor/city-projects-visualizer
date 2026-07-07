@@ -3,16 +3,16 @@ export {
 	default as ProjectsProvider,
 	useProjectData,
 	useProjectEditing,
-	useProjectFilters,
 	useProjectMapState,
+	useProjectSearchFilters,
 } from "./ProjectsContext";
 export type {
 	ProjectDataContextValue,
 	ProjectEditingContextValue,
-	ProjectFiltersContextValue,
 	ProjectFocusRequest,
 	ProjectMapStateContextValue,
 	ProjectSaveStatus,
+	ProjectSearchFiltersContextValue,
 	ProjectsContextValue,
 	ProjectsProviderProps,
 } from "./ProjectsContext.types";
