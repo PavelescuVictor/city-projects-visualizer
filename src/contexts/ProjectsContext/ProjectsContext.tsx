@@ -13,6 +13,7 @@ import type {
 	ProjectsContextValue,
 	ProjectsProviderProps,
 } from "./ProjectsContext.types";
+import { getProjectIdFromUrl, pushCleanProjectUrl, pushProjectUrl, replaceCleanProjectUrl } from "./projectUrl";
 
 const ALL_STATUSES = Object.values(PROJECT_STATUSES);
 const ProjectsContext = createContext<ProjectsContextValue | null>(null);
@@ -51,6 +52,10 @@ function createProjectId(name: string, projects: Project[]) {
 	return candidateId;
 }
 
+function findProjectById(projects: Project[], projectId: string) {
+	return projects.find(project => project.id === projectId);
+}
+
 const ProjectsProvider = (props: ProjectsProviderProps) => {
 	const { children } = props;
 	const { editPermitted, inEditMode, inCreateMode, switchToViewState, switchToEditState, switchToCreateState } =
@@ -68,6 +73,7 @@ const ProjectsProvider = (props: ProjectsProviderProps) => {
 		projectId: "",
 		requestId: 0,
 	});
+	const initialUrlSelectionHandledRef = useRef(false);
 	const [createDraft, setCreateDraft] = useState<CreateProjectDraft | null>(null);
 	const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 	const [saveStatus, setSaveStatus] = useState<ProjectSaveStatus>("idle");
@@ -78,20 +84,90 @@ const ProjectsProvider = (props: ProjectsProviderProps) => {
 	}, [selectedProjectId]);
 
 	useEffect(() => {
+		const applyLoadedProjects = (projectData: Project[]) => {
+			const urlProjectId = getProjectIdFromUrl();
+			const urlProject = findProjectById(projectData, urlProjectId);
+
+			savedProjectsRef.current = projectData;
+			projectsRef.current = projectData;
+			setProjects(projectData);
+
+			if (urlProject) {
+				setSearchTerm("");
+				setActiveStatuses(current =>
+					current.includes(urlProject.status) ? current : [...current, urlProject.status],
+				);
+				setSelectedProjectId(urlProject.id);
+
+				if (!initialUrlSelectionHandledRef.current) {
+					setFocusRequest(current => ({
+						projectId: urlProject.id,
+						requestId: current.requestId + 1,
+					}));
+				}
+
+				initialUrlSelectionHandledRef.current = true;
+				return;
+			}
+
+			if (urlProjectId) {
+				replaceCleanProjectUrl();
+			}
+
+			initialUrlSelectionHandledRef.current = true;
+			setSelectedProjectId(current => (projectData.some(project => project.id === current) ? current : ""));
+		};
+
 		loadProjects()
-			.then(projectData => {
-				savedProjectsRef.current = projectData;
-				projectsRef.current = projectData;
-				setProjects(projectData);
-				setSelectedProjectId(current => (projectData.some(project => project.id === current) ? current : ""));
-			})
-			.catch(() => {
-				savedProjectsRef.current = PROJECTS;
-				projectsRef.current = PROJECTS;
-				setProjects(PROJECTS);
-				setSelectedProjectId(current => (PROJECTS.some(project => project.id === current) ? current : ""));
-			});
+			.then(projectData => applyLoadedProjects(projectData))
+			.catch(() => applyLoadedProjects(PROJECTS));
 	}, []);
+
+	useEffect(() => {
+		const handlePopState = () => {
+			const urlProjectId = getProjectIdFromUrl();
+
+			if (!urlProjectId) {
+				setSelectedProjectId("");
+				switchToViewState();
+				setCreateDraft(null);
+				setCreateSaveStatus("idle");
+				setFocusRequest(current => ({
+					projectId: "",
+					requestId: current.requestId,
+				}));
+				return;
+			}
+
+			const urlProject = findProjectById(projectsRef.current, urlProjectId);
+
+			if (!urlProject) {
+				replaceCleanProjectUrl();
+				setSelectedProjectId("");
+				switchToViewState();
+				setFocusRequest(current => ({
+					projectId: "",
+					requestId: current.requestId,
+				}));
+				return;
+			}
+
+			setSearchTerm("");
+			setActiveStatuses(current =>
+				current.includes(urlProject.status) ? current : [...current, urlProject.status],
+			);
+			setSelectedProjectId(urlProject.id);
+			switchToViewState();
+			setCreateDraft(null);
+			setCreateSaveStatus("idle");
+		};
+
+		window.addEventListener("popstate", handlePopState);
+
+		return () => {
+			window.removeEventListener("popstate", handlePopState);
+		};
+	}, [switchToViewState]);
 
 	const filteredProjects = useMemo(() => {
 		const normalizedSearch = searchTerm.trim().toLowerCase();
@@ -110,14 +186,21 @@ const ProjectsProvider = (props: ProjectsProviderProps) => {
 
 	const selectedProject = projects.find(project => project.id === selectedProjectId);
 
-	const clearProjectSelection = useCallback(() => {
-		setSelectedProjectId("");
-		switchToViewState();
-		setFocusRequest(current => ({
-			projectId: "",
-			requestId: current.requestId,
-		}));
-	}, [switchToViewState]);
+	const clearProjectSelection = useCallback(
+		(syncUrl = true) => {
+			if (syncUrl) {
+				pushCleanProjectUrl();
+			}
+
+			setSelectedProjectId("");
+			switchToViewState();
+			setFocusRequest(current => ({
+				projectId: "",
+				requestId: current.requestId,
+			}));
+		},
+		[switchToViewState],
+	);
 
 	const closeCreateMode = useCallback(() => {
 		if (inCreateMode) {
@@ -185,6 +268,7 @@ const ProjectsProvider = (props: ProjectsProviderProps) => {
 			}
 
 			setSelectedProjectId(project.id);
+			pushProjectUrl(project.id);
 		},
 		[closeCreateMode, discardUnsavedEditChangesBeforeSelection, switchToViewState],
 	);
@@ -199,6 +283,7 @@ const ProjectsProvider = (props: ProjectsProviderProps) => {
 			}
 
 			setSelectedProjectId(project.id);
+			pushProjectUrl(project.id);
 			setFocusRequest(current => ({
 				projectId: project.id,
 				requestId: current.requestId + 1,
@@ -221,6 +306,7 @@ const ProjectsProvider = (props: ProjectsProviderProps) => {
 			discardUnsavedEditChangesBeforeSelection(project.id);
 			switchToViewState();
 			setSelectedProjectId(project.id);
+			pushProjectUrl(project.id);
 			setFocusRequest(current => ({
 				projectId: project.id,
 				requestId: current.requestId + 1,
@@ -253,6 +339,7 @@ const ProjectsProvider = (props: ProjectsProviderProps) => {
 
 			closeCreateMode();
 			setSelectedProjectId(project.id);
+			pushProjectUrl(project.id);
 			if (inEditMode && selectedProjectIdRef.current === project.id) {
 				switchToViewState();
 				return;
@@ -269,6 +356,7 @@ const ProjectsProvider = (props: ProjectsProviderProps) => {
 		}
 
 		switchToCreateState();
+		pushCleanProjectUrl();
 		setSelectedProjectId("");
 		setFocusRequest(current => ({
 			projectId: "",
@@ -307,11 +395,18 @@ const ProjectsProvider = (props: ProjectsProviderProps) => {
 	const deleteProject = useCallback(
 		async (projectToDelete: Project) => {
 			const previousProjects = projectsRef.current;
+			const previousSelectedProjectId = selectedProjectIdRef.current;
 			const nextProjects = previousProjects.filter(project => project.id !== projectToDelete.id);
+			const nextSelectedProjectId = nextProjects[0]?.id ?? "";
 
 			projectsRef.current = nextProjects;
 			setProjects(nextProjects);
-			setSelectedProjectId(nextProjects[0]?.id ?? "");
+			setSelectedProjectId(nextSelectedProjectId);
+			if (nextSelectedProjectId) {
+				pushProjectUrl(nextSelectedProjectId);
+			} else {
+				pushCleanProjectUrl();
+			}
 			switchToViewState();
 			setHasUnsavedChanges(false);
 			setSaveStatus("saving");
@@ -322,14 +417,32 @@ const ProjectsProvider = (props: ProjectsProviderProps) => {
 				projectsRef.current = savedProjects;
 				savedProjectsRef.current = savedProjects;
 				setProjects(savedProjects);
-				setSelectedProjectId(current => (savedProjects.some(project => project.id === current) ? current : ""));
+				const savedSelectedProjectId = savedProjects.some(project => project.id === nextSelectedProjectId)
+					? nextSelectedProjectId
+					: "";
+
+				setSelectedProjectId(savedSelectedProjectId);
+				if (savedSelectedProjectId) {
+					pushProjectUrl(savedSelectedProjectId);
+				} else {
+					pushCleanProjectUrl();
+				}
 				setSaveStatus("saved");
 			} catch {
 				projectsRef.current = previousProjects;
 				setProjects(previousProjects);
-				setSelectedProjectId(current =>
-					previousProjects.some(project => project.id === current) ? current : "",
-				);
+				const restoredSelectedProjectId = previousProjects.some(
+					project => project.id === previousSelectedProjectId,
+				)
+					? previousSelectedProjectId
+					: "";
+
+				setSelectedProjectId(restoredSelectedProjectId);
+				if (restoredSelectedProjectId) {
+					pushProjectUrl(restoredSelectedProjectId);
+				} else {
+					pushCleanProjectUrl();
+				}
 				setSaveStatus("error");
 			}
 		},
@@ -393,7 +506,16 @@ const ProjectsProvider = (props: ProjectsProviderProps) => {
 			projectsRef.current = savedProjects;
 			savedProjectsRef.current = savedProjects;
 			setProjects(savedProjects);
-			setSelectedProjectId(current => (savedProjects.some(project => project.id === current) ? current : ""));
+			const nextSelectedProjectId = savedProjects.some(project => project.id === selectedProjectIdRef.current)
+				? selectedProjectIdRef.current
+				: "";
+
+			setSelectedProjectId(nextSelectedProjectId);
+			if (nextSelectedProjectId) {
+				pushProjectUrl(nextSelectedProjectId);
+			} else {
+				pushCleanProjectUrl();
+			}
 			setHasUnsavedChanges(false);
 			setSaveStatus("idle");
 		} catch {
@@ -443,6 +565,7 @@ const ProjectsProvider = (props: ProjectsProviderProps) => {
 			setProjects(savedProjects);
 			setActiveStatuses(current => (current.includes("planning") ? current : [...current, "planning"]));
 			setSelectedProjectId(newProject.id);
+			pushProjectUrl(newProject.id);
 			switchToViewState();
 			setCreateDraft(null);
 			setCreateSaveStatus("saved");
