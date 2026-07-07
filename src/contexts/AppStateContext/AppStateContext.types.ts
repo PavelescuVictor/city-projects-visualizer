@@ -15,5 +15,4 @@ export interface AppStateContextValue {
 
 export interface AppStateProviderProps {
 	children: ReactNode;
-	editPermitted: boolean;
 }

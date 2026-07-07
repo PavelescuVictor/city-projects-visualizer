@@ -7,10 +7,12 @@ const APP_STATES = {
 	CREATE: "create",
 } as const satisfies Record<string, AppState>;
 
+const EDIT_PERMITTED = import.meta.env.DEV;
+
 const AppStateContext = createContext<AppStateContextValue | null>(null);
 
 const AppStateProvider = (props: AppStateProviderProps) => {
-	const { children, editPermitted } = props;
+	const { children } = props;
 	const [appState, setAppState] = useState<AppState>(APP_STATES.VIEW);
 
 	const switchToViewState = useCallback(() => {
@@ -18,27 +20,27 @@ const AppStateProvider = (props: AppStateProviderProps) => {
 	}, []);
 
 	const switchToEditState = useCallback(() => {
-		if (!editPermitted) {
+		if (!EDIT_PERMITTED) {
 			setAppState(APP_STATES.VIEW);
 			return;
 		}
 
 		setAppState(APP_STATES.EDIT);
-	}, [editPermitted]);
+	}, []);
 
 	const switchToCreateState = useCallback(() => {
-		if (!editPermitted) {
+		if (!EDIT_PERMITTED) {
 			setAppState(APP_STATES.VIEW);
 			return;
 		}
 
 		setAppState(APP_STATES.CREATE);
-	}, [editPermitted]);
+	}, []);
 
 	const value = useMemo<AppStateContextValue>(
 		() => ({
 			appState,
-			editPermitted,
+			editPermitted: EDIT_PERMITTED,
 			inViewMode: appState === APP_STATES.VIEW,
 			inEditMode: appState === APP_STATES.EDIT,
 			inCreateMode: appState === APP_STATES.CREATE,
@@ -46,7 +48,7 @@ const AppStateProvider = (props: AppStateProviderProps) => {
 			switchToEditState,
 			switchToCreateState,
 		}),
-		[appState, editPermitted, switchToCreateState, switchToEditState, switchToViewState],
+		[appState, switchToCreateState, switchToEditState, switchToViewState],
 	);
 
 	return <AppStateContext.Provider value={value}>{children}</AppStateContext.Provider>;
