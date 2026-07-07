@@ -17,7 +17,6 @@
 
 .map-zoom-button {
 	border-color: transparent;
-	box-shadow: 0 10px 28px rgba(34, 47, 53, 0.18);
 	transition:
 		background-color 110ms ease,
 		color 110ms ease;
@@ -43,7 +42,6 @@
 .map-attribution-button {
 	border-color: transparent;
 	color: #27343b;
-	box-shadow: 0 10px 28px rgba(34, 47, 53, 0.18);
 	transition:
 		background-color 110ms ease,
 		color 110ms ease;

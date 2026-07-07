@@ -108,7 +108,7 @@ const ProjectsProvider = (props: ProjectsProviderProps) => {
 		});
 	}, [activeStatuses, projects, searchTerm]);
 
-	const selectedProject = filteredProjects.find(project => project.id === selectedProjectId);
+	const selectedProject = projects.find(project => project.id === selectedProjectId);
 
 	const clearProjectSelection = useCallback(() => {
 		setSelectedProjectId("");
@@ -376,10 +376,11 @@ const ProjectsProvider = (props: ProjectsProviderProps) => {
 			setProjects(savedProjects);
 			setHasUnsavedChanges(false);
 			setSaveStatus("saved");
+			switchToViewState();
 		} catch {
 			setSaveStatus("error");
 		}
-	}, [editPermitted]);
+	}, [editPermitted, switchToViewState]);
 
 	const handleRevertProjects = useCallback(async () => {
 		if (!editPermitted) {
