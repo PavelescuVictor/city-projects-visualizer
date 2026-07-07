@@ -1,3 +1,20 @@
+.project-list-divider {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	color: #59666d;
+	font-size: 1rem;
+	font-weight: 800;
+
+	&::before,
+	&::after {
+		content: "";
+		height: 1px;
+		flex: 1;
+		background: #d9e0e2;
+	}
+}
+
 .project-list {
 	display: flex;
 	flex: 1;
@@ -8,73 +25,75 @@
 	padding-right: 2px;
 }
 
-.project-list-divider {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	color: #59666d;
-	font-size: 0.82rem;
-	font-weight: 800;
-}
-
-.project-list-divider::before,
-.project-list-divider::after {
-	content: "";
-	height: 1px;
-	flex: 1;
-	background: #d9e0e2;
-}
-
-.project-row {
+.project-item.basic-button {
 	display: grid;
 	grid-template-columns: 12px minmax(0, 1fr) auto;
 	align-items: center;
+	justify-items: stretch;
 	gap: 10px;
 	width: 100%;
+	height: auto;
 	border: 1px solid #d9e0e2;
 	border-radius: 8px;
 	background: #ffffff;
 	color: #172027;
 	padding: 12px;
 	text-align: left;
-}
 
-.project-row:hover,
-.project-row.is-selected {
-	border-color: #59666d;
-	background: #edf6f1;
-}
+	&:hover,
+	&.is-selected {
+		border-color: #59666d;
+		background: #edf6f1;
+		color: #172027;
+	}
 
-.project-row-dot {
-	width: 10px;
-	height: 10px;
-	border-radius: 50%;
-}
+	& .project-item-dot {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+	}
 
-.project-row strong,
-.project-row small {
-	display: block;
-	min-width: 0;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
+	&.project-item-building .project-item-dot {
+		background: #2563eb;
+	}
 
-.project-row small {
-	margin-top: 3px;
-	color: #66747b;
-}
+	&.project-item-park .project-item-dot {
+		background: #047857;
+	}
 
-.project-row em {
-	color: #59666d;
-	font-size: 0.75rem;
-	font-style: normal;
-	font-weight: 800;
-	text-transform: capitalize;
-}
+	&.project-item-transport-infrastructure .project-item-dot {
+		background: #ea580c;
+	}
 
-.project-type-value {
-	text-transform: capitalize;
+	&.project-item-public-space .project-item-dot {
+		background: #7c3aed;
+	}
+
+	& strong,
+	& small {
+		display: block;
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	& small {
+		margin-top: 3px;
+		color: #66747b;
+	}
+
+	& em {
+		color: #59666d;
+		font-size: 0.75rem;
+		font-style: normal;
+		font-weight: 800;
+		text-transform: capitalize;
+	}
+
+	.project-type-value {
+		text-transform: capitalize;
+	}
 }
 
 @media (max-width: 900px) {

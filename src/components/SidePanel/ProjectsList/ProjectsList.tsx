@@ -1,14 +1,6 @@
 import { useProjectData, useProjectMapState } from "../../../contexts";
-import { PROJECT_TYPES } from "../../../data/projects";
-import type { ProjectType } from "../../../data/projects.types";
+import { Button } from "../../basic";
 import "./ProjectsList.css";
-
-const PROJECT_TYPE_DOT_COLORS: Record<ProjectType, string> = {
-	[PROJECT_TYPES.BUILDING]: "#2563eb",
-	[PROJECT_TYPES.PARK]: "#047857",
-	[PROJECT_TYPES.TRANSPORT_INFRASTRUCTURE]: "#ea580c",
-	[PROJECT_TYPES.PUBLIC_SPACE]: "#7c3aed",
-};
 
 const ProjectsList = () => {
 	const { filteredProjects, selectedProject } = useProjectData();
@@ -21,33 +13,22 @@ const ProjectsList = () => {
 			</div>
 
 			<section className="project-list" aria-label="Visible projects">
-				{filteredProjects.map(project => {
-					const isSelected = project.id === selectedProject?.id;
-
-					return (
-						<button
-							key={project.id}
-							className={`project-row${isSelected ? " is-selected" : ""}`}
-							data-project-id={project.id}
-							type="button"
-							onClick={() => onProjectToggleFocus(project)}
-						>
-							<span
-								className="project-row-dot"
-								style={{
-									background: PROJECT_TYPE_DOT_COLORS[project.type],
-								}}
-							/>
-							<span>
-								<strong>{project.name}</strong>
-								<small>
-									<span className="project-type-value">{project.type}</span> - {project.neighbourhood}
-								</small>
-							</span>
-							<em>{project.status}</em>
-						</button>
-					);
-				})}
+				{filteredProjects.map(project => (
+					<Button
+						key={project.id}
+						className={`project-item project-item-${project.type}${project.id === selectedProject?.id ? " is-selected" : ""}`}
+						onClick={() => onProjectToggleFocus(project)}
+					>
+						<span className="project-item-dot" />
+						<span>
+							<strong>{project.name}</strong>
+							<small>
+								<span className="project-type-value">{project.type}</span> - {project.neighbourhood}
+							</small>
+						</span>
+						<em>{project.status}</em>
+					</Button>
+				))}
 			</section>
 		</>
 	);
