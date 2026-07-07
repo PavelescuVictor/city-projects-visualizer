@@ -6,6 +6,7 @@ import { useAppState, useProjectData, useProjectEditing, useProjectMapState } fr
 import { PROJECT_TYPES } from "../../../data/projects";
 import type { LngLat, Project, ProjectType } from "../../../data/projects.types";
 import { polygonToLatLngs, toLatLng } from "../../../utils/geo";
+import { applyPolygonStripeFill } from "../../../utils/leafletPatterns";
 import { MarkerIcon } from "../MarkerIcon";
 import type { ProjectLayerProps } from "./ProjectLayer.types";
 
@@ -299,6 +300,7 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 					}),
 				);
 				polygon.addTo(layerGroup);
+				applyPolygonStripeFill(polygon, layerStyle.color);
 				projectPolygon = polygon;
 			}
 
