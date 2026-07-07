@@ -1,36 +1,30 @@
 import { useState } from "react";
-import { ProjectDetailsPanel } from "../ProjectDetailsPanel";
-import { ProjectFilters } from "../ProjectFilters";
-import { ProjectsList } from "../ProjectsList";
-import { SearchControls } from "../SearchControls";
+import { useProjectData, useProjectEditing, useProjectFilters, useProjectMapState } from "../../contexts";
+import { ProjectDetailsPanel } from "./ProjectDetailsPanel";
+import { ProjectFilters } from "./ProjectFilters";
+import { ProjectsList } from "./ProjectsList";
+import { SearchControls } from "./SearchControls";
 import "./SideController.css";
 import type { SideControllerProps } from "./SideController.types";
 
-const SideController = (props: SideControllerProps) => {
+const SideController = (_props: SideControllerProps) => {
+	const { filteredProjects, selectedProject, focusedProjectId } = useProjectData();
+	const { activeStatuses, searchTerm, statuses, onSearchChange, onStatusToggle } = useProjectFilters();
 	const {
-		projects,
-		selectedProject,
-		focusedProjectId,
-		statuses,
-		activeStatuses,
-		searchTerm,
 		createDraft,
 		createSaveStatus,
 		hasUnsavedChanges,
 		saveStatus,
-		onSearchChange,
-		onCreateProject,
-		onStatusToggle,
-		onProjectSelect,
-		onProjectFocus,
 		onCreateDraftChange,
+		onCreateProject,
 		onCreateSave,
 		onCreateCancel,
 		onProjectEdit,
 		onProjectDeleteRequest,
 		onSaveProjects,
 		onRevertProjects,
-	} = props;
+	} = useProjectEditing();
+	const { onProjectFocus, onProjectToggleFocus } = useProjectMapState();
 	const [showStatusFilters, setShowStatusFilters] = useState(false);
 
 	return (
@@ -67,7 +61,11 @@ const SideController = (props: SideControllerProps) => {
 				onSaveProjects={onSaveProjects}
 				onRevertProjects={onRevertProjects}
 			/>
-			<ProjectsList projects={projects} selectedProject={selectedProject} onProjectSelect={onProjectSelect} />
+			<ProjectsList
+				projects={filteredProjects}
+				selectedProject={selectedProject}
+				onProjectSelect={onProjectToggleFocus}
+			/>
 		</aside>
 	);
 };
