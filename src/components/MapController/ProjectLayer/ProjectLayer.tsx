@@ -8,6 +8,7 @@ import type { LngLat, Project, ProjectType } from "../../../data/projects.types"
 import { useEditProjectController, useProjectDeleteController, useProjectSelectionController } from "../../../hooks";
 import { polygonToLatLngs, toLatLng } from "../../../utils/geo";
 import { MarkerIcon } from "../MarkerIcon";
+import { ensureParcelStripePattern, parcelStripePatternFill } from "./ProjectLayer.patterns";
 import type { ProjectLayerProps } from "./ProjectLayer.types";
 
 const PROJECT_TYPE_LAYER_STYLES: Record<ProjectType, { color: string; fill: string }> = {
@@ -272,13 +273,14 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 		filteredProjects.forEach(project => {
 			const isSelected = project.id === selectedProject?.id;
 			const layerStyle = PROJECT_TYPE_LAYER_STYLES[project.type];
+			const isEditingSelectedProject = editMode && isSelected;
 			let projectPolygon: Leaflet.Polygon | null = null;
 
 			if (showParcels || (editMode && isSelected)) {
 				const polygon = Leaflet.polygon(polygonToLatLngs(project.parcelPolygon), {
 					color: layerStyle.color,
-					fillColor: layerStyle.fill,
-					fillOpacity: isSelected ? 0.48 : 0.28,
+					fillColor: isEditingSelectedProject ? parcelStripePatternFill(project.type) : layerStyle.fill,
+					fillOpacity: isEditingSelectedProject ? 1 : isSelected ? 0.48 : 0.28,
 					opacity: 0.95,
 					weight: isSelected ? 4 : 2,
 				});
@@ -294,14 +296,21 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 				}
 
 				polygon.on("click", () => onProjectSelect(project));
-				polygon.on("mouseover", () => polygon.setStyle({ fillOpacity: 0.5, weight: 4 }));
+				polygon.on("mouseover", () =>
+					polygon.setStyle({ fillOpacity: isEditingSelectedProject ? 1 : 0.5, weight: 4 }),
+				);
 				polygon.on("mouseout", () =>
 					polygon.setStyle({
-						fillOpacity: isSelected ? 0.48 : 0.28,
+						fillOpacity: isEditingSelectedProject ? 1 : isSelected ? 0.48 : 0.28,
 						weight: isSelected ? 4 : 2,
 					}),
 				);
 				polygon.addTo(layerGroup);
+
+				if (isEditingSelectedProject) {
+					ensureParcelStripePattern(map, project.type, layerStyle);
+				}
+
 				projectPolygon = polygon;
 			}
 

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+	<title>Parcel stripe pattern template</title>
+	<defs>
+		<pattern id="__PATTERN_ID__" patternUnits="userSpaceOnUse" width="12" height="12" patternTransform="rotate(45)">
+			<rect width="12" height="12" fill="__PATTERN_FILL__" opacity="0.42" />
+			<rect width="5" height="12" fill="__PATTERN_COLOR__" opacity="0.38" />
+		</pattern>
+	</defs>
+	<rect width="48" height="48" fill="url(#__PATTERN_ID__)" />
+</svg>
