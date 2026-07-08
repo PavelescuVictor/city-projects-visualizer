@@ -12,7 +12,7 @@ import { loadProjects, saveProjects } from "../../../services/projectService";
 function useProjectPersistenceController() {
 	const editPermitted = useEditPermitted();
 	const { switchToViewState } = useAppStateActions();
-	const { projects, selectedProjectId } = useProjects();
+	const { projects, savedProjects, selectedProjectId } = useProjects();
 	const { setProjects, setSavedProjects, setSelectedProjectId } = useProjectsActions();
 	const { setHasUnsavedChanges, setSaveStatus } = useProjectEditingActions();
 
@@ -77,7 +77,19 @@ function useProjectPersistenceController() {
 		setSelectedProjectId,
 	]);
 
+	const onCancelEdit = useCallback(() => {
+		if (!editPermitted) {
+			return;
+		}
+
+		setProjects(savedProjects);
+		setHasUnsavedChanges(false);
+		setSaveStatus("idle");
+		switchToViewState();
+	}, [editPermitted, savedProjects, setHasUnsavedChanges, setProjects, setSaveStatus, switchToViewState]);
+
 	return {
+		onCancelEdit,
 		onSaveProjects,
 		onRevertProjects,
 	};

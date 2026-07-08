@@ -1,4 +1,4 @@
-import { RotateCcwSquare, Save } from "lucide-react";
+import { RotateCcwSquare, Save, X } from "lucide-react";
 import type { ChangeEvent } from "react";
 import { useProjectEditing, useProjects } from "../../../contexts";
 import { PROJECT_STATUSES, PROJECT_TYPES } from "../../../data/projects";
@@ -14,7 +14,7 @@ const EditProjectPanel = () => {
 	const { selectedProject } = useProjects();
 	const { hasUnsavedChanges, saveStatus } = useProjectEditing();
 	const { onProjectChange } = useEditProjectController();
-	const { onSaveProjects, onRevertProjects } = useProjectPersistenceController();
+	const { onCancelEdit, onSaveProjects, onRevertProjects } = useProjectPersistenceController();
 
 	if (!selectedProject) {
 		return null;
@@ -99,6 +99,16 @@ const EditProjectPanel = () => {
 				>
 					<Save size={17} aria-hidden="true" />
 					{saveStatus === "saving" ? "Saving" : "Save changes"}
+				</button>
+				<button
+					className="edit-cancel-button"
+					type="button"
+					disabled={saveStatus === "saving"}
+					aria-label="Cancel edit mode"
+					title="Cancel"
+					onClick={onCancelEdit}
+				>
+					<X size={19} aria-hidden="true" />
 				</button>
 				<button
 					className="revert-button"
