@@ -1,8 +1,8 @@
 import Leaflet from "leaflet";
-import { useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import "./ProjectLayer.css";
-import { APP_STATES, useAppMode, useEditPermitted, useProjects } from "../../../contexts";
+import { APP_STATES, useAppMode, useEditPermitted, useMapState, useProjects } from "../../../contexts";
 import { PROJECT_TYPES } from "../../../data/projects";
 import type { LngLat, Project, ProjectType } from "../../../data/projects.types";
 import { useEditProjectController, useProjectDeleteController, useProjectSelectionController } from "../../../hooks";
@@ -28,6 +28,15 @@ const PROJECT_TYPE_LAYER_STYLES: Record<ProjectType, { color: string; fill: stri
 		color: "#7c3aed",
 		fill: "#c4b5fd",
 	},
+};
+
+const PROJECT_POPUP_OPTIONS: Leaflet.PopupOptions = {
+	className: "project-leaflet-popup",
+	closeButton: false,
+	closeOnClick: false,
+	offset: Leaflet.point(0, -18),
+	minWidth: 273,
+	maxWidth: 273,
 };
 
 function markerIcon(project: Project, isSelected: boolean) {
@@ -197,58 +206,56 @@ function closestSegmentIndex(map: Leaflet.Map, ring: LngLat[], latLng: Leaflet.L
 	return closestIndex;
 }
 
-function attachPopupControls(
-	layer: Leaflet.Layer,
+function attachPopupElementControls(
+	popupElement: HTMLElement | undefined,
+	popup: Leaflet.Popup,
 	project: Project,
 	onProjectEdit: (project: Project) => void,
 	onProjectDeleteRequest: (project: Project) => Promise<void> | void,
 ) {
-	layer.on("popupopen", event => {
-		const popupElement = event.popup.getElement();
-		const carousel = popupElement?.querySelector<HTMLElement>(".map-popup-carousel");
-		const track = popupElement?.querySelector<HTMLElement>(".map-popup-track");
-		const slides = popupElement?.querySelectorAll(".map-popup-slide");
-		const count = popupElement?.querySelector<HTMLElement>(".map-popup-carousel-count");
-		const previous = popupElement?.querySelector<HTMLButtonElement>(".map-popup-carousel-prev");
-		const next = popupElement?.querySelector<HTMLButtonElement>(".map-popup-carousel-next");
-		const editButton = popupElement?.querySelector<HTMLButtonElement>(".map-popup-edit");
-		const deleteButton = popupElement?.querySelector<HTMLButtonElement>(".map-popup-delete");
+	const carousel = popupElement?.querySelector<HTMLElement>(".map-popup-carousel");
+	const track = popupElement?.querySelector<HTMLElement>(".map-popup-track");
+	const slides = popupElement?.querySelectorAll(".map-popup-slide");
+	const count = popupElement?.querySelector<HTMLElement>(".map-popup-carousel-count");
+	const previous = popupElement?.querySelector<HTMLButtonElement>(".map-popup-carousel-prev");
+	const next = popupElement?.querySelector<HTMLButtonElement>(".map-popup-carousel-next");
+	const editButton = popupElement?.querySelector<HTMLButtonElement>(".map-popup-edit");
+	const deleteButton = popupElement?.querySelector<HTMLButtonElement>(".map-popup-delete");
 
-		editButton?.addEventListener("click", clickEvent => {
-			clickEvent.stopPropagation();
-			onProjectEdit(project);
-			event.popup.close();
-		});
+	editButton?.addEventListener("click", clickEvent => {
+		clickEvent.stopPropagation();
+		onProjectEdit(project);
+		popup.close();
+	});
 
-		deleteButton?.addEventListener("click", clickEvent => {
-			clickEvent.stopPropagation();
-			void onProjectDeleteRequest(project);
-			event.popup.close();
-		});
+	deleteButton?.addEventListener("click", clickEvent => {
+		clickEvent.stopPropagation();
+		void onProjectDeleteRequest(project);
+		popup.close();
+	});
 
-		if (!carousel || !track || !slides || slides.length <= 1 || !previous || !next) {
-			return;
+	if (!carousel || !track || !slides || slides.length <= 1 || !previous || !next) {
+		return;
+	}
+
+	const update = (index: number) => {
+		const nextIndex = (index + slides.length) % slides.length;
+		carousel.dataset.carouselIndex = String(nextIndex);
+		track.style.transform = `translateX(-${nextIndex * 100}%)`;
+
+		if (count) {
+			count.textContent = `${nextIndex + 1}/${slides.length}`;
 		}
+	};
 
-		const update = (index: number) => {
-			const nextIndex = (index + slides.length) % slides.length;
-			carousel.dataset.carouselIndex = String(nextIndex);
-			track.style.transform = `translateX(-${nextIndex * 100}%)`;
+	previous.addEventListener("click", clickEvent => {
+		clickEvent.stopPropagation();
+		update(Number(carousel.dataset.carouselIndex ?? "0") - 1);
+	});
 
-			if (count) {
-				count.textContent = `${nextIndex + 1}/${slides.length}`;
-			}
-		};
-
-		previous.addEventListener("click", clickEvent => {
-			clickEvent.stopPropagation();
-			update(Number(carousel.dataset.carouselIndex ?? "0") - 1);
-		});
-
-		next.addEventListener("click", clickEvent => {
-			clickEvent.stopPropagation();
-			update(Number(carousel.dataset.carouselIndex ?? "0") + 1);
-		});
+	next.addEventListener("click", clickEvent => {
+		clickEvent.stopPropagation();
+		update(Number(carousel.dataset.carouselIndex ?? "0") + 1);
 	});
 }
 
@@ -258,10 +265,71 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 	const { onProjectChange, onProjectEdit } = useEditProjectController();
 	const { onProjectDeleteRequest } = useProjectDeleteController();
 	const { onProjectSelect } = useProjectSelectionController();
+	const { focusProjectId, focusSignal } = useMapState();
 
 	const appState = useAppMode();
 	const editPermitted = useEditPermitted();
 	const editMode = editPermitted && appState === APP_STATES.EDIT;
+	const openedFocusSignalRef = useRef(0);
+	const focusedPopupProjectIdRef = useRef("");
+	const focusedPopupRef = useRef<Leaflet.Popup | null>(null);
+
+	const openProjectPopup = useCallback(
+		(project: Project, options: { toggle?: boolean } = {}) => {
+			if (!map) {
+				return;
+			}
+
+			if (focusedPopupProjectIdRef.current === project.id && focusedPopupRef.current?.getElement()) {
+				if (options.toggle) {
+					map.closePopup(focusedPopupRef.current);
+				}
+
+				return;
+			}
+
+			const popup = Leaflet.popup(PROJECT_POPUP_OPTIONS)
+				.setLatLng(toLatLng(project.coordinates))
+				.setContent(popupContent(project, editPermitted));
+
+			focusedPopupProjectIdRef.current = project.id;
+			focusedPopupRef.current = popup;
+
+			popup.on("add", () => {
+				attachPopupElementControls(popup.getElement(), popup, project, onProjectEdit, onProjectDeleteRequest);
+			});
+
+			popup.on("remove", () => {
+				if (focusedPopupRef.current === popup) {
+					focusedPopupProjectIdRef.current = "";
+					focusedPopupRef.current = null;
+				}
+			});
+
+			popup.openOn(map);
+		},
+		[editPermitted, map, onProjectDeleteRequest, onProjectEdit],
+	);
+
+	useEffect(() => {
+		if (!map) {
+			return;
+		}
+
+		const closeFocusedPopup = () => {
+			if (!focusedPopupRef.current) {
+				return;
+			}
+
+			map.closePopup(focusedPopupRef.current);
+		};
+
+		map.on("click", closeFocusedPopup);
+
+		return () => {
+			map.off("click", closeFocusedPopup);
+		};
+	}, [map]);
 
 	useEffect(() => {
 		if (!map) {
@@ -285,17 +353,11 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 					weight: isSelected ? 4 : 2,
 				});
 
-				polygon.bindPopup(popupContent(project, editPermitted), {
-					closeButton: false,
-					minWidth: 273,
-					maxWidth: 273,
+				polygon.on("click", event => {
+					Leaflet.DomEvent.stop(event);
+					onProjectSelect(project);
+					openProjectPopup(project, { toggle: true });
 				});
-
-				if (editPermitted) {
-					attachPopupControls(polygon, project, onProjectEdit, onProjectDeleteRequest);
-				}
-
-				polygon.on("click", () => onProjectSelect(project));
 				polygon.on("mouseover", () =>
 					polygon.setStyle({ fillOpacity: isEditingSelectedProject ? 1 : 0.5, weight: 4 }),
 				);
@@ -322,17 +384,11 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 					riseOnHover: true,
 				});
 
-				marker.bindPopup(popupContent(project, editPermitted), {
-					closeButton: false,
-					minWidth: 273,
-					maxWidth: 273,
+				marker.on("click", event => {
+					Leaflet.DomEvent.stop(event);
+					onProjectSelect(project);
+					openProjectPopup(project, { toggle: true });
 				});
-
-				if (editPermitted) {
-					attachPopupControls(marker, project, onProjectEdit, onProjectDeleteRequest);
-				}
-
-				marker.on("click", () => onProjectSelect(project));
 				marker.on("dragstart", () => onProjectSelect(project));
 				marker.on("dragend", () => {
 					onProjectChange({
@@ -462,10 +518,39 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 		editMode,
 		editPermitted,
 		onProjectSelect,
+		openProjectPopup,
 		onProjectChange,
-		onProjectEdit,
-		onProjectDeleteRequest,
 	]);
+
+	useEffect(() => {
+		if (!map || focusSignal === 0 || !focusProjectId || focusSignal === openedFocusSignalRef.current) {
+			return;
+		}
+
+		openedFocusSignalRef.current = focusSignal;
+
+		if (focusedPopupProjectIdRef.current === focusProjectId && focusedPopupRef.current?.getElement()) {
+			return;
+		}
+
+		const focusedProject = filteredProjects.find(project => project.id === focusProjectId);
+
+		if (!focusedProject) {
+			return;
+		}
+
+		openProjectPopup(focusedProject);
+	}, [filteredProjects, focusProjectId, focusSignal, map, openProjectPopup]);
+
+	useEffect(() => {
+		if (!map || selectedProject || !focusedPopupRef.current) {
+			return;
+		}
+
+		map.closePopup(focusedPopupRef.current);
+		focusedPopupProjectIdRef.current = "";
+		focusedPopupRef.current = null;
+	}, [map, selectedProject]);
 
 	return null;
 };
