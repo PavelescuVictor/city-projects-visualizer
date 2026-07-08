@@ -1,6 +1,6 @@
 import { useProjects } from "../../../contexts";
+import { useProjectSelectionController } from "../../../hooks";
 import { Button } from "../../basic";
-import { useProjectSelectionController } from "../../projectWorkflows";
 import "./ProjectsList.css";
 
 const ProjectsList = () => {

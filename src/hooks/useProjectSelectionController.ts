@@ -1,7 +1,7 @@
 import { useCallback } from "react";
-import { useAppStateActions, useMapActions, useProjects, useProjectsActions } from "../../contexts";
-import { pushProjectUrl } from "../../contexts/ProjectsContext/projectUrl";
-import type { Project } from "../../data/projects.types";
+import { useAppStateActions, useMapActions, useProjects, useProjectsActions } from "../contexts";
+import { pushProjectUrl } from "../contexts/ProjectsContext/projectUrl";
+import type { Project } from "../data/projects.types";
 import {
 	useClearProjectSelection,
 	useCloseCreateMode,

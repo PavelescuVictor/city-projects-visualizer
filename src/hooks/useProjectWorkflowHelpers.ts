@@ -8,8 +8,8 @@ import {
 	useProjectEditingActions,
 	useProjects,
 	useProjectsActions,
-} from "../../contexts";
-import { pushCleanProjectUrl } from "../../contexts/ProjectsContext/projectUrl";
+} from "../contexts";
+import { pushCleanProjectUrl } from "../contexts/ProjectsContext/projectUrl";
 
 function useClearProjectSelection() {
 	const { setSelectedProjectId } = useProjectsActions();

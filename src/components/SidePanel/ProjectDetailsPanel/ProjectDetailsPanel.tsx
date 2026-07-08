@@ -1,12 +1,8 @@
 import { ExternalLink, MapPinned, Pencil, Trash2 } from "lucide-react";
 import "./ProjectDetailsPanel.css";
 import { useEditPermitted, useMapState, useProjects } from "../../../contexts";
+import { useEditProjectController, useProjectDeleteController, useProjectSelectionController } from "../../../hooks";
 import { ImageCarousel } from "../../basic";
-import {
-	useEditProjectController,
-	useProjectDeleteController,
-	useProjectSelectionController,
-} from "../../projectWorkflows";
 import { ProjectMeta } from "./ProjectMeta";
 
 const ProjectDetailsPanel = () => {

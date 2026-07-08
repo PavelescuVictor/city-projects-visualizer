@@ -5,12 +5,8 @@ import "./ProjectLayer.css";
 import { APP_STATES, useAppMode, useEditPermitted, useProjects } from "../../../contexts";
 import { PROJECT_TYPES } from "../../../data/projects";
 import type { LngLat, Project, ProjectType } from "../../../data/projects.types";
+import { useEditProjectController, useProjectDeleteController, useProjectSelectionController } from "../../../hooks";
 import { polygonToLatLngs, toLatLng } from "../../../utils/geo";
-import {
-	useEditProjectController,
-	useProjectDeleteController,
-	useProjectSelectionController,
-} from "../../projectWorkflows";
 import { MarkerIcon } from "../MarkerIcon";
 import type { ProjectLayerProps } from "./ProjectLayer.types";
 

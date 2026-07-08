@@ -6,10 +6,10 @@ import {
 	useProjectEditingActions,
 	useProjects,
 	useProjectsActions,
-} from "../../contexts";
-import { pushCleanProjectUrl, pushProjectUrl } from "../../contexts/ProjectsContext/projectUrl";
-import type { Project } from "../../data/projects.types";
-import { saveProjects } from "../../services/projectService";
+} from "../contexts";
+import { pushCleanProjectUrl, pushProjectUrl } from "../contexts/ProjectsContext/projectUrl";
+import type { Project } from "../data/projects.types";
+import { saveProjects } from "../services/projectService";
 
 function useProjectDeleteController() {
 	const editPermitted = useEditPermitted();

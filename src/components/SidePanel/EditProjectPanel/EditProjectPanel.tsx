@@ -3,7 +3,7 @@ import type { ChangeEvent } from "react";
 import { useProjectEditing, useProjects } from "../../../contexts";
 import { PROJECT_STATUSES, PROJECT_TYPES } from "../../../data/projects";
 import type { Project, ProjectStatus, ProjectType } from "../../../data/projects.types";
-import { useEditProjectController } from "../../projectWorkflows";
+import { useEditProjectController } from "../../../hooks";
 import "./EditProjectPanel.css";
 import { useProjectPersistenceController } from "./useProjectPersistenceController";
 

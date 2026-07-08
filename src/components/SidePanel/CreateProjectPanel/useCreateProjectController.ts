@@ -12,8 +12,8 @@ import {
 import { createProjectId, normalizeWebsiteUrl } from "../../../contexts/ProjectsContext/ProjectsContext.helpers";
 import { pushCleanProjectUrl, pushProjectUrl } from "../../../contexts/ProjectsContext/projectUrl";
 import type { Project } from "../../../data/projects.types";
+import { useClearProjectSelection, useCloseCreateMode } from "../../../hooks/useProjectWorkflowHelpers";
 import { saveProjects } from "../../../services/projectService";
-import { useClearProjectSelection, useCloseCreateMode } from "../../projectWorkflows/useProjectWorkflowHelpers";
 
 function useCreateProjectController() {
 	const editPermitted = useEditPermitted();

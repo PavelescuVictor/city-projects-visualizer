@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useSearchFilters, useSearchFiltersActions } from "../../../contexts";
 import type { ProjectStatus } from "../../../data/projects.types";
-import { useClearProjectSelection } from "../../projectWorkflows/useProjectWorkflowHelpers";
+import { useClearProjectSelection } from "../../../hooks/useProjectWorkflowHelpers";
 
 function useProjectSearchController() {
 	const searchFilters = useSearchFilters();

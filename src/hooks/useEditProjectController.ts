@@ -7,9 +7,9 @@ import {
 	useProjectEditingActions,
 	useProjects,
 	useProjectsActions,
-} from "../../contexts";
-import { pushProjectUrl } from "../../contexts/ProjectsContext/projectUrl";
-import type { Project } from "../../data/projects.types";
+} from "../contexts";
+import { pushProjectUrl } from "../contexts/ProjectsContext/projectUrl";
+import type { Project } from "../data/projects.types";
 import { useCloseCreateMode } from "./useProjectWorkflowHelpers";
 
 function useEditProjectController() {
