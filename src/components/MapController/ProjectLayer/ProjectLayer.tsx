@@ -2,17 +2,15 @@ import Leaflet from "leaflet";
 import { useEffect } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import "./ProjectLayer.css";
-import {
-	APP_STATES,
-	useAppMode,
-	useEditPermitted,
-	useProjectData,
-	useProjectEditing,
-	useProjectMapState,
-} from "../../../contexts";
+import { APP_STATES, useAppMode, useEditPermitted, useProjects } from "../../../contexts";
 import { PROJECT_TYPES } from "../../../data/projects";
 import type { LngLat, Project, ProjectType } from "../../../data/projects.types";
 import { polygonToLatLngs, toLatLng } from "../../../utils/geo";
+import {
+	useEditProjectController,
+	useProjectDeleteController,
+	useProjectSelectionController,
+} from "../../projectWorkflows";
 import { MarkerIcon } from "../MarkerIcon";
 import type { ProjectLayerProps } from "./ProjectLayer.types";
 
@@ -206,7 +204,7 @@ function attachPopupControls(
 	layer: Leaflet.Layer,
 	project: Project,
 	onProjectEdit: (project: Project) => void,
-	onProjectDeleteRequest: (project: Project) => void,
+	onProjectDeleteRequest: (project: Project) => Promise<void> | void,
 ) {
 	layer.on("popupopen", event => {
 		const popupElement = event.popup.getElement();
@@ -259,9 +257,10 @@ function attachPopupControls(
 
 const ProjectLayer = (props: ProjectLayerProps) => {
 	const { map, showParcels, showMarkers } = props;
-	const { filteredProjects, selectedProject } = useProjectData();
-	const { onProjectChange, onProjectEdit, onProjectDeleteRequest } = useProjectEditing();
-	const { onProjectSelect } = useProjectMapState();
+	const { filteredProjects, selectedProject } = useProjects();
+	const { onProjectChange, onProjectEdit } = useEditProjectController();
+	const { onProjectDeleteRequest } = useProjectDeleteController();
+	const { onProjectSelect } = useProjectSelectionController();
 
 	const appState = useAppMode();
 	const editPermitted = useEditPermitted();

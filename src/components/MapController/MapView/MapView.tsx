@@ -6,9 +6,11 @@ import {
 	APP_STATES,
 	useAppMode,
 	useEditPermitted,
-	useProjectData,
+	useMapActions,
+	useMapState,
 	useProjectEditing,
-	useProjectMapState,
+	useProjectEditingActions,
+	useProjects,
 } from "../../../contexts";
 import { getProjectBounds, toLatLng } from "../../../utils/geo";
 import { CreateProjectLayer, createProjectDraftFromCenter } from "../CreateProjectLayer";
@@ -19,9 +21,11 @@ const DEFAULT_CENTER: Leaflet.LatLngExpression = [46.7712, 23.6236];
 
 const MapView = (props: MapViewProps) => {
 	const { showParcels, showMarkers } = props;
-	const { projects } = useProjectData();
-	const { createDraft, onCreateDraftChange } = useProjectEditing();
-	const { focusProjectId, focusSignal, resetSignal, onCameraChangedByUser } = useProjectMapState();
+	const { projects } = useProjects();
+	const { createDraft } = useProjectEditing();
+	const { setCreateDraft } = useProjectEditingActions();
+	const { focusProjectId, focusSignal, resetSignal } = useMapState();
+	const { clearProjectFocus } = useMapActions();
 	const appState = useAppMode();
 	const editPermitted = useEditPermitted();
 	const createMode = editPermitted && appState === APP_STATES.CREATE;
@@ -68,7 +72,7 @@ const MapView = (props: MapViewProps) => {
 				return;
 			}
 
-			onCameraChangedByUser();
+			clearProjectFocus();
 		};
 
 		map.on("dragstart", handleCameraStart);
@@ -78,7 +82,7 @@ const MapView = (props: MapViewProps) => {
 			map.off("dragstart", handleCameraStart);
 			map.off("zoomstart", handleCameraStart);
 		};
-	}, [map, onCameraChangedByUser]);
+	}, [clearProjectFocus, map]);
 
 	useEffect(() => {
 		if (!map || initialFitDoneRef.current || projects.length === 0) {
@@ -127,8 +131,8 @@ const MapView = (props: MapViewProps) => {
 			return;
 		}
 
-		onCreateDraftChange(createProjectDraftFromCenter(map.getCenter()));
-	}, [map, createDraft, createMode, onCreateDraftChange]);
+		setCreateDraft(createProjectDraftFromCenter(map.getCenter()));
+	}, [map, createDraft, createMode, setCreateDraft]);
 
 	useEffect(() => {
 		if (!map || focusSignal === 0 || !focusProjectId) {

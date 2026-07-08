@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { APP_STATES, useAppMode, useProjectData } from "../../contexts";
+import { APP_STATES, useAppMode, useProjects } from "../../contexts";
 import { CreateProjectPanel } from "./CreateProjectPanel";
 import { EditProjectPanel } from "./EditProjectPanel";
 import { ProjectDetailsPanel } from "./ProjectDetailsPanel";
@@ -9,7 +9,7 @@ import "./SidePanel.css";
 
 const SidePanel = () => {
 	const appState = useAppMode();
-	const { selectedProject } = useProjectData();
+	const { selectedProject } = useProjects();
 
 	let panelContent: ReactNode = null;
 	if (appState === APP_STATES.CREATE) {

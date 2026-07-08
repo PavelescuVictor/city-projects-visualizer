@@ -1,10 +1,11 @@
-import { useProjectData, useProjectMapState } from "../../../contexts";
+import { useProjects } from "../../../contexts";
 import { Button } from "../../basic";
+import { useProjectSelectionController } from "../../projectWorkflows";
 import "./ProjectsList.css";
 
 const ProjectsList = () => {
-	const { filteredProjects, selectedProject } = useProjectData();
-	const { onProjectToggleFocus } = useProjectMapState();
+	const { filteredProjects, selectedProject } = useProjects();
+	const { onProjectToggleFocus } = useProjectSelectionController();
 
 	return (
 		<>

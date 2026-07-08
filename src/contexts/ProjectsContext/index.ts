@@ -1,18 +1,11 @@
 export {
 	default,
 	default as ProjectsProvider,
-	useProjectData,
-	useProjectEditing,
-	useProjectMapState,
-	useProjectSearchFilters,
+	useProjects,
+	useProjectsActions,
 } from "./ProjectsContext";
 export type {
-	ProjectDataContextValue,
-	ProjectEditingContextValue,
-	ProjectFocusRequest,
-	ProjectMapStateContextValue,
-	ProjectSaveStatus,
-	ProjectSearchFiltersContextValue,
+	ProjectsActionsContextValue,
 	ProjectsContextValue,
 	ProjectsProviderProps,
 } from "./ProjectsContext.types";

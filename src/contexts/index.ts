@@ -7,10 +7,15 @@ export {
 	useEditPermitted,
 } from "./AppStateContext";
 export { ConfirmModalProvider, useConfirmModal } from "./ConfirmModalContext";
+export { MapProvider, useMapActions, useMapState } from "./MapContext";
 export {
-	ProjectsProvider,
-	useProjectData,
+	ProjectEditingProvider,
 	useProjectEditing,
-	useProjectMapState,
-	useProjectSearchFilters,
-} from "./ProjectsContext";
+	useProjectEditingActions,
+} from "./ProjectEditingContext";
+export { ProjectsProvider, useProjects, useProjectsActions } from "./ProjectsContext";
+export {
+	SearchFiltersProvider,
+	useSearchFilters,
+	useSearchFiltersActions,
+} from "./SearchFiltersContext";

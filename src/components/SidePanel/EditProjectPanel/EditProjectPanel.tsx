@@ -1,16 +1,20 @@
 import { RotateCcwSquare, Save } from "lucide-react";
 import type { ChangeEvent } from "react";
-import { useProjectData, useProjectEditing } from "../../../contexts";
+import { useProjectEditing, useProjects } from "../../../contexts";
 import { PROJECT_STATUSES, PROJECT_TYPES } from "../../../data/projects";
 import type { Project, ProjectStatus, ProjectType } from "../../../data/projects.types";
+import { useEditProjectController } from "../../projectWorkflows";
 import "./EditProjectPanel.css";
+import { useProjectPersistenceController } from "./useProjectPersistenceController";
 
 const STATUS_OPTIONS = Object.values(PROJECT_STATUSES);
 const TYPE_OPTIONS = Object.values(PROJECT_TYPES);
 
 const EditProjectPanel = () => {
-	const { selectedProject, hasUnsavedChanges, saveStatus } = useProjectData();
-	const { onProjectChange, onSaveProjects, onRevertProjects } = useProjectEditing();
+	const { selectedProject } = useProjects();
+	const { hasUnsavedChanges, saveStatus } = useProjectEditing();
+	const { onProjectChange } = useEditProjectController();
+	const { onSaveProjects, onRevertProjects } = useProjectPersistenceController();
 
 	if (!selectedProject) {
 		return null;

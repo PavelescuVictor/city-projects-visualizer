@@ -2,7 +2,7 @@ import Leaflet from "leaflet";
 import { useEffect } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import "./CreateProjectLayer.css";
-import { useProjectEditing } from "../../../contexts";
+import { useProjectEditing, useProjectEditingActions } from "../../../contexts";
 import { PROJECT_TYPES } from "../../../data/projects";
 import type { CreateProjectDraft, LngLat, ProjectType } from "../../../data/projects.types";
 import { polygonToLatLngs, toLatLng } from "../../../utils/geo";
@@ -121,7 +121,8 @@ export function createProjectDraftFromCenter(center: Leaflet.LatLng): CreateProj
 
 const CreateProjectLayer = (props: CreateProjectLayerProps) => {
 	const { map } = props;
-	const { createDraft, onCreateDraftChange } = useProjectEditing();
+	const { createDraft } = useProjectEditing();
+	const { setCreateDraft } = useProjectEditingActions();
 
 	useEffect(() => {
 		if (!map || !createDraft) {
@@ -145,7 +146,7 @@ const CreateProjectLayer = (props: CreateProjectLayerProps) => {
 
 			liveRing.splice(0, liveRing.length, ...committedRing);
 			updatePolygonLatLngs(polygon, committedRing);
-			onCreateDraftChange(updateDraftRing(createDraft, committedRing));
+			setCreateDraft(updateDraftRing(createDraft, committedRing));
 		};
 
 		const marker = Leaflet.marker(toLatLng(createDraft.coordinates), {
@@ -156,7 +157,7 @@ const CreateProjectLayer = (props: CreateProjectLayerProps) => {
 		});
 
 		marker.on("dragend", () => {
-			onCreateDraftChange({
+			setCreateDraft({
 				...createDraft,
 				coordinates: toLngLat(marker.getLatLng()),
 			});
@@ -190,7 +191,7 @@ const CreateProjectLayer = (props: CreateProjectLayerProps) => {
 		return () => {
 			layerGroup.remove();
 		};
-	}, [map, createDraft, onCreateDraftChange]);
+	}, [map, createDraft, setCreateDraft]);
 
 	return null;
 };

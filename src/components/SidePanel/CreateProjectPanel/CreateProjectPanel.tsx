@@ -1,13 +1,14 @@
 import { RotateCcwSquare, Save } from "lucide-react";
 import type { ChangeEvent } from "react";
 import "./CreateProjectPanel.css";
-import { useProjectData, useProjectEditing } from "../../../contexts";
+import { useProjectEditing } from "../../../contexts";
 import { PROJECT_STATUSES } from "../../../data/projects";
 import type { CreateProjectDraft } from "../../../data/projects.types";
+import { useCreateProjectController } from "./useCreateProjectController";
 
 const CreateProjectPanel = () => {
-	const { createSaveStatus } = useProjectData();
-	const { createDraft, onCreateDraftChange, onCreateSave, onCreateCancel } = useProjectEditing();
+	const { createDraft, createSaveStatus } = useProjectEditing();
+	const { onCreateDraftChange, onCreateSave, onCreateCancel } = useCreateProjectController();
 	const isReady = Boolean(
 		createDraft?.name.trim() &&
 			createDraft.address.trim() &&

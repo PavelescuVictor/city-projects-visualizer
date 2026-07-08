@@ -1,8 +1,8 @@
-import { useProjectSearchFilters } from "../../../../contexts";
 import "./SearchFilters.css";
+import { useProjectSearchController } from "../useProjectSearchController";
 
 const SearchFilters = () => {
-	const { statuses, activeStatuses, onStatusToggle } = useProjectSearchFilters();
+	const { statuses, activeStatuses, onStatusToggle } = useProjectSearchController();
 
 	return (
 		<section className="search-filters-row" aria-label="Search filters">

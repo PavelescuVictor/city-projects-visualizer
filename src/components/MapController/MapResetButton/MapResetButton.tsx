@@ -1,10 +1,10 @@
 import { RotateCcw } from "lucide-react";
-import { useProjectMapState } from "../../../contexts";
 import { Button } from "../../basic";
+import { useProjectSelectionController } from "../../projectWorkflows";
 import "./MapResetButton.css";
 
 const MapResetButton = () => {
-	const { onReset } = useProjectMapState();
+	const { onReset } = useProjectSelectionController();
 
 	return (
 		<Button
