@@ -29,10 +29,7 @@ const ProjectDetailsPanel = () => {
 		<section className="details-panel" aria-label="Project details">
 			<div className="selected-project">
 				<div className="project-title-row">
-					<div>
-						<span className="status-label">{selectedProject.status}</span>
-						<h2>{selectedProject.name}</h2>
-					</div>
+					<span className="project-status-badge">{selectedProject.status}</span>
 					<div className="project-title-actions">
 						<button
 							className={`project-title-focus-button${selectedProject.id === focusedProjectId ? " is-active" : ""}`}
@@ -69,6 +66,7 @@ const ProjectDetailsPanel = () => {
 						) : null}
 					</div>
 				</div>
+				<h2 className="project-title">{selectedProject.name}</h2>
 				<ImageCarousel images={selectedProject.images} />
 				<ProjectMeta project={selectedProject} />
 				<a className="project-link" href={selectedProject.websiteUrl} target="_blank" rel="noreferrer">

@@ -9,7 +9,7 @@ const ProjectMeta = (props: ProjectMetaProps) => {
 			<div className="project-meta-combined">
 				<div>
 					<dt>Type</dt>
-					<dd className="project-type-value">{project.type}</dd>
+					<dd className={`project-type-value project-type-value-${project.type}`}>{project.type}</dd>
 				</div>
 				<div>
 					<dt>Neighbourhood</dt>

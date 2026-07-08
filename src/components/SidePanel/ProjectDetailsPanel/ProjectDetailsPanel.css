@@ -14,9 +14,33 @@
 
 .project-title-row {
 	display: flex;
+	align-items: center;
 	justify-content: space-between;
 	gap: 14px;
 	color: #425059;
+}
+
+.project-status-badge {
+	display: inline-flex;
+	min-height: 38px;
+	align-items: center;
+	gap: 6px;
+	color: #59666d;
+	font-size: 0.75rem;
+	font-weight: 800;
+	text-transform: capitalize;
+}
+
+.project-status-badge::before {
+	content: "";
+	width: 9px;
+	height: 9px;
+	border-radius: 50%;
+	background: #59666d;
+}
+
+.project-title {
+	margin-top: 12px;
 }
 
 .project-title-actions {

@@ -25,6 +25,22 @@
 	& .project-type-value {
 		text-transform: capitalize;
 	}
+
+	& .project-type-value-building {
+		color: #2563eb;
+	}
+
+	& .project-type-value-park {
+		color: #047857;
+	}
+
+	& .project-type-value-transport-infrastructure {
+		color: #ea580c;
+	}
+
+	& .project-type-value-public-space {
+		color: #7c3aed;
+	}
 }
 
 .project-meta-combined {
