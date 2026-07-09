@@ -264,7 +264,7 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 	const { filteredProjects, selectedProject } = useProjects();
 	const { onProjectChange, onProjectEdit } = useEditProjectController();
 	const { onProjectDeleteRequest } = useProjectDeleteController();
-	const { onProjectSelect } = useProjectSelectionController();
+	const { onProjectFocus, onProjectSelect } = useProjectSelectionController();
 	const { focusProjectId, focusSignal } = useMapState();
 
 	const appState = useAppMode();
@@ -311,6 +311,18 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 		[editPermitted, map, onProjectDeleteRequest, onProjectEdit],
 	);
 
+	const closeProjectPopup = useCallback(
+		(projectId: string) => {
+			if (focusedPopupProjectIdRef.current !== projectId || !focusedPopupRef.current?.getElement() || !map) {
+				return false;
+			}
+
+			map.closePopup(focusedPopupRef.current);
+			return true;
+		},
+		[map],
+	);
+
 	useEffect(() => {
 		if (!map) {
 			return;
@@ -355,8 +367,12 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 
 				polygon.on("click", event => {
 					Leaflet.DomEvent.stop(event);
-					onProjectSelect(project);
-					openProjectPopup(project, { toggle: true });
+
+					if (closeProjectPopup(project.id)) {
+						return;
+					}
+
+					onProjectFocus(project);
 				});
 				polygon.on("mouseover", () =>
 					polygon.setStyle({ fillOpacity: isEditingSelectedProject ? 1 : 0.5, weight: 4 }),
@@ -517,6 +533,8 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 		showParcels,
 		editMode,
 		editPermitted,
+		closeProjectPopup,
+		onProjectFocus,
 		onProjectSelect,
 		openProjectPopup,
 		onProjectChange,
@@ -539,7 +557,31 @@ const ProjectLayer = (props: ProjectLayerProps) => {
 			return;
 		}
 
-		openProjectPopup(focusedProject);
+		let openFallbackTimer: number | undefined;
+
+		const openFocusedProjectPopup = () => {
+			map.off("moveend", openFocusedProjectPopup);
+			map.off("zoomend", openFocusedProjectPopup);
+
+			if (openFallbackTimer) {
+				window.clearTimeout(openFallbackTimer);
+			}
+
+			openProjectPopup(focusedProject);
+		};
+
+		map.once("moveend", openFocusedProjectPopup);
+		map.once("zoomend", openFocusedProjectPopup);
+		openFallbackTimer = window.setTimeout(openFocusedProjectPopup, 650);
+
+		return () => {
+			map.off("moveend", openFocusedProjectPopup);
+			map.off("zoomend", openFocusedProjectPopup);
+
+			if (openFallbackTimer) {
+				window.clearTimeout(openFallbackTimer);
+			}
+		};
 	}, [filteredProjects, focusProjectId, focusSignal, map, openProjectPopup]);
 
 	useEffect(() => {
