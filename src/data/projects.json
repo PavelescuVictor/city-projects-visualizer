@@ -332,5 +332,32 @@
 				]
 			]
 		}
+	},
+	{
+		"id": "art-residence",
+		"name": "Art Residence",
+		"type": "building",
+		"status": "planning",
+		"address": "Aleea Valeriu Bologa 3, 400436 Cluj-Napoca",
+		"neighbourhood": "Iulius",
+		"websiteUrl": "https://artresidencetransylvania.com/#contact",
+		"images": [],
+		"coordinates": [23.622397, 46.772485],
+		"parcelPolygon": {
+			"type": "Polygon",
+			"coordinates": [
+				[
+					[23.622081, 46.772246],
+					[23.622231, 46.772107],
+					[23.622424, 46.771717],
+					[23.622885, 46.771883],
+					[23.622655, 46.772305],
+					[23.623052, 46.772478],
+					[23.622601, 46.772764],
+					[23.621839, 46.772584],
+					[23.622081, 46.772246]
+				]
+			]
+		}
 	}
 ]
